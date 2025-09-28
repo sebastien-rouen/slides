@@ -17,7 +17,6 @@ slides/
 ├── package.json            # Dépendances et scripts
 ├── slides.md               # Présentation principale
 ├── pages/                  # Slides organisés par sujet
-│   ├── imported-slides.md
 │   ├── web-development/    # Catégorie développement web
 │   │   ├── javascript.md
 │   │   └── vue-framework.md
@@ -38,20 +37,6 @@ slides/
 │   │   └── promises.js
 │   └── css/              # Snippets CSS
 │       └── animations.css
-├── public/               # Assets statiques
-│   ├── images/          # Images des présentations
-│   │   ├── logos/
-│   │   ├── screenshots/
-│   │   └── diagrams/
-│   ├── fonts/           # Polices personnalisées
-│   └── favicon.ico
-├── styles/              # Styles globaux
-│   ├── main.css        # Styles principaux
-│   ├── themes/         # Thèmes personnalisés
-│   │   ├── corporate.css
-│   │   └── dark-mode.css
-│   └── components/     # Styles des composants
-│       └── code-block.css
 ├── dist/               # Build de production (généré)
 └── node_modules/       # Dépendances (généré)
 ```
