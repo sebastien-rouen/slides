@@ -3,9 +3,12 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "slidev build",
-    "dev": "slidev pages/bastaverse/octofest/01-intro.md --remote --port=3032",
-    "export": "slidev export"
+    "build:all": "./build.sh",
+    "build:bastaverse": "./build.sh bastaverse",
+    "build:tribu": "./build.sh tribu",
+    "dev": "./dev.sh",
+    "dev:bastaverse": "npx @slidev/cli pages/bastaverse/main.md --remote --port=3032",
+    "export": "npx @slidev/cli export"
   },
   "dependencies": {
     "@slidev/cli": "^52.2.4",

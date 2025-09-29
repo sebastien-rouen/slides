@@ -1,6 +1,6 @@
 ---
 layout: image-right
-image: ./images/lego-gandalf.jpg
+image: ./assets/lego-gandalf.jpg
 ---
 
 # 📸 PHOTOS

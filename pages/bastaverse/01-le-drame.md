@@ -1,6 +1,6 @@
 ---
 layout: image-right
-image: ../images/1991-02-01-sebastien-lunette.jpg
+image: ./assets/1991-02-01-sebastien-lunette.jpg
 class: bg-blend-overlay bg-black/30
 ---
 
@@ -17,22 +17,21 @@ class: bg-blend-overlay bg-black/30
 
 </v-clicks>
 
-<br>
+<br />
 
 <v-click>
-
-#### Ce jour-là, j'ai juré :
 
 # **"Plus jamais ça !"** 🤬
 
 <div class="flex justify-center">
-  <img src="../images/1989-08-10-sebastien-deguisement.jpg" class="w-48 h-32 rounded-full object-cover border-5 border-white/20" alt="Sébastien ROUEN" />
+  <img src="./assets/1989-08-10-sebastien-deguisement.jpg" class="w-48 h-32 rounded-full object-cover border-5 border-white/20" alt="Sébastien ROUEN" />
 </div>
 
 </v-click>
 
 <!--
 Imaginez perdre des années de souvenirs d'un coup... C'est exactement ce qui m'est arrivé !
+Toutes mes vacances depuis 20 ans.
 -->
 
 ---

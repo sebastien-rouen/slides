@@ -1,7 +1,7 @@
 ---
 layout: image
 class: text-center
-image: ./images/bilan.jpg
+image: ./assets/bilan.jpg
 backgroundSize: contain
 backgroundSize: 100%
 class: text-center bg-blend-overlay bg-black/85

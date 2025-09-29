@@ -1,7 +1,7 @@
 ---
 theme: seriph
 background: https://images.unsplash.com/photo-1676464926947-7442fe479dda?q=80&w=1752&auto=format&fit=crop
-class: text-center bg-blend-overlay bg-black/65
+class: text-center bg-blend-overlay bg-black/15
 highlighter: shiki
 lineNumbers: false
 info: |
@@ -25,7 +25,7 @@ fonts:
 ### Coach Agile <span class="text-sm italic text-gray-300">(& bidouilleur)</span>
 
 <div class="pt-8 flex justify-center">
-  <img src="./images/sebastien.jpg" class="w-32 h-32 rounded-full object-cover border-4 border-white/20" alt="Sébastien ROUEN" />
+  <img src="./assets/sebastien.jpg" class="w-32 h-32 rounded-full object-cover border-4 border-white/20" alt="Sébastien ROUEN" />
 </div>
 
 ### Sébastien ROUEN
@@ -48,33 +48,33 @@ Bienvenue dans cette présentation où je vais vous raconter comment une catastr
 -->
 
 ---
-src: ./02-le-drame.md
+src: ./01-le-drame.md
 ---
 
 ---
-src: ./03-la-riposte.md
+src: ./02-la-riposte.md
 ---
 
 ---
-src: ./04-les-apps.md
+src: ./03-les-apps.md
 ---
 
 ---
-src: ./05-plus-d-apps.md
+src: ./04-plus-d-apps.md
 ---
 
 ---
-src: ./06-les-autres.md
+src: ./05-les-autres.md
 ---
 
 ---
-src: ./07-vitrine.md
+src: ./06-vitrine.md
 ---
 
 ---
-src: ./08-bilan.md
+src: ./07-bilan.md
 ---
 
 ---
-src: ./09-conclusion.md
+src: ./08-conclusion.md
 ---

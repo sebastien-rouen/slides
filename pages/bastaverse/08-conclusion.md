@@ -35,7 +35,7 @@ Ces enseignements dépassent la technique : c'est une philosophie de reprise de 
 ---
 layout: image
 class: text-left
-image: ./images/tiger.jpg
+image: ./assets/tiger.jpg
 class: bg-blend-overlay bg-black/85
 ---
 
@@ -54,7 +54,7 @@ Place au bastaverse ! J'espère que ma connexion tiendra... 😅
 
 ---
 layout: image-right
-image: ./images/screenshots/bastaverse.bastou.dev-001.png
+image: ./assets/screenshots/bastaverse.bastou.dev-001.png
 ---
 
 <br /><br /><br /><br /><br /><br /><br />
@@ -93,7 +93,7 @@ C'est le moment d'échanger ! N'hésitez pas à partager vos propres frustration
 ---
 layout: image
 class: text-center
-image: ./images/tiger-002.jpg
+image: ./assets/tiger-002.jpg
 backgroundSize: contain
 backgroundSize: 100%
 class: text-center bg-blend-overlay bg-black/75

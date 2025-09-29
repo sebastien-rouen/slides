@@ -1,6 +1,6 @@
 ---
 layout: image-right
-image: ./images/screenshots/cuisine.bastou.dev-003.png
+image: ./assets/cuisine.bastou.dev-003.png
 backgroundSize: contain
 backgroundPosition: right
 ---
@@ -98,7 +98,7 @@ L'IA c'est bien, mais l'IA locale et privée, c'est mieux !
 
 ---
 layout: image-right
-image: ./images/screenshots/ai.bastou.lan-001.png
+image: ./assets/ai.bastou.lan-001.png
 ---
 
 # 🤖 AI LOCAL

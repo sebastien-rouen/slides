@@ -12,20 +12,15 @@ Basé sur [Slidev](https://github.com/slidevjs/slidev), il permet de créer des 
 slides/
 ├── .env                    # Configuration environnement
 ├── .gitignore              # Fichiers à ignorer par Git
-├── vite.config.ts          # Configuration Vite + Slidev
 ├── ecosystem.config.cjs    # Configuration PM2 pour prod et drafts
 ├── package.json            # Dépendances et scripts
-├── slides.md               # Présentation principale
 ├── pages/                  # Slides organisés par sujet
-│   ├── web-development/    # Catégorie développement web
-│   │   ├── javascript.md
-│   │   └── vue-framework.md
-│   ├── devops/            # Catégorie DevOps
-│   │   ├── docker.md
-│   │   └── kubernetes.md
-│   └── presentations/     # Présentations diverses
-│       ├── project-demo.md
-│       └── team-meeting.md
+│   ├── bastaverse/         # Présentation BastaVerse
+│   │   ├── assets/{images} # Assets de la présentation
+│   │   └── main.md
+│   └── tribu/            # Présentation Tribu
+│       ├── assets/{images} # Assets de la présentation
+│       └── main.md
 ├── components/            # Composants Vue réutilisables
 │   ├── Counter.vue
 │   ├── CodeBlock.vue      # Bloc de code personnalisé
@@ -43,23 +38,61 @@ slides/
 
 ## 🚀 Démarrage Rapide
 
-### Installation
+### Installation & Développement
 
 ```bash
+# Installation
 npm install
+
+# Développement pour un projet spécifique
+npm run dev bastaverse    # Accès: https://drafts.slides-dev.bastou.dev/
+npm run dev tribu         # Accès: https://drafts.slides-dev.bastou.dev/
+
+# Build de production
+npm run build:all         # Build toutes les présentations
+npm run build:bastaverse  # Build spécifique
+npm run build:tribu       # Build spécifique
 ```
 
-### Développement
+## 📂 Split de Projets
 
-```bash
-npm run dev
-# Accès: http://127.0.0.1:3030
+Ce projet utilise une architecture multi-présentations avec des builds séparés :
+
+### Structure des Présentations
+
+```
+pages/
+├── bastaverse/           # Présentation BastaVerse
+│   └── slides.md         # Contenu de la présentation
+└── tribu/               # Présentation Tribu
+    └── slides.md         # Contenu de la présentation
 ```
 
-### Build Production
+### Builds Séparés
+
+Chaque présentation génère son propre build dans `dist/` :
+
+```
+dist/
+├── bastaverse/          # Build de la présentation BastaVerse
+│   ├── index.html
+│   ├── assets/
+│   └── ...
+└── tribu/              # Build de la présentation Tribu
+    ├── index.html
+    ├── assets/
+    └── ...
+```
+
+### Scripts de Build
 
 ```bash
-npm run build
+# Build toutes les présentations
+npm run build:all
+
+# Build spécifique (si configuré)
+npm run build:bastaverse
+npm run build:tribu
 ```
 
 ### Export
@@ -130,6 +163,68 @@ Configuration fusionnée avec Slidev pour:
 - Hosts autorisés pour accès distant
 - Intégration transparente avec la config Slidev
 
+## 🌐 Configuration Nginx Proxy Manager
+
+### Domaines et Proxy Hosts
+
+Le projet utilise deux domaines distincts :
+
+#### 1. Développement : `drafts.slides-dev.bastou.dev`
+- **Proxy Host** : `127.0.0.1:3032`
+- **Usage** : Serveur de développement Slidev avec hot-reload
+- **Accès** : `https://drafts.slides-dev.bastou.dev/`
+
+#### 2. Production : `drafts.slides.bastou.dev`
+- **Proxy Host** : `127.0.0.1:80`
+- **Usage** : Fichiers statiques buildés
+- **Configuration locations** :
+
+```nginx
+# Pour la présentation bastaverse
+location /bastaverse/ {
+    alias /sites/drafts/slides/dist/bastaverse/;
+    try_files $uri $uri/ /bastaverse/index.html;
+}
+
+# Pour la présentation tribu
+location /tribu/ {
+    alias /sites/drafts/slides/dist/tribu/;
+    try_files $uri $uri/ /tribu/index.html;
+}
+```
+
+### Accès aux Présentations
+
+#### Développement (avec hot-reload)
+- **Développement** : `https://drafts.slides-dev.bastou.dev/`
+
+#### Production (fichiers statiques)
+- **BastaVerse** : `https://drafts.slides.bastou.dev/bastaverse/`
+- **Tribu** : `https://drafts.slides.bastou.dev/tribu/`
+
+### Configuration PM2
+
+Le projet utilise PM2 pour la gestion des processus :
+
+```javascript
+// ecosystem.config.cjs
+module.exports = {
+  apps: [
+    {
+      name: "drafts.slides",
+      script: "npm",
+      args: "run dev",
+      cwd: "/sites/drafts/slides",
+      env: {
+        NODE_ENV: "development",
+        VITE_HOST: "127.0.0.1",
+        VITE_PORT: "3032",
+      },
+    },
+  ],
+};
+```
+
 ## 📚 Organisation des Contenus
 
 ### Structure par Catégories
@@ -138,27 +233,16 @@ Organisez vos slides par domaines thématiques pour une navigation intuitive :
 
 ```
 pages/
-├── web-development/           # Développement web
-│   ├── javascript-basics.md   # Les bases JavaScript
-│   ├── vue-advanced.md        # Vue.js avancé
-│   ├── css-grid.md           # CSS Grid Layout
-│   └── performance-web.md     # Optimisation performance
-├── devops/                   # DevOps et infrastructure
-│   ├── docker-intro.md       # Introduction Docker
-│   ├── kubernetes.md         # Orchestration K8s
-│   ├── ci-cd-pipeline.md     # Pipelines CI/CD
-│   └── monitoring.md         # Surveillance système
-├── presentations/            # Présentations business
-│   ├── project-demo.md       # Démo de projet
-│   ├── team-meeting.md       # Réunion équipe
-│   └── client-pitch.md       # Présentation client
-├── tutorials/               # Tutoriels techniques
-│   ├── git-workflow.md      # Workflow Git
-│   └── api-design.md        # Conception d'API
-└── workshops/              # Ateliers et formations
-    ├── code-review.md      # Revue de code
-    └── security-basics.md  # Sécurité de base
+├── bastaverse/            # Présentation BastaVerse
+│   └── main.md            # Présentation de l'écosystème BastaVerse
+├── tribu/                 # Présentation Tribu
+│   └── main.md            # Présentation pour l'équipe Tribu
 ```
+
+### Présentations Actives
+
+- **BastaVerse** : Présentation de l'écosystème et de l'architecture des projets
+- **Tribu** : Présentation dédiée à l'équipe et aux processus collaboratifs
 
 ### Conventions de Nommage
 
@@ -170,6 +254,7 @@ pages/
 ## 🛠️ Fonctionnalités
 
 ### Création de Contenu
+
 - **Slides en Markdown** avec syntaxe étendue
 - **Composants Vue** intégrés et réutilisables
 - **Code highlighting** avec Shiki (100+ langages)
@@ -178,6 +263,7 @@ pages/
 - **Icônes** avec Iconify (100k+ icônes)
 
 ### Présentation
+
 - **Mode présentateur** avec notes privées
 - **Animations** et transitions fluides
 - **Navigation** clavier et souris
@@ -186,6 +272,7 @@ pages/
 - **Responsive** pour tous écrans
 
 ### Export et Partage
+
 - **Export PDF** haute qualité
 - **Export PNG** (slides individuelles)
 - **Export PowerPoint** (PPTX)
@@ -193,6 +280,7 @@ pages/
 - **Enregistrement** de présentation
 
 ### Développement
+
 - **Hot reload** en temps réel
 - **TypeScript** support complet
 - **Thèmes** personnalisables
@@ -203,7 +291,7 @@ pages/
 
 ### Slide avec Code Interactif
 
-```markdown
+````markdown
 ---
 layout: two-cols
 ---
@@ -214,13 +302,14 @@ layout: two-cols
 
 ```js {2-4|5-7|all}
 function fibonacci(n) {
-  if (n <= 1) return n
-  return fibonacci(n - 1) + fibonacci(n - 2)
+  if (n <= 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
 }
 
-const result = fibonacci(10)
-console.log(result) // 55
+const result = fibonacci(10);
+console.log(result); // 55
 ```
+````
 
 </template>
 <template v-slot:right>
@@ -236,7 +325,7 @@ console.log(result) // 55
 
 ### Slide avec Diagramme
 
-```markdown
+````markdown
 ---
 layout: center
 ---
@@ -253,6 +342,7 @@ graph TD
     D --> G[(User DB)]
     E --> H[(Order DB)]
 ```
+````
 
 ### Slide avec Formule Mathématique
 
@@ -276,10 +366,7 @@ Où $c$ est l'hypoténuse d'un triangle rectangle.
 <!-- components/ProgressBar.vue -->
 <template>
   <div class="progress-container">
-    <div 
-      class="progress-bar" 
-      :style="{ width: `${progress}%` }"
-    ></div>
+    <div class="progress-bar" :style="{ width: `${progress}%` }"></div>
     <span class="progress-text">{{ progress }}%</span>
   </div>
 </template>
@@ -288,9 +375,9 @@ Où $c$ est l'hypoténuse d'un triangle rectangle.
 defineProps({
   progress: {
     type: Number,
-    default: 0
-  }
-})
+    default: 0,
+  },
+});
 </script>
 ```
 
@@ -335,37 +422,40 @@ Créez des layouts dans `layouts/` :
 Ajoutez des raccourcis dans `setup/shortcuts.ts` :
 
 ```ts
-import { defineShortcutsSetup } from '@slidev/types'
+import { defineShortcutsSetup } from "@slidev/types";
 
 export default defineShortcutsSetup((nav, base) => {
   return [
     ...base,
     {
-      key: 'enter',
+      key: "enter",
       fn: () => nav.next(),
       autoRepeat: true,
     },
     {
-      key: 'backspace',
+      key: "backspace",
       fn: () => nav.prev(),
       autoRepeat: true,
-    }
-  ]
-})
+    },
+  ];
+});
 ```
 
 ## 📖 Ressources
 
 ### Documentation Officielle
+
 - [Documentation Slidev](https://sli.dev)
 - [Guide de démarrage](https://sli.dev/guide/)
 
 ### Thèmes et Extensions
+
 - [Galerie de thèmes](https://sli.dev/resources/theme-gallery)
 - [Composants intégrés](https://sli.dev/guide/component)
 - [Addons communautaires](https://sli.dev/guide/theme-addon#use-addon)
 
 ### Communauté
+
 - [GitHub Discussions](https://github.com/slidevjs/slidev/discussions)
 - [Discord](https://chat.sli.dev)
 - [Exemples de présentations](https://github.com/slidevjs/slidev/tree/main/demo)

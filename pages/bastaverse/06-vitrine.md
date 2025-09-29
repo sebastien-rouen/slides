@@ -124,7 +124,7 @@ gitGraph:
 </template>
 
 <template #3>
-    <div align="center"><img src="./images/network-bastou-v1.jpg" alt="Network" style="height: 26vh; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);" /></div>
+    <div align="center"><img src="./assets/network-bastou-v1.jpg" alt="Network" style="height: 26vh; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);" /></div>
 </template>
 
 </v-switch>
