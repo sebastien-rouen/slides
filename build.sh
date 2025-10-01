@@ -39,5 +39,10 @@ else
       copy_all_assets "$pres"
     fi
   done
+  
+  # Copier la page d'accueil
+  echo "🏠 Copie de la page d'accueil..."
+  cp index.html dist/
+  
   echo "✅ Toutes les présentations sont prêtes dans dist/"
 fi

@@ -180,6 +180,13 @@ Le projet utilise deux domaines distincts :
 - **Configuration locations** :
 
 ```nginx
+# Page d'accueil
+location / {
+    root /sites/drafts/slides;
+    index index.html;
+    try_files $uri $uri/ =404;
+}
+
 # Pour la présentation bastaverse
 location /bastaverse/ {
     alias /sites/drafts/slides/dist/bastaverse/;
