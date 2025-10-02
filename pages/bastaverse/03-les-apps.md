@@ -1,11 +1,11 @@
 ---
 layout: image-right
-image: ./assets/lego-gandalf.jpg
+style: 'background-image: url("./assets/lego-gandalf.jpg"); background-size: 50% auto; background-position: right top; background-repeat: no-repeat;'
 ---
 
 # 📸 PHOTOS
 
-### Notre coffre-fort à souvenirs
+### Notre coffre-fort à souvenirs :
 
 <v-clicks>
 

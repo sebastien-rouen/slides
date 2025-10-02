@@ -51,7 +51,7 @@ backgroundSize: 100%
 
 ## - **15 applications**
 ## - **0€ d'abonnement**  
-## - **100% autonome**
+## - **100% d'autonomie**
 
 </v-click>
 

@@ -1,7 +1,7 @@
 ---
 layout: image-right
-image: ./assets/1991-02-01-sebastien-lunette.jpg
 class: bg-blend-overlay bg-black/30
+style: 'background-image: url("./assets/1991-02-01-sebastien-lunette.jpg"); background-size: 50% auto; background-position: right top; background-repeat: no-repeat;'
 ---
 
 # 💥 LE DELIC QUI CHANGE TOUT

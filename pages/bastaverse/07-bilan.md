@@ -1,10 +1,7 @@
 ---
-layout: image
-class: text-center
-image: ./assets/bilan.jpg
-backgroundSize: contain
-backgroundSize: 100%
+layout: cover
 class: text-center bg-blend-overlay bg-black/85
+style: 'background-image: url("./assets/bilan.jpg"); background-size: fit; background-repeat: no-repeat; background-position: center;'
 ---
 
 # 📊 LE BILAN APRÈS 6 MOIS

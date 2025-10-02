@@ -121,8 +121,9 @@ url: https://drafts.agile.bastou.dev/
 <v-click>
 
 ### **Résultats**
-- Temps gagné
-- Productivité accrue
+- Meilleure lisibilité
+- Autres formats
+- Style graphique différent
 
 🔗 <a href="https://drafts.agile.bastou.dev" target="_blank">Lien</a>
 

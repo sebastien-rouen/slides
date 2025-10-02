@@ -33,10 +33,9 @@ Ces enseignements dépassent la technique : c'est une philosophie de reprise de 
 -->
 
 ---
-layout: image
-class: text-left
-image: ./assets/tiger.jpg
-class: bg-blend-overlay bg-black/85
+layout: cover
+class: text-left bg-blend-overlay bg-black/85
+style: 'background-image: url("./assets/tiger.jpg"); background-size: cover; background-position: center;'
 ---
 
 <br /><br />
@@ -54,7 +53,7 @@ Place au bastaverse ! J'espère que ma connexion tiendra... 😅
 
 ---
 layout: image-right
-image: ./assets/screenshots/bastaverse.bastou.dev-001.png
+style: 'background-image: url("./assets/screenshots/bastaverse.bastou.dev-001.png"); background-size: 50% auto; background-position: right top; background-repeat: no-repeat;'
 ---
 
 <br /><br /><br /><br /><br /><br /><br />
@@ -80,7 +79,7 @@ class: text-center
 <br />
 
 #### 🤔 **Questions techniques** sur l'architecture
-#### 💰 **Aspects économiques** et ROI
+#### 💰 **Aspects économiques** et R.O.I.
 #### 🔒 **Sécurité** et bonnes pratiques  
 #### 🚀 **Par où commencer** concrètement
 
@@ -91,12 +90,9 @@ C'est le moment d'échanger ! N'hésitez pas à partager vos propres frustration
 -->
 
 ---
-layout: image
-class: text-center
-image: ./assets/tiger-002.jpg
-backgroundSize: contain
-backgroundSize: 100%
+layout: cover
 class: text-center bg-blend-overlay bg-black/75
+style: 'background-image: url("./assets/tiger-002.jpg"); background-size: cover; background-repeat: no-repeat; background-position: center;'
 ---
 
 <div class="mt-8">

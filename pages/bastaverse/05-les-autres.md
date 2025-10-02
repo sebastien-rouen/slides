@@ -1,8 +1,6 @@
 ---
 layout: image-right
-image: ./assets/cuisine.bastou.dev-003.png
-backgroundSize: contain
-backgroundPosition: right
+style: 'background-image: url("./assets/screenshots/cuisine.bastou.dev-003.png"); background-size: 50% auto; background-position: right top; background-repeat: no-repeat;'
 ---
 
 # 👨‍🍳 BASTACUISINE
@@ -21,8 +19,8 @@ backgroundPosition: right
 
 <v-click>
 
-### **Résultat**
-- Où est ta recette secrète de 🍪 ? Ici!
+### Cas d'usage réel
+- "*Où est ta recette secrète de 🍪 ? Ici!*"
 
 </v-click>
 
@@ -44,7 +42,7 @@ url: https://drafts.oldies.bastou.dev/
 - 🕹️ **Émulation** de consoles rétro
 - 🧸 **Collection** de jeux classiques
 - 📍 **Jouer** depuis n'importe où
-- 👥 **Mode multijoueur** local
+- 👥 **Mode multijoueurs** local
 
 </v-clicks>
 
@@ -98,7 +96,7 @@ L'IA c'est bien, mais l'IA locale et privée, c'est mieux !
 
 ---
 layout: image-right
-image: ./assets/ai.bastou.lan-001.png
+style: 'background-image: url("./assets/screenshots/ai.bastou.lan-001.png"); background-size: 50% auto; background-position: right center; background-repeat: no-repeat;'
 ---
 
 # 🤖 AI LOCAL
@@ -211,7 +209,7 @@ url: https://drafts.stream.bastou.dev
 - **Radios** du monde entier 🌍
 - **Chaînes** streaming 📺
 - **Playlists** personnalisées 🎵
-- **Pas de pub** intrusive ✨
+- **Pas de pub** ✨
 
 </v-clicks>
 
