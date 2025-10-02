@@ -1,0 +1,67 @@
+/* Thème OCTO Technology - Fichier principal */
+
+/* Variables CSS du thème OCTO */
+:root {
+  /* Couleurs principales OCTO */
+  --octo-primary: #FF6B35;      /* Orange OCTO */
+  --octo-secondary: #2E3440;    /* Gris foncé */
+  --octo-accent: #88C0D0;       /* Bleu clair */
+  --octo-background: #ECEFF4;   /* Gris très clair */
+  --octo-surface: #FFFFFF;      /* Blanc */
+  --octo-text: #2E3440;         /* Texte principal */
+  --octo-text-light: #4C566A;   /* Texte secondaire */
+  --octo-text-muted: #81A1C1;   /* Texte atténué */
+  
+  /* Couleurs d'état */
+  --octo-success: #A3BE8C;
+  --octo-warning: #EBCB8B;
+  --octo-error: #BF616A;
+  --octo-info: var(--octo-accent);
+  
+  /* Ombres et bordures */
+  --octo-shadow: 0 4px 6px -1px rgba(46, 52, 64, 0.1);
+  --octo-shadow-lg: 0 10px 15px -3px rgba(46, 52, 64, 0.1);
+  --octo-border: #D8DEE9;
+  --octo-border-light: #E5E9F0;
+  
+  /* Typographie */
+  --octo-font-sans: 'Outfit', sans-serif;
+  --octo-font-serif: 'Outfit Light', serif;
+  --octo-font-mono: 'Fira Code', monospace;
+  
+  /* Espacements */
+  --octo-spacing-xs: 0.25rem;
+  --octo-spacing-sm: 0.5rem;
+  --octo-spacing-md: 1rem;
+  --octo-spacing-lg: 1.5rem;
+  --octo-spacing-xl: 2rem;
+  
+  /* Rayons de bordure */
+  --octo-radius-sm: 0.25rem;
+  --octo-radius-md: 0.375rem;
+  --octo-radius-lg: 0.5rem;
+  --octo-radius-xl: 0.75rem;
+  --octo-radius-full: 9999px;
+  
+  /* Transitions */
+  --octo-transition-fast: 0.15s ease;
+  --octo-transition-base: 0.2s ease;
+  --octo-transition-slow: 0.3s ease;
+}
+
+/* Mode sombre */
+.dark {
+  --octo-background: #2E3440;
+  --octo-surface: #3B4252;
+  --octo-text: #ECEFF4;
+  --octo-text-light: #D8DEE9;
+  --octo-text-muted: #81A1C1;
+  --octo-border: #434C5E;
+  --octo-border-light: #4C566A;
+}
+
+/* Import des styles dans l'ordre de priorité */
+@import './base.css';           /* Styles de base (typographie, éléments HTML) */
+@import './components.css';     /* Composants (boutons, cartes, badges) */
+@import './utilities.css';      /* Utilitaires généraux */
+@import './layout.css';         /* Layouts spécifiques (importe layouts/*) */

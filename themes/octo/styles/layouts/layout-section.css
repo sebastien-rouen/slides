@@ -1,0 +1,53 @@
+/* Layout de section */
+.slidev-layout.section {
+  background: linear-gradient(45deg, var(--octo-secondary) 0%, var(--octo-primary) 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.slidev-layout.section h1 {
+  color: white !important;
+  font-size: 3rem !important;
+  font-weight: 600 !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  margin-bottom: 1rem !important;
+}
+
+.slidev-layout.section h2 {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 1.5rem !important;
+  font-weight: 400 !important;
+  margin-bottom: 2rem !important;
+}
+
+.slidev-layout.section h3 {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 1.25rem !important;
+  font-weight: 300 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+}
+
+.slidev-layout.section p {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 1.125rem !important;
+  max-width: 80% !important;
+  margin: 0 auto !important;
+}
+
+/* Responsive pour layout section */
+@media (max-width: 768px) {
+  .slidev-layout.section h1 {
+    font-size: 2.25rem !important;
+  }
+  
+  .slidev-layout.section p {
+    max-width: 95% !important;
+  }
+}

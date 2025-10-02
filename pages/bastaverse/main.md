@@ -44,7 +44,26 @@ fonts:
 </div>
 
 <!--
-Bienvenue dans cette présentation où je vais vous raconter comment une catastrophe technique m'a mené à créer mon propre écosystème numérique !
+🎤 OUVERTURE - BIENVENUE DANS MON UNIVERS !
+
+👋 Bienvenue dans cette présentation !
+- Je vais vous raconter comment une catastrophe technique...
+- M'a mené à créer mon propre écosystème numérique !
+- De la galère totale à l'autonomie complète
+
+🎯 CE QUI VOUS ATTEND :
+- 💥 Le drame : perdre 20 ans de photos
+- 🛡️ La riposte : construire son homelab
+- 🚀 Les applications : 17 projets fonctionnels
+- 📊 Le bilan : 6 mois après, où en suis-je ?
+- 💡 Les enseignements : ce que j'aurais aimé savoir
+
+😊 PROMESSE :
+- Une histoire vraie
+- Des leçons concrètes
+- De l'inspiration pour reprendre le contrôle
+
+🎯 CONSEIL : Sourire, être détendu, créer une connexion avec l'audience dès le début !
 -->
 
 ---
@@ -64,17 +83,13 @@ src: ./04-plus-d-apps.md
 ---
 
 ---
-src: ./05-les-autres.md
+src: ./05-vitrine.md
 ---
 
 ---
-src: ./06-vitrine.md
+src: ./06-bilan.md
 ---
 
 ---
-src: ./07-bilan.md
----
-
----
-src: ./08-conclusion.md
+src: ./07-conclusion.md
 ---

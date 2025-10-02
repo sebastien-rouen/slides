@@ -1,0 +1,32 @@
+{
+  "name": "@slidev/theme-octo",
+  "version": "1.0.0",
+  "description": "Thème OCTO Technology pour Slidev",
+  "keywords": [
+    "slidev-theme",
+    "slidev",
+    "octo"
+  ],
+  "engines": {
+    "node": ">=14.0.0",
+    "slidev": ">=0.19.3"
+  },
+  "main": "index.ts",
+  "files": [
+    "index.ts",
+    "layouts",
+    "styles",
+    "components"
+  ],
+  "slidev": {
+    "colorSchema": "both",
+    "highlighter": "all",
+    "defaults": {
+      "fonts": {
+        "sans": "Outfit",
+        "serif": "Outfit Light",
+        "mono": "Fira Code"
+      }
+    }
+  }
+}

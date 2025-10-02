@@ -1,0 +1,93 @@
+/* Layout de fin */
+.slidev-layout.end {
+  background: var(--octo-secondary);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  min-height: 100vh;
+  position: relative;
+}
+
+.slidev-layout.end .end-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.slidev-layout.end .contact-info {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.slidev-layout.end .company {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--octo-primary);
+  margin-bottom: 0.5rem;
+}
+
+.slidev-layout.end .website {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.slidev-layout.end h1 {
+  color: var(--octo-primary) !important;
+  font-size: 3rem !important;
+  margin-bottom: 1rem !important;
+  font-weight: 700 !important;
+}
+
+.slidev-layout.end h2 {
+  color: white !important;
+  font-size: 1.5rem !important;
+  margin-bottom: 2rem !important;
+  opacity: 0.9 !important;
+}
+
+.slidev-layout.end h3 {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 1.25rem !important;
+  font-weight: 300 !important;
+  margin-bottom: 1rem !important;
+}
+
+.slidev-layout.end .thank-you {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.slidev-layout.end p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+/* Responsive pour layout end */
+@media (max-width: 768px) {
+  .slidev-layout.end {
+    padding: 1.5rem;
+  }
+  
+  .slidev-layout.end h1 {
+    font-size: 2.25rem !important;
+  }
+  
+  .slidev-layout.end .contact-info {
+    bottom: 1rem;
+  }
+  
+  .slidev-layout.end .company {
+    font-size: 1.125rem;
+  }
+}

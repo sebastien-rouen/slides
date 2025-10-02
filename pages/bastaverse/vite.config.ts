@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
             const info = assetInfo.name?.split('.') || []
             const ext = info[info.length - 1]
             if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
-              // Garder les noms originaux pour les images
+              // Garder les noms originaux pour les images (sans hash)
               return `assets/[name][extname]`
             }
             return `assets/[name]-[hash][extname]`
@@ -34,56 +34,35 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       {
-        name: 'copy-presentation-assets',
+        name: 'copy-all-assets-recursively',
         generateBundle() {
           const assetsDir = path.resolve(__dirname, './assets')
-          const screenshotsDir = path.resolve(__dirname, './assets/screenshots')
           
-          // Liste des images nécessaires
-          const requiredImages = [
-            'sebastien.jpg',
-            '1991-02-01-sebastien-lunette.jpg',
-            '1989-08-10-sebastien-deguisement.jpg',
-            'lego-gandalf.jpg',
-            'network-bastou-v1.jpg',
-            'bilan.jpg',
-            'tiger.jpg',
-            'tiger-002.jpg'
-          ]
-          
-          // Copier toutes les images du dossier assets
-          if (fs.existsSync(assetsDir)) {
-            const files = fs.readdirSync(assetsDir)
-            files.forEach(fileName => {
-              const filePath = path.join(assetsDir, fileName)
-              const stat = fs.statSync(filePath)
+          // Fonction récursive pour copier tous les fichiers
+          const copyDirectory = (sourceDir, targetPrefix = 'assets') => {
+            if (!fs.existsSync(sourceDir)) return
+            
+            const items = fs.readdirSync(sourceDir, { withFileTypes: true })
+            
+            items.forEach(item => {
+              const sourcePath = path.join(sourceDir, item.name)
               
-              if (stat.isFile() && /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(fileName)) {
+              if (item.isDirectory()) {
+                // Récursion pour les sous-dossiers
+                copyDirectory(sourcePath, `${targetPrefix}/${item.name}`)
+              } else if (item.isFile() && /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(item.name)) {
+                // Copier le fichier image
                 this.emitFile({
                   type: 'asset',
-                  fileName: `assets/${fileName}`,
-                  source: fs.readFileSync(filePath)
+                  fileName: `${targetPrefix}/${item.name}`,
+                  source: fs.readFileSync(sourcePath)
                 })
               }
             })
           }
           
-          // Copier les screenshots
-          if (fs.existsSync(screenshotsDir)) {
-            const screenshots = fs.readdirSync(screenshotsDir)
-            screenshots.forEach(fileName => {
-              const filePath = path.join(screenshotsDir, fileName)
-              const stat = fs.statSync(filePath)
-              
-              if (stat.isFile() && /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(fileName)) {
-                this.emitFile({
-                  type: 'asset',
-                  fileName: `assets/${fileName}`,
-                  source: fs.readFileSync(filePath)
-                })
-              }
-            })
-          }
+          // Copier récursivement tout le dossier assets
+          copyDirectory(assetsDir)
         }
       }
     ]

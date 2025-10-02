@@ -1,0 +1,165 @@
+/* Layout de couverture */
+.slidev-layout.cover {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.slidev-layout.cover .cover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+.slidev-layout.cover .cover-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.slidev-layout.cover .cover-footer {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.slidev-layout.cover .date-info {
+  font-size: 1.25rem;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.slidev-layout.cover .company-info {
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0.8;
+  letter-spacing: 0.1em;
+}
+
+.slidev-layout.cover h1 {
+  color: white !important;
+  font-size: 4rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 1rem !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+.slidev-layout.cover h2 {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 1.5rem !important;
+  font-weight: 400 !important;
+  margin-bottom: 2rem !important;
+}
+
+.slidev-layout.cover h3 {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 1.25rem !important;
+  font-weight: 300 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* Layout cover avec gradient uniquement */
+.slidev-layout.cover-gradient {
+  background: linear-gradient(135deg, var(--octo-primary) 0%, var(--octo-accent) 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  min-height: 100vh;
+  position: relative;
+}
+
+.slidev-layout.cover-gradient .cover-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.slidev-layout.cover-gradient .cover-footer {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.slidev-layout.cover-gradient .date-info {
+  font-size: 1.25rem;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.slidev-layout.cover-gradient .company-info {
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0.8;
+  letter-spacing: 0.1em;
+}
+
+.slidev-layout.cover-gradient h1 {
+  color: white !important;
+  font-size: 4rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 1rem !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+.slidev-layout.cover-gradient h2 {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 1.5rem !important;
+  font-weight: 400 !important;
+  margin-bottom: 2rem !important;
+}
+
+.slidev-layout.cover-gradient h3 {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 1.25rem !important;
+  font-weight: 300 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* Responsive pour les layouts cover */
+@media (max-width: 768px) {
+  .slidev-layout.cover h1,
+  .slidev-layout.cover-gradient h1 {
+    font-size: 2.5rem !important;
+  }
+  
+  .slidev-layout.cover .cover-footer,
+  .slidev-layout.cover-gradient .cover-footer {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}

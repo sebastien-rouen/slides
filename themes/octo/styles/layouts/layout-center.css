@@ -1,0 +1,104 @@
+/* Layout centré */
+.slidev-layout.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  min-height: 100vh;
+  background: var(--octo-background);
+}
+
+.slidev-layout.center h1 {
+  color: var(--octo-primary) !important;
+  font-size: 3rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.slidev-layout.center h2 {
+  color: var(--octo-secondary) !important;
+  font-size: 2rem !important;
+  font-weight: 500 !important;
+  margin-bottom: 1rem !important;
+}
+
+.slidev-layout.center h3 {
+  color: var(--octo-accent) !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.slidev-layout.center p {
+  color: var(--octo-text-light) !important;
+  font-size: 1.25rem !important;
+  max-width: 80% !important;
+  margin: 0 auto 1rem auto !important;
+  line-height: 1.6;
+}
+
+.slidev-layout.center ul,
+.slidev-layout.center ol {
+  text-align: left !important;
+  max-width: 80% !important;
+  margin: 1rem auto !important;
+  color: var(--octo-text-light);
+}
+
+.slidev-layout.center li {
+  margin-bottom: 0.5rem;
+}
+
+/* Grilles centrées */
+.slidev-layout.center .grid {
+  display: grid;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.slidev-layout.center .grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.slidev-layout.center .grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.slidev-layout.center .grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsive pour layout center */
+@media (max-width: 768px) {
+  .slidev-layout.center {
+    padding: 1.5rem;
+  }
+  
+  .slidev-layout.center h1 {
+    font-size: 2.25rem !important;
+  }
+  
+  .slidev-layout.center h2 {
+    font-size: 1.75rem !important;
+  }
+  
+  .slidev-layout.center p {
+    max-width: 95% !important;
+    font-size: 1.125rem !important;
+  }
+  
+  .slidev-layout.center ul,
+  .slidev-layout.center ol {
+    max-width: 95% !important;
+  }
+  
+  .slidev-layout.center .grid-cols-2,
+  .slidev-layout.center .grid-cols-3,
+  .slidev-layout.center .grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+}

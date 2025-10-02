@@ -1,0 +1,60 @@
+/* Layout d'introduction */
+.slidev-layout.intro {
+  background: var(--octo-surface);
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.slidev-layout.intro h1 {
+  font-size: 3.5rem !important;
+  color: var(--octo-primary) !important;
+  margin-bottom: 1.5rem !important;
+  font-weight: 700 !important;
+}
+
+.slidev-layout.intro h2 {
+  font-size: 1.5rem !important;
+  color: var(--octo-text-light) !important;
+  margin-bottom: 2rem !important;
+  font-weight: 400 !important;
+}
+
+.slidev-layout.intro h3 {
+  font-size: 1.25rem !important;
+  color: var(--octo-accent) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+.slidev-layout.intro .subtitle {
+  font-size: 1.25rem;
+  color: var(--octo-text-light);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.slidev-layout.intro p {
+  color: var(--octo-text-light);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* Responsive pour layout intro */
+@media (max-width: 768px) {
+  .slidev-layout.intro {
+    padding: 2rem;
+  }
+  
+  .slidev-layout.intro h1 {
+    font-size: 2.5rem !important;
+  }
+  
+  .slidev-layout.intro h2 {
+    font-size: 1.25rem !important;
+  }
+}

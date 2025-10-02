@@ -1,0 +1,334 @@
+/* Composants de base du thème OCTO */
+
+/* Boutons */
+.btn {
+  background: var(--octo-primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--octo-shadow);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.btn:hover {
+  background: var(--octo-accent);
+  box-shadow: var(--octo-shadow-lg);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: var(--octo-shadow);
+}
+
+.btn:focus {
+  outline: 2px solid var(--octo-primary);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Variantes de boutons */
+.btn.secondary {
+  background: var(--octo-secondary);
+  color: white;
+}
+
+.btn.secondary:hover {
+  background: var(--octo-text);
+}
+
+.btn.outline {
+  background: transparent;
+  color: var(--octo-primary);
+  border: 2px solid var(--octo-primary);
+}
+
+.btn.outline:hover {
+  background: var(--octo-primary);
+  color: white;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--octo-primary);
+  box-shadow: none;
+}
+
+.btn.ghost:hover {
+  background: rgba(255, 107, 53, 0.1);
+}
+
+/* Tailles de boutons */
+.btn.sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.btn.lg {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+}
+
+/* Cartes */
+.card {
+  background: var(--octo-surface);
+  border: 1px solid var(--octo-border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: var(--octo-shadow);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--octo-shadow-lg);
+  transform: translateY(-2px);
+}
+
+.card.elevated {
+  box-shadow: var(--octo-shadow-lg);
+}
+
+.card.flat {
+  box-shadow: none;
+  border: 1px solid var(--octo-border);
+}
+
+.card.bordered {
+  border: 2px solid var(--octo-border);
+}
+
+/* En-têtes et pieds de cartes */
+.card-header {
+  margin: -1.5rem -1.5rem 1rem -1.5rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--octo-border);
+  background: var(--octo-background);
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.card-footer {
+  margin: 1rem -1.5rem -1.5rem -1.5rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--octo-border);
+  background: var(--octo-background);
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+
+/* Badges */
+.badge {
+  background: var(--octo-primary);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.badge.secondary {
+  background: var(--octo-secondary);
+  color: white;
+}
+
+.badge.accent {
+  background: var(--octo-accent);
+  color: white;
+}
+
+.badge.success {
+  background: var(--octo-success);
+  color: white;
+}
+
+.badge.warning {
+  background: var(--octo-warning);
+  color: var(--octo-text);
+}
+
+.badge.error {
+  background: var(--octo-error);
+  color: white;
+}
+
+.badge.outline {
+  background: transparent;
+  color: var(--octo-primary);
+  border: 1px solid var(--octo-primary);
+}
+
+/* Tailles de badges */
+.badge.sm {
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.badge.lg {
+  padding: 0.375rem 1rem;
+  font-size: 1rem;
+}
+
+/* Alertes */
+.alert {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  border-left: 4px solid;
+}
+
+.alert.info {
+  background: rgba(136, 192, 208, 0.1);
+  border-color: var(--octo-accent);
+  color: var(--octo-text);
+}
+
+.alert.success {
+  background: rgba(163, 190, 140, 0.1);
+  border-color: var(--octo-success);
+  color: var(--octo-text);
+}
+
+.alert.warning {
+  background: rgba(235, 203, 139, 0.1);
+  border-color: var(--octo-warning);
+  color: var(--octo-text);
+}
+
+.alert.error {
+  background: rgba(191, 97, 106, 0.1);
+  border-color: var(--octo-error);
+  color: var(--octo-text);
+}
+
+/* Conteneurs */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.container.sm {
+  max-width: 640px;
+}
+
+.container.md {
+  max-width: 768px;
+}
+
+.container.lg {
+  max-width: 1024px;
+}
+
+.container.xl {
+  max-width: 1280px;
+}
+
+/* Séparateurs */
+.divider {
+  height: 1px;
+  background: var(--octo-border);
+  margin: 2rem 0;
+}
+
+.divider.vertical {
+  width: 1px;
+  height: auto;
+  margin: 0 2rem;
+}
+
+/* Tooltips */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: 120px;
+  background: var(--octo-secondary);
+  color: white;
+  text-align: center;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--octo-secondary) transparent transparent transparent;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Mode sombre - ajustements des composants */
+.dark .card {
+  background: var(--octo-surface);
+  border-color: var(--octo-border);
+}
+
+.dark .card-header,
+.dark .card-footer {
+  background: var(--octo-background);
+  border-color: var(--octo-border);
+}
+
+.dark .alert.info {
+  background: rgba(136, 192, 208, 0.15);
+}
+
+.dark .alert.success {
+  background: rgba(163, 190, 140, 0.15);
+}
+
+.dark .alert.warning {
+  background: rgba(235, 203, 139, 0.15);
+}
+
+.dark .alert.error {
+  background: rgba(191, 97, 106, 0.15);
+}
+
+.dark .divider {
+  background: var(--octo-border);
+}
+
+.dark .tooltip .tooltip-text {
+  background: var(--octo-surface);
+  border: 1px solid var(--octo-border);
+}
+
+.dark .tooltip .tooltip-text::after {
+  border-color: var(--octo-surface) transparent transparent transparent;
+}

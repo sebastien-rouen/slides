@@ -8,7 +8,7 @@ module.exports = {
     {
       name: "slides-drafts",
       script: "npm",
-      args: "run dev:bastaverse",
+      args: "run dev bastaverse",
       cwd: "/sites/drafts/slides",
       env: {
         VITE_PORT: process.env.VITE_PORT,

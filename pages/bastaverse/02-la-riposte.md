@@ -32,7 +32,19 @@ image: https://images.unsplash.com/photo-1489436969537-cf0c1dc69cba?q=80&w=612&a
 </v-click>
 
 <!--
-Après le drame, j'ai décidé de construire mon propre système. Les débuts ont été... mouvementés !
+🛡️ LA CONTRE-ATTAQUE COMMENCE
+
+🔥 Après le drame, décision radicale :
+- "Fini de faire confiance aux nuages !"
+- "Tout chez moi, sous contrôle !"
+- 🏠 Premier projet : BastaLab (mon homelab perso)
+
+😅 SPOILER : Les débuts ont été... comment dire... CHAOTIQUES !
+- Serveur qui crashait toutes les 2h (logs, espaces, installations, ...)
+- 6 réinstallations de Proxmox (oui, SIX !)
+- J'ai même réussi à repercer mes données en voulant faire un "simple" rsync 🤦‍♂️
+
+🎯 CONSEIL : Rire de soi-même ici - ça montre qu'on est humain
 -->
 
 ---
@@ -49,9 +61,10 @@ backgroundSize: 100%
 
 <br /><br />
 
-## - **15 applications**
-## - **0€ d'abonnement**  
-## - **100% autonome**
+## 🚀 **17 applications**
+## 🔒 **100% d'autonomie**
+## 💰 **0€ d'abonnement**
+*(sauf le cloud)*
 
 </v-click>
 
@@ -66,5 +79,23 @@ Chaque "frustration/besoin" = un service qui devient un site local !
 </v-click>
 
 <!--
-Petit à petit, l'écosystème s'est construit. De BastaLab à BastaVerse, chaque besoin trouvait sa solution !
+🌱 L'ÉCOSYSTÈME QUI ÉMERGE
+
+✨ Petit à petit, la magie opère :
+- De BastaLab à BastaVerse
+- Plusieurs applications créées
+- Une autonomie retrouvée
+- 0€ d'abonnement (3-2-1 Backup)
+
+🎯 LA PHILOSOPHIE :
+- "Pourquoi payer un abonnement quand je peux le faire moi-même ?"
+- J'avais une problématique, et pour cela, je me suis dis que j'allais rendre cela plus simple, et pourquoi pas, contribuer à la communauté Open-Source
+- J'ai donc créé un écosystème qui répond EXACTEMENT à mes besoins : à la base j'ai commencé aussi avec la domotique via Home Assistant, pour ceux qui connaissent.
+
+😎 RÉSULTAT :
+- Pas de compromis
+- Pas de limitations artificielles
+- Juste... ce qui marche pour moi !
+
+🎯 CONSEIL : Montrer l'enthousiasme ici - c'est le moment où ça devient excitant !
 -->

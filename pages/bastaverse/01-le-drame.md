@@ -1,7 +1,7 @@
 ---
 layout: image-right
-image: ./assets/1991-02-01-sebastien-lunette.jpg
 class: bg-blend-overlay bg-black/30
+style: 'background-image: url("./assets/1991-02-01-sebastien-lunette.jpg"); background-size: 50% auto; background-position: right top; background-repeat: no-repeat;'
 ---
 
 # 💥 LE DELIC QUI CHANGE TOUT
@@ -30,8 +30,15 @@ class: bg-blend-overlay bg-black/30
 </v-click>
 
 <!--
-Imaginez perdre des années de souvenirs d'un coup... C'est exactement ce qui m'est arrivé !
-Toutes mes vacances depuis 20 ans.
+🎭 OUVERTURE DRAMATIQUE
+
+💥 Imaginez perdre des années de souvenirs d'un coup...
+- C'est exactement ce qui m'est arrivé !
+- Toutes mes vacances depuis 20 ans... POUF ! Disparues !
+- 📸 Des milliers de photos de famille... envolées
+- 😱 Le genre de moment où tu te dis "mais pourquoi j'ai pas fait de backup ?!"
+
+🎯 CONSEIL : Prendre une pause dramatique ici pour laisser l'audience imaginer leur propre cauchemar numérique
 -->
 
 ---
@@ -89,6 +96,21 @@ image: https://images.unsplash.com/photo-1553316045-e56f8b09f0ed?q=80&w=774&auto
 </v-click>
 
 <!--
-J'ai testé tous ces outils coûteux sans succès. Plus on essaie de récupérer, plus on risque d'endommager définitivement les données.
-C'est le moment où j'ai réalisé qu'il fallait changer d'approche !
+💸 LA DESCENTE AUX ENFERS DES OUTILS "MIRACLES"
+
+🤑 J'ai testé TOUS ces outils coûteux :
+- EaseUS, Wondershare, TestDisk... la totale !
+- 💰 Plus chers que mon premier PC (et j'exagère à peine)
+- 🎲 Aléatoires au mieux, catastrophiques au pire
+
+⚠️ LE PIÈGE : Plus tu essaies de récupérer, plus tu risques d'endommager définitivement les données
+- C'est comme essayer de réparer une assiette cassée avec un marteau
+- 😤 Frustration niveau : MAXIMUM+++
+
+💡 LE DÉCLIC :
+- "Attends... je fais peut-être mal les choses ?"
+- "Et si j'arrêtais de SUBIR la tech ?"
+- C'est le moment où j'ai réalisé qu'il fallait changer d'approche !
+
+🎯 CONSEIL : Montrer l'empathie ici - tout le monde a vécu une galère tech similaire
 -->

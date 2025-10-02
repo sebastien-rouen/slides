@@ -1,0 +1,75 @@
+/* Layout à deux colonnes */
+.slidev-layout.two-cols {
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  min-height: 100vh;
+  background: var(--octo-background);
+}
+
+.slidev-layout.two-cols .col-left,
+.slidev-layout.two-cols .col-right {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.slidev-layout.two-cols h1 {
+  color: var(--octo-primary) !important;
+  font-size: 2.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.slidev-layout.two-cols h2 {
+  color: var(--octo-secondary) !important;
+  font-size: 2rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.slidev-layout.two-cols h3 {
+  color: var(--octo-accent) !important;
+  font-size: 1.5rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.slidev-layout.two-cols h4 {
+  color: var(--octo-text) !important;
+  font-size: 1.25rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.slidev-layout.two-cols p {
+  color: var(--octo-text-light);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.slidev-layout.two-cols ul,
+.slidev-layout.two-cols ol {
+  color: var(--octo-text-light);
+  margin-bottom: 1rem;
+}
+
+.slidev-layout.two-cols li {
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive pour layout two-cols */
+@media (max-width: 768px) {
+  .slidev-layout.two-cols {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .slidev-layout.two-cols h1 {
+    font-size: 2rem !important;
+  }
+  
+  .slidev-layout.two-cols h2 {
+    font-size: 1.75rem !important;
+  }
+}

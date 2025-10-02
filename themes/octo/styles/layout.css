@@ -1,0 +1,13 @@
+/* Layouts du thème OCTO - Fichier principal d'import */
+
+/* Import de tous les layouts spécifiques */
+@import './layouts/layout-default.css';
+@import './layouts/layout-cover.css';
+@import './layouts/layout-intro.css';
+@import './layouts/layout-section.css';
+@import './layouts/layout-two-cols.css';
+@import './layouts/layout-center.css';
+@import './layouts/layout-end.css';
+@import './layouts/layout-special.css';
+@import './layouts/layout-ui.css';
+@import './layouts/layout-utilities.css';

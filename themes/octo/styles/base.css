@@ -1,0 +1,301 @@
+/* Styles de base du thème OCTO */
+
+/* Styles de base pour tous les layouts */
+.slidev-layout {
+  background: var(--octo-background);
+  color: var(--octo-text);
+  font-family: 'Outfit', sans-serif;
+  line-height: 1.6;
+}
+
+/* Typographie - Titres */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--octo-text);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--octo-primary);
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 2.25rem;
+  color: var(--octo-secondary);
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.875rem;
+  color: var(--octo-accent);
+  margin-bottom: 0.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+  color: var(--octo-text);
+  margin-bottom: 0.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+  color: var(--octo-text-light);
+  margin-bottom: 0.5rem;
+}
+
+h6 {
+  font-size: 1.125rem;
+  color: var(--octo-text-light);
+  margin-bottom: 0.5rem;
+}
+
+/* Texte et paragraphes */
+p {
+  margin-bottom: 1rem;
+  color: var(--octo-text-light);
+  line-height: 1.6;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* Liens */
+a {
+  color: var(--octo-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--octo-accent);
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: 2px solid var(--octo-primary);
+  outline-offset: 2px;
+  border-radius: 0.125rem;
+}
+
+/* Emphase et texte fort */
+strong, b {
+  font-weight: 600;
+  color: var(--octo-text);
+}
+
+em, i {
+  font-style: italic;
+  color: var(--octo-text-light);
+}
+
+/* Code et préformatage */
+code {
+  background: var(--octo-surface);
+  color: var(--octo-text);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.875em;
+  border: 1px solid var(--octo-border);
+}
+
+pre {
+  background: var(--octo-surface);
+  border: 1px solid var(--octo-border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+  font-family: 'Fira Code', monospace;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+/* Listes */
+ul, ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  color: var(--octo-text-light);
+  line-height: 1.5;
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+/* Listes imbriquées */
+ul ul, ol ol, ul ol, ol ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Citations */
+blockquote {
+  border-left: 4px solid var(--octo-primary);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: var(--octo-text-muted);
+  background: var(--octo-surface);
+  padding: 1rem;
+  border-radius: 0.375rem;
+}
+
+blockquote p {
+  margin-bottom: 0.5rem;
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Tableaux */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  background: var(--octo-surface);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: var(--octo-shadow);
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--octo-border);
+}
+
+th {
+  background: var(--octo-background);
+  font-weight: 600;
+  color: var(--octo-text);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover {
+  background: var(--octo-background);
+}
+
+/* Lignes horizontales */
+hr {
+  border: none;
+  height: 1px;
+  background: var(--octo-border);
+  margin: 2rem 0;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.375rem;
+}
+
+/* Sélection de texte */
+::selection {
+  background: var(--octo-primary);
+  color: white;
+}
+
+::-moz-selection {
+  background: var(--octo-primary);
+  color: white;
+}
+
+/* Focus visible pour l'accessibilité */
+:focus-visible {
+  outline: 2px solid var(--octo-primary);
+  outline-offset: 2px;
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--octo-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--octo-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--octo-text-muted);
+}
+
+/* Mode sombre - ajustements typographiques */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: var(--octo-text);
+}
+
+.dark h1 {
+  color: var(--octo-primary);
+}
+
+.dark h2 {
+  color: var(--octo-text);
+}
+
+.dark h3 {
+  color: var(--octo-accent);
+}
+
+.dark code {
+  background: var(--octo-surface);
+  border-color: var(--octo-border);
+}
+
+.dark pre {
+  background: var(--octo-surface);
+  border-color: var(--octo-border);
+}
+
+.dark blockquote {
+  background: var(--octo-surface);
+  border-color: var(--octo-primary);
+}
+
+.dark table {
+  background: var(--octo-surface);
+}
+
+.dark th {
+  background: var(--octo-background);
+}
+
+.dark tr:hover {
+  background: var(--octo-background);
+}

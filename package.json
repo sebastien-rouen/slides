@@ -8,7 +8,11 @@
     "build:tribu": "./build.sh tribu",
     "dev": "./dev.sh",
     "dev:bastaverse": "npx @slidev/cli pages/bastaverse/main.md --remote --port=3032",
-    "export": "npx @slidev/cli export"
+    "dev:tribu": "npx @slidev/cli pages/tribu/main.md --remote --port=3032",
+    "dev:tribu-octo": "npx @slidev/cli pages/tribu/main-octo.md --remote --port=3032",
+    "dev:octo": "npx @slidev/cli themes/octo/example.md --remote --port=3032",
+    "export:bastaverse": "npx @slidev/cli export pages/bastaverse/main.md --dark --output pages/bastaverse/bastaverse --format pdf --timeout 180000",
+    "export:tribu": "npx @slidev/cli export pages/tribu/main.md --dark --output pages/bastaverse/tribu --format pdf --timeout 180000"
   },
   "dependencies": {
     "@slidev/cli": "^52.2.4",
@@ -16,5 +20,9 @@
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest",
     "vue": "^3.5.21"
+  },
+  "devDependencies": {
+    "@slidev/theme-octo": "file:./themes/octo",
+    "playwright-chromium": "^1.56.0"
   }
 }
