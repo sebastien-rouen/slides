@@ -238,13 +238,26 @@ const SlideEditor = {
         });
       }
 
-      // Clic sur le bouton Appliquer du color picker
+      // Sync entre le picker natif et le champ hex
+      const colorNative = document.getElementById('colorPickerNative');
+      const colorHex = document.getElementById('colorPickerInput');
+      if (colorNative && colorHex) {
+        colorNative.addEventListener('input', () => {
+          colorHex.value = colorNative.value.toUpperCase();
+        });
+        colorHex.addEventListener('input', () => {
+          const v = colorHex.value;
+          if (/^#[0-9a-fA-F]{6}$/.test(v)) colorNative.value = v;
+        });
+      }
+
+      // Clic sur le bouton OK du color picker
       const colorApplyBtn = document.getElementById('colorPickerApply');
       if (colorApplyBtn) {
         colorApplyBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          const picker = document.getElementById('colorPickerInput');
-          if (picker) this.applyColorWrap(picker.value);
+          const hex = colorHex ? colorHex.value : '#ef4444';
+          if (/^#[0-9a-fA-F]{6}$/.test(hex)) this.applyColorWrap(hex);
           const menu = document.getElementById('colorMenu');
           if (menu) menu.classList.remove('open');
         });
@@ -382,10 +395,19 @@ const SlideEditor = {
     const ta = this.textareaEl;
     const start = ta.selectionStart;
     const end = ta.selectionEnd;
-    const selected = ta.value.substring(start, end) || 'texte';
-    const result = `<span style="color:${hex}">${selected}</span>`;
+    let selected = ta.value.substring(start, end) || 'texte';
+
+    // Si la selection contient un prefixe markdown (## , - , > ), le conserver avant le span
+    let prefix = '';
+    const mdPrefix = selected.match(/^(#{1,6}\s+|[-*]\s+|\d+\.\s+|>\s+)/);
+    if (mdPrefix) {
+      prefix = mdPrefix[0];
+      selected = selected.substring(prefix.length);
+    }
+
+    const result = `${prefix}<span style="color:${hex}">${selected}</span>`;
     ta.value = ta.value.substring(0, start) + result + ta.value.substring(end);
-    const innerStart = start + `<span style="color:${hex}">`.length;
+    const innerStart = start + prefix.length + `<span style="color:${hex}">`.length;
     ta.selectionStart = innerStart;
     ta.selectionEnd = innerStart + selected.length;
     ta.focus();

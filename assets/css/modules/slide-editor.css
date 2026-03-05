@@ -18,6 +18,8 @@
   display: flex;
   grid-column: 1;
   grid-row: 2;
+  position: relative;
+  z-index: 10;
 }
 
 .viewer-page.editor-active .slide-stage {
@@ -31,7 +33,7 @@
   flex-direction: column;
   background: var(--bg-secondary);
   border-right: 1px solid var(--border-default);
-  overflow: hidden;
+  overflow: visible;
   min-height: 0;
 }
 
@@ -277,6 +279,7 @@
 .fmt-color-menu {
   padding: var(--space-sm) !important;
   min-width: 180px;
+  z-index: 9999;
 }
 
 .fmt-color-menu.open {
@@ -330,17 +333,31 @@
 }
 
 .fmt-color-custom input[type="color"] {
-  width: 32px;
+  width: 28px;
   height: 28px;
   padding: 0;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
   background: transparent;
   cursor: pointer;
+  flex-shrink: 0;
+}
+
+.fmt-color-custom input[type="text"] {
+  width: 72px;
+  height: 28px;
+  padding: 0 var(--space-xs);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
 }
 
 .fmt-color-custom button {
-  flex: 1;
+  flex-shrink: 0;
   padding: var(--space-xs) var(--space-sm) !important;
   font-size: var(--font-size-xs);
   border-radius: var(--radius-sm);
