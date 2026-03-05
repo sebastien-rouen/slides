@@ -1,0 +1,137 @@
+/**
+ * presenter.css — Vue présentateur (fenêtre secondaire)
+ */
+
+.presenter-body {
+  background: var(--presenter-panel-bg);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+.presenter-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  grid-template-rows: 1fr auto;
+  height: 100vh;
+  gap: 1px;
+  background: var(--border-default);
+}
+
+.presenter-layout > * {
+  background: var(--presenter-panel-bg);
+}
+
+/* Slide courante (grande) */
+.presenter-current {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.presenter-current .slide-viewport {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* Sidebar présentateur */
+.presenter-sidebar {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Minuterie */
+.presenter-timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.presenter-timer-display {
+  font-size: var(--font-size-3xl);
+  font-variant-numeric: tabular-nums;
+  color: var(--presenter-timer-color);
+  font-weight: var(--font-weight-bold);
+}
+
+.presenter-timer.warning .presenter-timer-display {
+  color: var(--warning-color);
+}
+
+.presenter-timer.danger .presenter-timer-display {
+  color: var(--danger-color);
+}
+
+.presenter-timer-controls {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+/* Aperçu slide suivante */
+.presenter-next-preview {
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.presenter-next-label {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-sm);
+}
+
+.presenter-next-container {
+  aspect-ratio: 16 / 9;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  position: relative;
+}
+
+.presenter-next-container .slide-viewport {
+  transform-origin: top left;
+  overflow: hidden;
+}
+
+/* Notes */
+.presenter-notes {
+  flex: 1;
+  padding: var(--space-lg);
+  overflow-y: auto;
+  background: var(--presenter-notes-bg);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-secondary);
+}
+
+.presenter-notes-label {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-sm);
+}
+
+.presenter-notes-empty {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* Footer présentateur */
+.presenter-footer {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  border-top: 1px solid var(--border-default);
+}

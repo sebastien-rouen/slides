@@ -1,0 +1,638 @@
+/**
+ * slide-editor.css — Panneau d'edition Markdown pleine hauteur
+ */
+
+/* Mode edition : body passe en 2 colonnes */
+.viewer-page.editor-active {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+.viewer-page.editor-active .viewer-controls {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.viewer-page.editor-active .slide-editor-panel {
+  display: flex;
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.viewer-page.editor-active .slide-stage {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* Panneau editeur (masque par defaut) */
+.slide-editor-panel {
+  display: none;
+  flex-direction: column;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-default);
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* En-tete du panneau */
+.slide-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.slide-editor-toolbar-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.slide-editor-toolbar-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.slide-editor-btn {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.slide-editor-btn-dup {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.slide-editor-btn-dup:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.slide-editor-btn-save {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.slide-editor-btn-save:hover {
+  opacity: 0.9;
+}
+
+.slide-editor-btn-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Loader spinner sur le bouton save */
+.slide-editor-btn-save.loading {
+  pointer-events: none;
+  position: relative;
+  color: transparent;
+}
+
+.slide-editor-btn-save.loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: editor-spin 0.6s linear infinite;
+}
+
+@keyframes editor-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Feedback succès / erreur */
+.slide-editor-btn-save.success {
+  background: var(--success-color);
+  border-color: var(--success-color);
+}
+
+.slide-editor-btn-save.error {
+  background: var(--danger-color);
+  border-color: var(--danger-color);
+}
+
+.slide-editor-btn-cancel {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.slide-editor-btn-cancel:hover {
+  border-color: var(--danger-color);
+  color: var(--danger-color);
+}
+
+/* Barre de formatage Markdown */
+.slide-editor-format-bar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.fmt-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+}
+
+.fmt-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-default);
+  color: var(--text-primary);
+}
+
+.fmt-btn:active {
+  background: var(--bg-active);
+}
+
+.fmt-btn svg {
+  flex-shrink: 0;
+}
+
+/* Couleurs par catégorie */
+.fmt-btn[data-action="bold"],
+.fmt-btn[data-action="italic"],
+.fmt-btn[data-action="heading"] {
+  color: #60a5fa;
+}
+
+.fmt-btn[data-action="link"] {
+  color: #a78bfa;
+}
+
+.fmt-btn[data-action="image-bg"],
+.fmt-btn[data-action="image-left"],
+.fmt-btn[data-action="image-right"] {
+  color: #34d399;
+}
+
+.fmt-btn[data-action="iframe"] {
+  color: #38bdf8;
+}
+
+.fmt-btn[data-action="code"],
+.fmt-btn[data-action="codeblock"] {
+  color: #fbbf24;
+}
+
+.fmt-btn[data-action="mermaid-toggle"] {
+  color: #f472b6;
+}
+
+.fmt-btn-upload {
+  color: #34d399;
+}
+
+.fmt-btn[data-action="list"],
+.fmt-btn[data-action="quote"] {
+  color: #fb923c;
+}
+
+/* Hover : éclaircir la couleur */
+.fmt-btn[data-action]:hover {
+  color: var(--text-primary);
+}
+
+.fmt-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--border-default);
+  margin: 0 4px;
+}
+
+/* Dropdown Mermaid */
+.fmt-dropdown {
+  position: relative;
+  display: inline-flex;
+}
+
+.fmt-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: var(--z-dropdown);
+  min-width: 150px;
+  padding: var(--space-xs) 0;
+  margin-top: 4px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.fmt-dropdown-menu.open {
+  display: flex;
+  flex-direction: column;
+}
+
+.fmt-dropdown-menu button {
+  padding: var(--space-xs) var(--space-md);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.fmt-dropdown-menu button:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Dropdown couleur */
+.fmt-color-menu {
+  padding: var(--space-sm) !important;
+  min-width: 180px;
+}
+
+.fmt-color-menu.open {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.fmt-color-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.fmt-color-grid button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.fmt-color-grid button:hover {
+  border-color: var(--text-primary);
+  background: transparent;
+}
+
+.fmt-color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: block;
+}
+
+.fmt-color-dot-white {
+  border: 1px solid var(--border-default);
+}
+
+.fmt-color-custom {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding-top: var(--space-xs);
+  border-top: 1px solid var(--border-default);
+}
+
+.fmt-color-custom input[type="color"] {
+  width: 32px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+}
+
+.fmt-color-custom button {
+  flex: 1;
+  padding: var(--space-xs) var(--space-sm) !important;
+  font-size: var(--font-size-xs);
+  border-radius: var(--radius-sm);
+  background: var(--primary-color) !important;
+  color: white !important;
+  border: none !important;
+  cursor: pointer;
+  text-align: center !important;
+}
+
+.fmt-color-custom button:hover {
+  opacity: 0.9;
+  background: var(--primary-color) !important;
+  color: white !important;
+}
+
+/* Couleurs boutons alignement et couleur */
+.fmt-btn[data-action="color-toggle"] {
+  color: #f472b6;
+}
+
+.fmt-btn[data-action="align-left"],
+.fmt-btn[data-action="align-center"],
+.fmt-btn[data-action="align-right"] {
+  color: #94a3b8;
+}
+
+/* Conteneur overlay pour la coloration syntaxique */
+.slide-editor-highlight-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Pre miroir (derriere le textarea) */
+.slide-editor-highlight {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: var(--space-md);
+  background: var(--bg-primary);
+  border: none;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  tab-size: 2;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: normal;
+  overflow: auto;
+  pointer-events: none;
+  color: var(--text-primary);
+  z-index: 0;
+  scrollbar-width: none;
+}
+
+.slide-editor-highlight::-webkit-scrollbar {
+  display: none;
+}
+
+.slide-editor-highlight code {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  tab-size: inherit;
+  background: none;
+  padding: 0;
+  margin: 0;
+  display: block;
+  white-space: inherit;
+  overflow-wrap: inherit;
+  word-break: inherit;
+}
+
+/* Zone de texte (transparente, seul le curseur est visible) */
+.slide-editor-textarea {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: var(--space-md);
+  background: transparent;
+  color: transparent;
+  caret-color: var(--text-primary);
+  border: none;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  resize: none;
+  outline: none;
+  tab-size: 2;
+  min-height: 0;
+}
+
+.slide-editor-textarea::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: transparent;
+}
+
+.slide-editor-textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* Etat drag & drop image */
+.slide-editor-textarea.dragover {
+  outline: 2px dashed var(--primary-color);
+  outline-offset: -4px;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+/* --- Tokens de coloration Markdown --- */
+.md-heading     { color: #60a5fa; font-weight: 600; }
+.md-bold        { color: #60a5fa; font-weight: 700; }
+.md-bold-mark   { color: #60a5fa; opacity: 0.5; }
+.md-italic      { color: #60a5fa; font-style: italic; }
+.md-italic-mark { color: #60a5fa; opacity: 0.5; }
+.md-link-text   { color: #a78bfa; }
+.md-link-url    { color: #a78bfa; opacity: 0.7; }
+.md-image       { color: #34d399; }
+.md-directive   { color: #64748b; font-style: italic; }
+.md-code        { color: #fbbf24; }
+.md-code-fence  { color: #fbbf24; opacity: 0.6; }
+.md-mermaid     { color: #f472b6; }
+.md-quote       { color: #fb923c; }
+.md-list        { color: #fb923c; }
+.md-separator   { color: #ef4444; font-weight: 700; }
+.md-iframe      { color: #38bdf8; }
+.md-html-color  { color: #f472b6; opacity: 0.7; }
+.md-html-align  { color: #94a3b8; opacity: 0.7; }
+
+/* Tokens fonces pour le theme clair */
+[data-slide-theme="light"] .md-heading     { color: #2563eb; }
+[data-slide-theme="light"] .md-bold        { color: #2563eb; }
+[data-slide-theme="light"] .md-bold-mark   { color: #2563eb; }
+[data-slide-theme="light"] .md-italic      { color: #2563eb; }
+[data-slide-theme="light"] .md-italic-mark { color: #2563eb; }
+[data-slide-theme="light"] .md-link-text   { color: #7c3aed; }
+[data-slide-theme="light"] .md-link-url    { color: #7c3aed; }
+[data-slide-theme="light"] .md-image       { color: #059669; }
+[data-slide-theme="light"] .md-directive   { color: #334155; }
+[data-slide-theme="light"] .md-code        { color: #b45309; }
+[data-slide-theme="light"] .md-code-fence  { color: #b45309; }
+[data-slide-theme="light"] .md-mermaid     { color: #db2777; }
+[data-slide-theme="light"] .md-quote       { color: #c2410c; }
+[data-slide-theme="light"] .md-list        { color: #c2410c; }
+[data-slide-theme="light"] .md-separator   { color: #dc2626; }
+[data-slide-theme="light"] .md-iframe      { color: #0284c7; }
+[data-slide-theme="light"] .md-html-color  { color: #db2777; }
+[data-slide-theme="light"] .md-html-align  { color: #64748b; }
+
+/* Zone notes presentateur */
+.slide-editor-notes-wrap {
+  flex-shrink: 0;
+  border-top: 1px solid var(--border-default);
+  background: var(--bg-primary);
+}
+
+.slide-editor-notes-label {
+  display: block;
+  padding: var(--space-xs) var(--space-md) 0;
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  font-weight: var(--font-weight-medium);
+}
+
+.slide-editor-notes {
+  width: 100%;
+  height: 72px;
+  padding: var(--space-xs) var(--space-md);
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-relaxed);
+  resize: none;
+  outline: none;
+}
+
+.slide-editor-notes::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* Indicateur de statut */
+.slide-editor-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  background: var(--bg-tertiary);
+  border-top: 1px solid var(--border-default);
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.slide-editor-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-tertiary);
+}
+
+.slide-editor-status-dot.modified {
+  background: var(--warning-color);
+}
+
+.slide-editor-status-dot.saved {
+  background: var(--success-color);
+}
+
+/* Bouton actif dans la toolbar du viewer */
+#editorBtn.active {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--primary-color);
+}
+
+/* Couleur du bouton position */
+.fmt-btn[data-action="position"] {
+  color: #2dd4bf;
+}
+
+/* Slider opacite du fond */
+.fmt-bg-opacity {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 4px;
+}
+
+.fmt-bg-opacity.hidden {
+  display: none;
+}
+
+.fmt-opacity-label {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  cursor: default;
+}
+
+.fmt-opacity-slider {
+  width: 56px;
+  height: 4px;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+}
+
+/* Hover positioning : cursor move quand l'editeur est actif */
+.editor-active .slide-pos-block {
+  cursor: move;
+  transition: box-shadow 0.15s ease;
+}
+
+/* Feedback CSS hover (fonctionne meme sans JS) */
+.editor-active .slide-pos-block:hover {
+  box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.4);
+}
+
+/* Element selectionne (survol actif) — box-shadow inset pour eviter le clip par overflow:hidden */
+.editor-active .slide-pos-block.selected {
+  box-shadow: inset 0 0 0 2px var(--primary-color);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+/* Poignees de redimensionnement sur l'element selectionne */
+.slide-pos-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--primary-color);
+  border: 2px solid white;
+  border-radius: 50%;
+  z-index: 11;
+  pointer-events: auto;
+}
+
+.slide-pos-handle-nw { top: -1px; left: -1px; cursor: nw-resize; }
+.slide-pos-handle-ne { top: -1px; right: -1px; cursor: ne-resize; }
+.slide-pos-handle-sw { bottom: -1px; left: -1px; cursor: sw-resize; }
+.slide-pos-handle-se { bottom: -1px; right: -1px; cursor: se-resize; }
+
+/* Responsive : masquer l'editeur sur petit ecran */
+@media (max-width: 767px) {
+  #editorBtn {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .viewer-page.editor-active {
+    grid-template-columns: 320px 1fr;
+  }
+}

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Présentation — Slides</title>
+  <link rel="icon" href="assets/images/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- highlight.js theme -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <!-- Thèmes slides -->
+  <link rel="stylesheet" href="themes/theme-ocean.css">
+  <link rel="stylesheet" href="themes/theme-sunset.css">
+  <link rel="stylesheet" href="themes/theme-forest.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('slides-theme');
+      if (saved === 'light') document.documentElement.dataset.theme = 'light';
+    })();
+  </script>
+</head>
+<body class="viewer-page">
+
+  <!-- Barre de controles -->
+  <header class="viewer-controls" role="toolbar" aria-label="Controles de presentation">
+    <div class="viewer-controls-left">
+      <a href="index.html" class="btn-viewer" aria-label="Retour à l'accueil" title="Accueil">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </a>
+      <span class="viewer-title" id="viewerTitle"></span>
+    </div>
+
+    <div class="viewer-controls-center" role="group" aria-label="Navigation">
+      <button class="btn-viewer" id="firstSlideBtn" aria-label="Première slide" title="Début (Home)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="11 17 6 12 11 7"></polyline>
+          <line x1="18" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <button class="btn-viewer" id="prevBtn" aria-label="Slide précédente" title="Précédent">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <span class="slide-counter" id="slideCounter" aria-live="polite">1 / 1</span>
+      <button class="btn-viewer" id="nextBtn" aria-label="Slide suivante" title="Suivant">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+      <button class="btn-viewer" id="lastSlideBtn" aria-label="Dernière slide" title="Fin (End)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="13 17 18 12 13 7"></polyline>
+          <line x1="6" y1="6" x2="6" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="viewer-controls-right">
+      <button class="btn-viewer" id="editorBtn" aria-label="Éditeur Markdown" title="Éditeur Markdown (E)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+      </button>
+      <button class="btn-viewer" id="stylePickerBtn" aria-label="Style des slides" title="Style des slides (S)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="13.5" cy="6.5" r="2.5"></circle>
+          <circle cx="19" cy="13.5" r="2.5"></circle>
+          <circle cx="8.5" cy="7.5" r="2.5"></circle>
+          <circle cx="5" cy="13.5" r="2.5"></circle>
+          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L12 22z"></path>
+        </svg>
+      </button>
+      <button class="btn-viewer" id="presenterBtn" aria-label="Vue présentateur" title="Vue présentateur (P)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+      </button>
+      <button class="btn-viewer" id="printBtn" aria-label="Exporter PDF" title="Exporter en PDF">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+      </button>
+      <button class="btn-viewer" id="fullscreenBtn" aria-label="Plein écran" title="Plein écran (F)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <polyline points="9 21 3 21 3 15"></polyline>
+          <line x1="21" y1="3" x2="14" y2="10"></line>
+          <line x1="3" y1="21" x2="10" y2="14"></line>
+        </svg>
+      </button>
+      <button class="icon-btn" id="themeToggle" aria-label="Basculer le thème">
+        <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Panneau style picker -->
+  <div class="theme-picker-panel" id="themePickerPanel"></div>
+
+  <!-- Panneau éditeur Markdown (pleine hauteur) -->
+  <aside class="slide-editor-panel" id="slideEditorPanel">
+    <div class="slide-editor-header">
+      <span class="slide-editor-toolbar-title">Markdown</span>
+      <div class="slide-editor-toolbar-actions">
+        <button class="slide-editor-btn slide-editor-btn-dup" id="editorDuplicateBtn" title="Dupliquer la slide (Ctrl+D)">Dupliquer</button>
+        <button class="slide-editor-btn slide-editor-btn-save" id="editorSaveBtn" title="Sauvegarder (Ctrl+S)">Sauvegarder</button>
+        <button class="slide-editor-btn slide-editor-btn-cancel" id="editorCancelBtn" title="Fermer (Escape)">Fermer</button>
+      </div>
+    </div>
+    <div class="slide-editor-format-bar" role="toolbar" aria-label="Formatage Markdown">
+      <button class="fmt-btn" data-action="bold" title="Gras (Ctrl+B)"><strong>B</strong></button>
+      <button class="fmt-btn" data-action="italic" title="Italique (Ctrl+I)"><em>I</em></button>
+      <button class="fmt-btn" data-action="heading" title="Titre">H</button>
+      <span class="fmt-sep"></span>
+      <button class="fmt-btn" data-action="link" title="Lien">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+      </button>
+      <span class="fmt-sep"></span>
+      <button class="fmt-btn" data-action="code" title="Code inline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </button>
+      <button class="fmt-btn" data-action="codeblock" title="Bloc de code">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="10 8 6 12 10 16"/><polyline points="14 16 18 12 14 8"/></svg>
+      </button>
+      <div class="fmt-dropdown" id="mermaidDropdown">
+        <button class="fmt-btn" data-action="mermaid-toggle" title="Diagramme Mermaid">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><line x1="12" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="19" y2="17"/></svg>
+        </button>
+        <div class="fmt-dropdown-menu" id="mermaidMenu">
+          <button type="button" data-mermaid="flowchart">Flowchart</button>
+          <button type="button" data-mermaid="sequence">Sequence</button>
+          <button type="button" data-mermaid="class">Classes</button>
+          <button type="button" data-mermaid="state">Etats</button>
+          <button type="button" data-mermaid="er">Entite-Relation</button>
+          <button type="button" data-mermaid="gantt">Gantt</button>
+          <button type="button" data-mermaid="pie">Camembert</button>
+          <button type="button" data-mermaid="mindmap">Mindmap</button>
+        </div>
+      </div>
+      <span class="fmt-sep"></span>
+      <button class="fmt-btn" data-action="list" title="Liste">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1" fill="currentColor"/><circle cx="4" cy="12" r="1" fill="currentColor"/><circle cx="4" cy="18" r="1" fill="currentColor"/></svg>
+      </button>
+      <button class="fmt-btn" data-action="quote" title="Citation">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="4" x2="3" y2="20"/><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="18" y2="18"/></svg>
+      </button>
+      <span class="fmt-sep"></span>
+      <div class="fmt-dropdown" id="colorDropdown">
+        <button class="fmt-btn" data-action="color-toggle" title="Couleur du texte">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 20L12 4l6 16"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="4" y1="22" x2="20" y2="22" stroke-width="3"/></svg>
+        </button>
+        <div class="fmt-dropdown-menu fmt-color-menu" id="colorMenu">
+          <div class="fmt-color-grid">
+            <button type="button" data-color="#ef4444" title="Rouge"><span class="fmt-color-dot" style="background:#ef4444"></span></button>
+            <button type="button" data-color="#f97316" title="Orange"><span class="fmt-color-dot" style="background:#f97316"></span></button>
+            <button type="button" data-color="#eab308" title="Jaune"><span class="fmt-color-dot" style="background:#eab308"></span></button>
+            <button type="button" data-color="#22c55e" title="Vert"><span class="fmt-color-dot" style="background:#22c55e"></span></button>
+            <button type="button" data-color="#3b82f6" title="Bleu"><span class="fmt-color-dot" style="background:#3b82f6"></span></button>
+            <button type="button" data-color="#8b5cf6" title="Violet"><span class="fmt-color-dot" style="background:#8b5cf6"></span></button>
+            <button type="button" data-color="#ec4899" title="Rose"><span class="fmt-color-dot" style="background:#ec4899"></span></button>
+            <button type="button" data-color="#ffffff" title="Blanc"><span class="fmt-color-dot fmt-color-dot-white" style="background:#ffffff"></span></button>
+          </div>
+          <div class="fmt-color-custom">
+            <input type="color" id="colorPickerInput" value="#ef4444" title="Choisir une couleur">
+            <button type="button" id="colorPickerApply">Appliquer</button>
+          </div>
+        </div>
+      </div>
+      <button class="fmt-btn" data-action="align-left" title="Aligner a gauche">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+      </button>
+      <button class="fmt-btn" data-action="align-center" title="Centrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
+      <button class="fmt-btn" data-action="align-right" title="Aligner a droite">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <span class="fmt-sep"></span>
+      <button class="fmt-btn" data-action="position" title="Positionner le texte (drag)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
+      </button>
+      <span class="fmt-sep"></span>
+      <button class="fmt-btn" data-action="image-left" title="Image gauche">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="4" width="8" height="8" rx="1"/><line x1="14" y1="6" x2="22" y2="6"/><line x1="14" y1="10" x2="22" y2="10"/><line x1="2" y1="16" x2="22" y2="16"/><line x1="2" y1="20" x2="16" y2="20"/></svg>
+      </button>
+      <button class="fmt-btn" data-action="image-bg" title="Image fond (cover)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      </button>
+      <button class="fmt-btn" data-action="image-right" title="Image droite">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="14" y="4" width="8" height="8" rx="1"/><line x1="2" y1="6" x2="10" y2="6"/><line x1="2" y1="10" x2="10" y2="10"/><line x1="2" y1="16" x2="22" y2="16"/><line x1="2" y1="20" x2="16" y2="20"/></svg>
+      </button>
+      <button class="fmt-btn" data-action="iframe" title="Iframe (site web)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="8" x2="22" y2="8"/><circle cx="5.5" cy="5.5" r="0.8" fill="currentColor"/><circle cx="8.5" cy="5.5" r="0.8" fill="currentColor"/><circle cx="11.5" cy="5.5" r="0.8" fill="currentColor"/></svg>
+      </button>
+      <button class="fmt-btn fmt-btn-upload" id="editorUploadBtn" title="Uploader une image">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </button>
+      <span class="fmt-bg-opacity hidden" id="bgOpacityWrap">
+        <label class="fmt-opacity-label" for="bgOpacitySlider">Fond</label>
+        <input type="range" class="fmt-opacity-slider" id="bgOpacitySlider" min="0" max="100" value="100" title="Opacite du fond">
+      </span>
+    </div>
+    <div class="slide-editor-highlight-wrap">
+      <pre class="slide-editor-highlight" id="editorHighlightPre" aria-hidden="true"><code id="editorHighlightCode"></code></pre>
+      <textarea class="slide-editor-textarea" id="slideEditorTextarea"
+                placeholder="Contenu Markdown de la slide..." spellcheck="false"></textarea>
+    </div>
+    <div class="slide-editor-notes-wrap">
+      <label class="slide-editor-notes-label" for="slideEditorNotes">Notes presentateur</label>
+      <textarea class="slide-editor-notes" id="slideEditorNotes"
+                placeholder="Notes visibles uniquement en vue presentateur..." spellcheck="false"></textarea>
+    </div>
+    <div class="slide-editor-status">
+      <span class="slide-editor-status-dot" id="editorStatusDot"></span>
+      <span id="editorStatusText">Pr&#234;t</span>
+    </div>
+  </aside>
+
+  <!-- Zone de rendu des slides -->
+  <main class="slide-stage" id="slideStage" aria-live="polite" aria-atomic="true">
+    <div class="slide-viewport" id="slideViewport" role="presentation">
+      <!-- Slides injectées par slide-engine.js -->
+    </div>
+    <!-- Barre de progression -->
+    <div class="slide-progress" id="slideProgress" role="progressbar"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+  </main>
+
+  <!-- CDN Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked-highlight@2.2.1/lib/index.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Scripts du moteur -->
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/slide-parser.js"></script>
+  <script src="assets/js/slide-renderer.js"></script>
+  <script src="assets/js/slide-engine.js"></script>
+  <script src="assets/js/pdf-export.js"></script>
+  <script src="assets/js/theme-manager.js"></script>
+  <script src="assets/js/slide-editor.js"></script>
+  <script src="assets/js/slide-drag-position.js"></script>
+
+  <!-- Mermaid (ESM uniquement) -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    window.mermaid = mermaid;
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: document.documentElement.dataset.theme === 'light' ? 'default' : 'dark',
+      securityLevel: 'loose',
+      fontFamily: 'inherit'
+    });
+    window.dispatchEvent(new CustomEvent('mermaidReady'));
+  </script>
+</body>
+</html>

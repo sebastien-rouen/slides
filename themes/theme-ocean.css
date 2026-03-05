@@ -1,0 +1,22 @@
+/**
+ * theme-ocean.css — Thème océan pour les slides
+ * Activé via [data-slide-theme="ocean"] sur <html>
+ * Seules les variables CSS sont redéfinies — la base slide-engine.css les utilise.
+ */
+
+[data-slide-theme="ocean"] .slide {
+  --slide-bg: #0c1b33;
+  --text-primary: #e0f2fe;
+  --text-secondary: #7dd3fc;
+  --text-tertiary: #38bdf8;
+  --primary-color: #38bdf8;
+  --secondary-color: #0ea5e9;
+  --bg-tertiary: #0e2444;
+  --border-default: #163a5e;
+  background-color: var(--slide-bg);
+  color: var(--text-primary);
+}
+
+[data-slide-theme="ocean"] .slide code {
+  background: rgba(56, 189, 248, 0.15);
+}

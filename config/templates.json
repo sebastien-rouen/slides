@@ -1,0 +1,53 @@
+{
+  "templates": [
+    {
+      "id": "blank",
+      "name": "Vide",
+      "description": "Une slide vierge avec juste le titre",
+      "icon": "file",
+      "content": "# {{title}}\n\n<!-- notes\nAuteur : {{author}}\nDate : {{date}}\n-->\n\n---\n\n## Slide 2\n\nContenu ici..."
+    },
+    {
+      "id": "standard",
+      "name": "Standard",
+      "description": "Structure classique avec sommaire et conclusion",
+      "icon": "layout",
+      "content": "# {{title}}\n\n**{{author}}** — {{date}}\n\n<!-- notes\nPresentation creee le {{date}}\n-->\n\n---\n\n## Sommaire\n\n- Section 1\n- Section 2\n- Section 3\n\n---\n\n## Section 1\n\nContenu de la premiere section...\n\n---\n\n## Section 2\n\nContenu de la deuxieme section...\n\n---\n\n## Section 3\n\nContenu de la troisieme section...\n\n---\n\n## Conclusion\n\n- Point cle 1\n- Point cle 2\n- Point cle 3\n\n**Merci !**"
+    },
+    {
+      "id": "tech-talk",
+      "name": "Tech Talk",
+      "description": "Pour une presentation technique avec demo",
+      "icon": "code",
+      "content": "# {{title}}\n\n**{{author}}** — {{date}}\n\n<!-- notes\nTech talk — {{date}}\n-->\n\n---\n\n## Le probleme\n\n- Contexte\n- Douleur identifiee\n- Pourquoi c'est important\n\n---\n\n## La solution\n\n- Approche choisie\n- Technologies utilisees\n- Architecture\n\n---\n\n## Demo\n\n```\n// Exemple de code\nconsole.log('Hello world');\n```\n\n---\n\n## Architecture\n\n```mermaid\ngraph TD\n  A[Client] --> B[API]\n  B --> C[Base de donnees]\n```\n\n---\n\n## Conclusion\n\n- Ce qu'on a appris\n- Prochaines etapes\n- Questions ?\n\n**Merci !**"
+    },
+    {
+      "id": "workshop",
+      "name": "Atelier",
+      "description": "Format atelier avec objectifs et exercices",
+      "icon": "users",
+      "content": "# {{title}}\n\n**Atelier anime par {{author}}**\n\n{{date}}\n\n<!-- notes\nAtelier pratique\n-->\n\n---\n\n## Objectifs\n\n- Objectif 1\n- Objectif 2\n- Objectif 3\n\n> Duree estimee : 1h30\n\n---\n\n## Exercice 1\n\n### Consigne\n\nDescription de l'exercice...\n\n### Resultat attendu\n\n- Critere de reussite\n\n---\n\n## Exercice 2\n\n### Consigne\n\nDescription de l'exercice...\n\n### Resultat attendu\n\n- Critere de reussite\n\n---\n\n## Recapitulatif\n\n- Ce qu'on a couvert\n- Points cles a retenir\n- Ressources pour aller plus loin\n\n**Merci pour votre participation !**"
+    },
+    {
+      "id": "pitch",
+      "name": "Pitch",
+      "description": "Presentation courte et percutante",
+      "icon": "zap",
+      "content": "# {{title}}\n\n**{{author}}**\n\n<!-- notes\nPitch — {{date}}\n-->\n\n---\n\n## Le probleme\n\n> Une phrase qui resume le probleme\n\n- Impact concret 1\n- Impact concret 2\n\n---\n\n## Notre solution\n\n- Proposition de valeur\n- Differenciation\n- Comment ca marche\n\n---\n\n## Les benefices\n\n- Benefice 1\n- Benefice 2\n- Benefice 3\n\n---\n\n## Passons a l'action\n\n- Prochaine etape concrete\n- Contact : {{author}}\n\n**Merci !**"
+    },
+    {
+      "id": "offer",
+      "name": "Offre",
+      "description": "Proposition commerciale ou offre de service",
+      "icon": "briefcase",
+      "content": "# {{title}}\n\n**{{author}}** — {{date}}\n\n<!-- notes\nProposition d'offre\n-->\n\n---\n\n## Contexte client\n\n- Besoin identifie\n- Enjeux et contraintes\n- Objectifs a atteindre\n\n---\n\n## Notre approche\n\n- Methodologie proposee\n- Outils et technologies\n- Livrables attendus\n\n---\n\n## L'equipe\n\n- Profil 1 — Role\n- Profil 2 — Role\n- Profil 3 — Role\n\n---\n\n## Planning\n\n| Phase | Duree | Livrables |\n|-------|-------|-----------|\n| Phase 1 | 2 semaines | Cadrage |\n| Phase 2 | 4 semaines | Developpement |\n| Phase 3 | 1 semaine | Recette |\n\n---\n\n## Budget\n\n- Poste 1 : X jours\n- Poste 2 : X jours\n- **Total : X jours**\n\n**Merci pour votre confiance !**"
+    },
+    {
+      "id": "octo",
+      "name": "Octo Technology",
+      "description": "Template officiel Octo — fond bleu marine, formes organiques",
+      "icon": "briefcase",
+      "content": "<!-- style: background-image: url('assets/images/templates/octo/slide-01-cover.png'); background-size: cover -->\n<!-- positions: 0:25%,30%,50% | 1:25%,55%,50% -->\n# {{title}}\n\n**{{author}}** — {{date}}\n\n---\n\n<!-- style: background-image: url('assets/images/templates/octo/slide-02.png'); background-size: cover -->\n<!-- positions: 0:15%,15%,65% | 1:15%,40%,65% -->\n## Sommaire\n\n- Section 1\n- Section 2\n- Section 3\n\n---\n\n<!-- style: background-image: url('assets/images/templates/octo/slide-06.png'); background-size: cover -->\n<!-- positions: 0:50%,10%,45% | 1:50%,30%,45% -->\n## Section 1\n\nContenu ici...\n\n---\n\n<!-- style: background-image: url('assets/images/templates/octo/slide-08.png'); background-size: cover -->\n<!-- positions: 0:5%,10%,45% | 1:5%,30%,45% -->\n## Section 2\n\nContenu ici...\n\n---\n\n<!-- style: background-image: url('assets/images/templates/octo/slide-07.png'); background-size: cover -->\n<!-- positions: 0:8%,12%,84% | 1:8%,30%,84% -->\n## Contenu libre\n\nTexte, liste, code...\n\n---\n\n<!-- style: background-image: url('assets/images/templates/octo/slide-end.png'); background-size: cover -->\n<!-- positions: 0:25%,65%,50% | 1:25%,78%,50% -->\n### Merci !\n\n**{{author}}**"
+    }
+  ]
+}

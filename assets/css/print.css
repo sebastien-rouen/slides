@@ -1,0 +1,162 @@
+/**
+ * print.css — Export PDF via @media print
+ *
+ * Chaque slide occupe exactement une page paysage 16:9,
+ * avec conservation des images de fond (cover, Octo backgrounds).
+ */
+
+@media print {
+
+  /* --- Format de page --- */
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+
+  /* Forcer le navigateur a imprimer les fonds (images + couleurs) */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* --- Masquer toute l'UI --- */
+  .viewer-controls,
+  .slide-progress,
+  .site-header,
+  .site-footer,
+  .slide-editor-panel,
+  .theme-picker-panel {
+    display: none !important;
+  }
+
+  /* --- Body et page : annuler le layout viewer --- */
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  body.viewer-page {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: transparent !important;
+  }
+
+  /* --- Stage et viewport : desactiver le scaling JS --- */
+  .slide-stage {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: transparent !important;
+    position: static !important;
+  }
+
+  .slide-viewport {
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
+    transform-origin: unset !important;
+    position: static !important;
+    overflow: visible !important;
+  }
+
+  /* --- Slides masquees par defaut --- */
+  .slide {
+    display: none !important;
+  }
+
+  /* --- Chaque slide visible = une page paysage 16:9 --- */
+  .slide.print-visible {
+    display: flex !important;
+    flex-direction: column !important;
+
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9 !important;
+
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    padding: var(--slide-padding) !important;
+
+    /* background-color seulement : ne PAS ecraser background-image inline */
+    background-color: var(--slide-bg) !important;
+
+    page-break-after: always;
+    break-after: page;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .slide.print-visible:last-child {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* --- Preserver les images de fond inline (cover, Octo) --- */
+  .slide.print-visible[style*="background-image"] {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+  }
+
+  /* --- Free-layout : positionnement absolu en % --- */
+  .slide.print-visible.free-layout {
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  /* --- Layouts image-right / image-left --- */
+  .slide.print-visible[data-layout="image-right"],
+  .slide.print-visible[data-layout="image-left"] {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+    align-items: center !important;
+  }
+
+  /* --- Overlay cover / image --- */
+  .slide-cover-overlay,
+  .slide-image-overlay {
+    width: 100% !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* --- Code blocks : lever la limite de hauteur --- */
+  .slide.print-visible pre {
+    max-height: none !important;
+  }
+
+  /* --- Mermaid SVG --- */
+  .slide.print-visible .mermaid svg {
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+
+  /* --- Highlight.js : fond transparent (herite du pre) --- */
+  .slide.print-visible .hljs {
+    background: transparent !important;
+  }
+
+  /* --- Liens : retirer le soulignement --- */
+  .slide.print-visible a {
+    text-decoration: none !important;
+  }
+
+  /* --- Fond d'image : forcer opacite a 1 en impression --- */
+  .slide.print-visible .slide-bg-layer {
+    opacity: 1 !important;
+  }
+
+  /* --- Iframes : masquer (non reproductibles en PDF) --- */
+  .slide.print-visible .slide-iframe-col iframe {
+    display: none !important;
+  }
+}

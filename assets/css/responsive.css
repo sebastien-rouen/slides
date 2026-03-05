@@ -1,0 +1,111 @@
+/**
+ * responsive.css — Adaptations mobile et tablette
+ */
+
+/* Tablette */
+@media (max-width: 1024px) {
+  .presentations-grid,
+  .year-section-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .main-content {
+    padding: var(--space-md) var(--space-lg);
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  :root {
+    --viewer-header-height: 44px;
+    --header-height: 56px;
+  }
+
+  /* Header compact */
+  .site-header {
+    padding: 0 var(--space-md);
+  }
+
+  .header-nav {
+    display: none;
+  }
+
+  .logo-text {
+    font-size: var(--font-size-base);
+  }
+
+  /* Hero compact */
+  .presentations-hero {
+    padding: var(--space-xl) var(--space-md) var(--space-lg);
+  }
+
+  .presentations-hero-title {
+    font-size: var(--font-size-3xl);
+  }
+
+  .presentations-hero-subtitle {
+    font-size: var(--font-size-base);
+  }
+
+  /* Grille en colonne */
+  .presentations-grid,
+  .year-section-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .year-section-title {
+    font-size: var(--font-size-xl);
+  }
+
+  /* Viewer mobile */
+  .viewer-controls {
+    padding: 0 var(--space-sm);
+    gap: var(--space-xs);
+  }
+
+  .viewer-title {
+    display: none;
+  }
+
+  .btn-viewer {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+  }
+
+  .btn-viewer svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Masquer certains boutons sur petit écran */
+  #firstSlideBtn,
+  #lastSlideBtn {
+    display: none;
+  }
+
+  /* Tags filtres en scroll horizontal */
+  .tag-filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 0 var(--space-md);
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Petit mobile */
+@media (max-width: 480px) {
+  .btn-viewer {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+
+  #presenterBtn,
+  #printBtn {
+    display: none;
+  }
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue présentateur — Slides</title>
+  <link rel="icon" href="assets/images/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('slides-theme');
+      if (saved === 'light') document.documentElement.dataset.theme = 'light';
+    })();
+  </script>
+</head>
+<body class="presenter-body">
+
+  <div class="presenter-layout">
+    <!-- Slide courante (grande) -->
+    <section class="presenter-current" aria-label="Slide actuelle">
+      <div class="slide-viewport" id="presenterCurrentViewport"></div>
+    </section>
+
+    <!-- Sidebar presentateur -->
+    <aside class="presenter-sidebar">
+      <!-- Minuterie -->
+      <div class="presenter-timer" id="presenterTimer">
+        <span class="presenter-timer-display" id="timerDisplay">00:00</span>
+        <div class="presenter-timer-controls">
+          <button class="btn-viewer" id="timerStart" aria-label="Démarrer / Pause minuterie">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </button>
+          <button class="btn-viewer" id="timerReset" aria-label="Réinitialiser minuterie">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Apercu slide suivante -->
+      <div class="presenter-next-preview">
+        <div class="presenter-next-label">Slide suivante</div>
+        <div class="presenter-next-container">
+          <div class="slide-viewport" id="presenterNextViewport"></div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="presenter-notes" id="presenterNotes">
+        <div class="presenter-notes-label">Notes</div>
+        <p class="presenter-notes-empty">Aucune note pour cette slide.</p>
+      </div>
+    </aside>
+
+    <!-- Footer avec navigation -->
+    <footer class="presenter-footer" role="toolbar">
+      <button class="btn btn-secondary" id="presenterPrev" aria-label="Slide précédente">Précédent</button>
+      <span class="slide-counter" id="presenterCounter">1 / 1</span>
+      <button class="btn btn-primary" id="presenterNext" aria-label="Slide suivante">Suivant</button>
+    </footer>
+  </div>
+
+  <!-- CDN Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked-highlight@2.2.1/lib/index.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Scripts -->
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/slide-parser.js"></script>
+  <script src="assets/js/slide-renderer.js"></script>
+  <script src="assets/js/presenter.js"></script>
+
+  <!-- Mermaid (ESM) -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    window.mermaid = mermaid;
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: document.documentElement.dataset.theme === 'light' ? 'default' : 'dark',
+      securityLevel: 'loose',
+      fontFamily: 'inherit'
+    });
+    window.dispatchEvent(new CustomEvent('mermaidReady'));
+  </script>
+</body>
+</html>

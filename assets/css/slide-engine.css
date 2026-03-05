@@ -1,0 +1,383 @@
+/**
+ * slide-engine.css — Typographie et layouts du contenu des slides
+ * Contexte : viewport logique 1280x720
+ */
+
+/* Titres dans les slides */
+.slide h1 {
+  font-size: var(--slide-title-size);
+  line-height: 1.15;
+  margin-bottom: 0.5em;
+  color: var(--text-primary);
+}
+
+.slide h2 {
+  font-size: calc(var(--slide-title-size) * 0.75);
+  line-height: 1.2;
+  margin-bottom: 0.4em;
+  color: var(--text-primary);
+}
+
+.slide h3 {
+  font-size: calc(var(--slide-title-size) * 0.6);
+  line-height: 1.25;
+  margin-bottom: 0.4em;
+  color: var(--text-secondary);
+}
+
+/* Corps de texte */
+.slide p,
+.slide li {
+  font-size: var(--slide-body-size);
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+.slide p + p { margin-top: 0.5em; }
+
+.slide ul,
+.slide ol {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.slide li + li { margin-top: 0.3em; }
+
+.slide li::marker {
+  color: var(--primary-color);
+}
+
+/* Liens */
+.slide a {
+  color: var(--primary-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Strong / emphasis */
+.slide strong { color: var(--primary-color); }
+.slide em { color: var(--text-secondary); font-style: italic; }
+
+/* Code inline */
+.slide code {
+  font-size: var(--slide-code-size);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+  color: #e2e8f0;
+}
+
+/* Blocs de code */
+.slide pre {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--primary-color);
+  font-size: var(--slide-code-size);
+  overflow-x: auto;
+  padding: 1rem 1.5rem;
+  margin: 0.5em 0;
+  max-height: 55%;
+}
+
+.slide pre code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* Blockquotes */
+.slide blockquote {
+  border-left: 4px solid var(--primary-color);
+  padding: 0.75rem 1.5rem;
+  margin: 0.5em 0;
+  background: rgba(59, 130, 246, 0.08);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: var(--slide-body-size);
+}
+
+.slide blockquote p {
+  color: var(--text-secondary);
+}
+
+/* Images */
+.slide img {
+  max-width: 100%;
+  max-height: 70%;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  margin: 0.5em auto;
+  display: block;
+}
+
+/* Tables */
+.slide table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5em 0;
+  font-size: var(--slide-body-size);
+}
+
+.slide th,
+.slide td {
+  padding: 0.5em 1em;
+  border: 1px solid var(--border-default);
+  text-align: left;
+}
+
+.slide th {
+  background: var(--bg-tertiary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.slide tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Mermaid */
+.slide .mermaid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  margin: 0.5em 0;
+}
+
+.slide .mermaid svg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* KaTeX */
+.slide .katex-display {
+  font-size: calc(var(--slide-body-size) * 1.2);
+  margin: 0.5em 0;
+}
+
+/* Séparateur horizontal */
+.slide hr {
+  border: none;
+  height: 2px;
+  background: var(--border-default);
+  margin: 1em 0;
+}
+
+/* Layout : slide de titre (centrée) */
+.slide[data-layout="title"] {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Layout : slide de section */
+.slide[data-layout="section"] {
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* =============================================
+   LAYOUTS D'IMAGES
+   ============================================= */
+
+/* Layout image-right / image-left : grille 2 colonnes */
+.slide[data-layout="image-right"],
+.slide[data-layout="image-left"] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.slide[data-layout="image-right"] .slide-text-col,
+.slide[data-layout="image-left"] .slide-text-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.slide[data-layout="image-right"] .slide-image-col,
+.slide[data-layout="image-left"] .slide-image-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  height: 100%;
+}
+
+.slide[data-layout="image-right"] .slide-image-col img,
+.slide[data-layout="image-left"] .slide-image-col img {
+  max-width: 100%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Layout iframe-right / iframe-left : grille texte + iframe */
+.slide[data-layout="iframe-right"],
+.slide[data-layout="iframe-left"] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.slide[data-layout="iframe-right"] .slide-text-col,
+.slide[data-layout="iframe-left"] .slide-text-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.slide[data-layout="iframe-right"] .slide-iframe-col,
+.slide[data-layout="iframe-left"] .slide-iframe-col {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+  height: 100%;
+}
+
+.slide[data-layout="iframe-right"] .slide-iframe-col iframe,
+.slide[data-layout="iframe-left"] .slide-iframe-col iframe {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: white;
+}
+
+/* Layout cover : image en arrière-plan */
+.slide[data-layout="cover"] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0;
+}
+
+.slide[data-layout="cover"] .slide-cover-overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--slide-padding);
+  box-sizing: border-box;
+}
+
+.slide[data-layout="cover"] h1,
+.slide[data-layout="cover"] h2,
+.slide[data-layout="cover"] h3 {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Images restantes dans un overlay cover (ex: portrait) */
+.slide[data-layout="cover"] .slide-cover-overlay img {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  max-height: none;
+  margin: 0.5em auto;
+}
+
+/* Listes et blockquotes dans les covers */
+.slide[data-layout="cover"] .slide-cover-overlay ul,
+.slide[data-layout="cover"] .slide-cover-overlay ol {
+  text-align: left;
+  display: inline-block;
+}
+
+.slide[data-layout="cover"] .slide-cover-overlay blockquote {
+  text-align: left;
+}
+
+/* Layout image : image plein écran avec titre superposé en haut */
+.slide[data-layout="image"] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0;
+}
+
+.slide[data-layout="image"] .slide-image-overlay {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.1) 30%, transparent 50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: var(--slide-padding);
+  box-sizing: border-box;
+}
+
+.slide[data-layout="image"] h1 {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+  margin-bottom: 0;
+}
+
+/* Slides avec background-image inline : overlay pour lisibilité */
+.slide[style*="background-image"] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.slide[style*="background-image"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 0;
+}
+
+.slide[style*="background-image"] > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* =============================================
+   STYLES DE TITRES (data-heading-style)
+   ============================================= */
+
+/* Majuscules */
+.slide[data-heading-style="uppercase"] :is(h1, h2, h3, h4) {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Souligné */
+.slide[data-heading-style="underline"] :is(h1, h2, h3, h4) {
+  border-bottom: 3px solid var(--primary-color);
+  padding-bottom: 0.15em;
+  display: inline-block;
+}
+
+/* Léger */
+.slide[data-heading-style="light"] :is(h1, h2, h3, h4) {
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+/* Accent */
+.slide[data-heading-style="accent"] :is(h1, h2, h3, h4) {
+  color: var(--primary-color);
+}
+
+/* Ombre */
+.slide[data-heading-style="shadow"] :is(h1, h2, h3, h4) {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Notes du présentateur (cachées dans le viewer normal) */
+.slide-notes { display: none; }

@@ -1,0 +1,22 @@
+/**
+ * theme-forest.css — Thème forêt pour les slides
+ * Activé via [data-slide-theme="forest"] sur <html>
+ * Seules les variables CSS sont redéfinies — la base slide-engine.css les utilise.
+ */
+
+[data-slide-theme="forest"] .slide {
+  --slide-bg: #0a1f0a;
+  --text-primary: #d1fae5;
+  --text-secondary: #6ee7b7;
+  --text-tertiary: #34d399;
+  --primary-color: #34d399;
+  --secondary-color: #10b981;
+  --bg-tertiary: #0f2f0f;
+  --border-default: #1a4a1a;
+  background-color: var(--slide-bg);
+  color: var(--text-primary);
+}
+
+[data-slide-theme="forest"] .slide code {
+  background: rgba(52, 211, 153, 0.15);
+}

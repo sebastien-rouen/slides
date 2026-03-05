@@ -1,0 +1,22 @@
+/**
+ * theme-sunset.css — Thème coucher de soleil pour les slides
+ * Activé via [data-slide-theme="sunset"] sur <html>
+ * Seules les variables CSS sont redéfinies — la base slide-engine.css les utilise.
+ */
+
+[data-slide-theme="sunset"] .slide {
+  --slide-bg: #1a0a2e;
+  --text-primary: #fde68a;
+  --text-secondary: #fbbf24;
+  --text-tertiary: #f59e0b;
+  --primary-color: #f97316;
+  --secondary-color: #ef4444;
+  --bg-tertiary: #2a1040;
+  --border-default: #4a1d6e;
+  background-color: var(--slide-bg);
+  color: var(--text-primary);
+}
+
+[data-slide-theme="sunset"] .slide code {
+  background: rgba(249, 115, 22, 0.15);
+}
