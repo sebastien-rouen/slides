@@ -70,8 +70,8 @@ npm run build:autre-presentation
 ### Accès aux Présentations
 
 #### Affichages
-- **BastaVerse** : `https://slides-drafts.bastou.dev/bastaverse/`
-- **autre-presentation** : `https://slides-drafts.bastou.dev/autre-presentation/`
+- **BastaVerse** : `https://slides-drafts.bastou.dev/viewer.html?file=pages/bastaverse/main.md`
+- **Octo** : `https://slides-drafts.bastou.dev/viewer.html?file=pages/octo/main.md`
 
 ---
 
