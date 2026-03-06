@@ -1,5 +1,9 @@
 # Slides - Système de présentation
 
+![Homepage](assets/images/screenshots/homepage.png)
+
+![Slide BastaVerse](assets/images/screenshots/bastaverse-slide3.png)
+
 ## 🎯 Objectif
 
 Ce projet répond au besoin de garder un contrôle total sur mes présentations en local, avec une customisation complète et une organisation structurée par sujets.
