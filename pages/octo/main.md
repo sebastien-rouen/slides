@@ -2,18 +2,18 @@
 <!-- style: background-image: url('assets/images/templates/octo/slide-01-cover.png'); background-size: cover -->
 <!-- position: 25% 30% 50% 40% -->
 
-**Propale**
+<span style="color:#4E76B7">**Propale**</span>
 
 2026-03-04
 
 ---
 
-<!-- positions: 0:25%,28%,86% | 1:26%,39%,24%,29% -->
+<!-- positions: 0:25%,30%,86% | 1:26%,39%,24%,29% -->
 <!-- style: background-image: url('assets/images/templates/octo/slide-02.png'); background-size: cover -->
-## Sommaire
+## <span style="color:#eab308">Sommaire</span>
 
 - Section 1
-- Section 2
+- Sec<span style="color:#8b5cf6">tion 2</span>
 - Section 3
 
 <!-- notes
@@ -27,7 +27,7 @@ Test
 <!-- position: 50% 10% 45% 80% -->
 ## Section 1
 
-Contenu ici...
+<span style="color:#3b82f6">Contenu ici...</span>
 
 <!-- notes
 aea aeaeae
@@ -35,20 +35,21 @@ aea aeaeae
 
 ---
 
-<!-- positions: 0:6%,5%,62%,12% | 1:3%,16%,67%,81% -->
+<!-- positions: 0:6%,5%,62%,12% | 1:3%,16%,65%,80% -->
 <!-- style: background-image: url('assets/images/templates/octo/slide-08.png'); background-size: cover -->
 <!-- position: 5% 10% 45% 80% -->
-## Section 2
+## <span style="color:#2d597b">Section 2</span>
 
 Contenu ici...
 
 ---
 
+<!-- positions: 0:6%,8%,85%,12% | 1:5%,17%,85%,74% -->
 <!-- style: background-image: url('assets/images/templates/octo/slide-07.png'); background-size: cover -->
 <!-- position: 8% 12% 84% 76% -->
-## Contenu libre
+## <span style="color:#204183">Contenu libre</span>
 
-Texte, liste, code...
+<span style="color:#364554">Texte, liste, code...</span>
 
 ---
 

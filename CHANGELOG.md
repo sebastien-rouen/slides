@@ -1,5 +1,20 @@
 # Changelog — Slides
 
+## [Non publie] — 2026-03-09
+
+### Ajouté
+- Éditeur : groupe de boutons dans la toolbar (visible en mode édition) — ajouter, dupliquer et supprimer une slide
+- Éditeur : bouton "Ajouter une slide" (+) insère une slide vide après la courante avec animation pop-in
+- Éditeur : bouton "Supprimer la slide" (corbeille) avec confirmation native et animation de sortie (scale-down + fade-out)
+- Éditeur : animation flash sur la slide dupliquée (bordure couleur primaire)
+- Viewer : sélecteur de zoom (Auto, 100%, 75%, 50%, A3, A4, A5)
+
+### Modifié
+- Le bouton "Dupliquer" est déplacé du panneau éditeur vers la toolbar principale
+- Template Octo : couleurs inline sur les titres et textes, ajustements de positions
+
+---
+
 ## [1.3.0] — 2026-03-05
 
 ### Ajouté

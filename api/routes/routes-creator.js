@@ -147,4 +147,60 @@ router.put('/update', async (req, res) => {
     }
 });
 
+/**
+ * DELETE /delete
+ * Supprime une presentation (fichiers + entree registre)
+ */
+router.delete('/delete', async (req, res) => {
+    const logger = req.siteLogger;
+    const { id } = req.body;
+
+    if (!id || typeof id !== 'string') {
+        return res.status(400).json({
+            success: false, error: 'Paramètre "id" manquant'
+        });
+    }
+
+    const siteRoot = path.join(
+        process.env.SITES_PATH || '/sites',
+        process.env.NODE_ENV || 'drafts',
+        req.siteName
+    );
+    const pagesDir = path.join(siteRoot, 'pages', id);
+    const registryPath = path.join(siteRoot, 'config', 'presentations.json');
+
+    try {
+        const registryRaw = await fs.readFile(registryPath, 'utf-8');
+        const registry = JSON.parse(registryRaw);
+        const idx = (registry.presentations || []).findIndex(p => p.id === id);
+
+        if (idx === -1) {
+            return res.status(404).json({
+                success: false, error: 'Présentation introuvable'
+            });
+        }
+
+        registry.presentations.splice(idx, 1);
+        await fs.writeFile(
+            registryPath,
+            JSON.stringify(registry, null, 2) + '\n',
+            'utf-8'
+        );
+
+        try {
+            await fs.rm(pagesDir, { recursive: true, force: true });
+        } catch (err) {
+            logger.warn('Dossier introuvable', { id, error: err.message });
+        }
+
+        logger.info('Présentation supprimée', { id });
+        res.json({ success: true });
+    } catch (error) {
+        logger.error('Erreur suppression', { id, error: error.message });
+        res.status(500).json({
+            success: false, error: 'Erreur lors de la suppression'
+        });
+    }
+});
+
 module.exports = router;

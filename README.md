@@ -1,9 +1,5 @@
 # Slides - Système de présentation
 
-![Homepage](assets/images/screenshots/homepage.png)
-
-![Slide BastaVerse](assets/images/screenshots/bastaverse-slide3.png)
-
 ## 🎯 Objectif
 
 Ce projet répond au besoin de garder un contrôle total sur mes présentations en local, avec une customisation complète et une organisation structurée par sujets.
@@ -152,14 +148,20 @@ pages/
 }
 ```
 
-## 🎨 Personnalisation Avancée
-
-### Layouts Personnalisés
-
-### Shortcuts Clavier
-
 ## 🙏 Remerciements
 
 Basé sur [Slidev](https://github.com/slidevjs/slidev), il permet de créer des slides modernes avec du code, des diagrammes et des animations.
 
 ## 📖 Ressources
+
+---
+
+## Apercu
+
+Homepage avec les presentations groupees par annee :
+
+![Homepage](assets/images/screenshots/homepage.png)
+
+Viewer en mode presentation :
+
+![Slide BastaVerse](assets/images/screenshots/bastaverse-slide3.png)

@@ -171,8 +171,17 @@ const SlideEditor = {
       if (e.key === 'd' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); this.duplicateSlide(); }
     });
 
-    const dupBtn = document.getElementById('editorDuplicateBtn');
+    // Boutons toolbar : ajouter, dupliquer, supprimer
+    const dupBtn = document.getElementById('dupSlideBtn');
     if (dupBtn) dupBtn.addEventListener('click', () => this.duplicateSlide());
+
+    const addBtn = document.getElementById('addSlideBtn');
+    if (addBtn) addBtn.addEventListener('click', () => this.addSlide());
+
+    const delBtn = document.getElementById('deleteSlideBtn');
+    if (delBtn) {
+      delBtn.addEventListener('click', () => this.deleteSlide());
+    }
 
     // Slider opacite du fond
     const opSlider = document.getElementById('bgOpacitySlider');
@@ -233,7 +242,12 @@ const SlideEditor = {
           const btn = e.target.closest('[data-color]');
           if (!btn) return;
           e.stopPropagation();
-          this.applyColorWrap(btn.dataset.color);
+          const hex = btn.dataset.color;
+          if (this._selectedBlock) {
+            this._applyBlockColor(this._selectedBlock, hex);
+          } else {
+            this.applyColorWrap(hex);
+          }
           colorMenu.classList.remove('open');
         });
       }
@@ -244,10 +258,14 @@ const SlideEditor = {
       if (colorNative && colorHex) {
         colorNative.addEventListener('input', () => {
           colorHex.value = colorNative.value.toUpperCase();
+          this._livePreviewColor(colorNative.value);
         });
         colorHex.addEventListener('input', () => {
           const v = colorHex.value;
-          if (/^#[0-9a-fA-F]{6}$/.test(v)) colorNative.value = v;
+          if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+            colorNative.value = v;
+            this._livePreviewColor(v);
+          }
         });
       }
 
@@ -257,7 +275,13 @@ const SlideEditor = {
         colorApplyBtn.addEventListener('click', (e) => {
           e.stopPropagation();
           const hex = colorHex ? colorHex.value : '#ef4444';
-          if (/^#[0-9a-fA-F]{6}$/.test(hex)) this.applyColorWrap(hex);
+          if (/^#[0-9a-fA-F]{6}$/.test(hex)) {
+            if (this._selectedBlock) {
+              this._applyBlockColor(this._selectedBlock, hex);
+            } else {
+              this.applyColorWrap(hex);
+            }
+          }
           const menu = document.getElementById('colorMenu');
           if (menu) menu.classList.remove('open');
         });
@@ -405,6 +429,13 @@ const SlideEditor = {
       selected = selected.substring(prefix.length);
     }
 
+    // Unwrap tous les spans couleur (y compris imbriques) pour eviter l'empilement
+    let prev;
+    do {
+      prev = selected;
+      selected = selected.replace(/<span\s+style="color:#[0-9a-fA-F]{3,6}">([\s\S]*?)<\/span>/g, '$1');
+    } while (selected !== prev);
+
     const result = `${prefix}<span style="color:${hex}">${selected}</span>`;
     ta.value = ta.value.substring(0, start) + result + ta.value.substring(end);
     const innerStart = start + prefix.length + `<span style="color:${hex}">`.length;
@@ -414,6 +445,20 @@ const SlideEditor = {
     this.setStatus('modified', 'Modifie');
     this.highlightSyntax();
     this.debouncedPreview();
+  },
+
+  /**
+   * Previsualisation live de la couleur sur la slide.
+   * Si un slide-pos-block est selectionne, colore son contenu directement dans le DOM.
+   * Sinon, colore la selection du textarea via le preview.
+   */
+  _livePreviewColor(hex) {
+    if (!hex || !/^#[0-9a-fA-F]{6}$/i.test(hex)) return;
+
+    // Mode bloc selectionne : preview visuel sur le bloc (commit via OK/preset)
+    if (this._selectedBlock) {
+      this._selectedBlock.style.color = hex;
+    }
   },
 
   insertAtCursor(text) {
@@ -560,7 +605,52 @@ const SlideEditor = {
     const vp = document.getElementById('slideViewport');
     if (vp && typeof renderAllSlides === 'function') await renderAllSlides(SlideState.slides, vp);
     if (typeof goToSlide === 'function') goToSlide(idx + 1);
+    // Animation flash sur la nouvelle slide
+    const newSlide = document.querySelectorAll('.slide')[idx + 1];
+    if (newSlide) {
+      newSlide.classList.add('slide-duplicated');
+      newSlide.addEventListener('animationend', () => newSlide.classList.remove('slide-duplicated'), { once: true });
+    }
     this.setStatus('modified', 'Slide dupliquee');
+  },
+
+  async addSlide() {
+    const idx = SlideState.currentIndex;
+    const blank = { rawContent: '\n', notes: '', layout: 'content',
+      cssClass: null, cssStyle: null, iframeUrl: null, positions: null };
+    SlideState.slides.splice(idx + 1, 0, blank);
+    SlideState.totalSlides = SlideState.slides.length;
+    const vp = document.getElementById('slideViewport');
+    if (vp && typeof renderAllSlides === 'function') await renderAllSlides(SlideState.slides, vp);
+    if (typeof goToSlide === 'function') goToSlide(idx + 1);
+    const newSlide = document.querySelectorAll('.slide')[idx + 1];
+    if (newSlide) {
+      newSlide.classList.add('slide-created');
+      newSlide.addEventListener('animationend', () => newSlide.classList.remove('slide-created'), { once: true });
+    }
+    this.setStatus('modified', 'Slide ajoutee');
+  },
+
+  async deleteSlide() {
+    if (SlideState.slides.length <= 1) return;
+    const idx = SlideState.currentIndex;
+    const num = idx + 1;
+    if (!confirm(`Supprimer la slide ${num} / ${SlideState.totalSlides} ?`)) return;
+
+    // Animation de sortie sur la slide courante
+    const slideEl = document.querySelectorAll('.slide')[idx];
+    if (slideEl) {
+      slideEl.classList.add('slide-removing');
+      await new Promise(r => slideEl.addEventListener('animationend', r, { once: true }));
+    }
+
+    SlideState.slides.splice(idx, 1);
+    SlideState.totalSlides = SlideState.slides.length;
+    const target = Math.min(idx, SlideState.slides.length - 1);
+    const vp = document.getElementById('slideViewport');
+    if (vp && typeof renderAllSlides === 'function') await renderAllSlides(SlideState.slides, vp);
+    if (typeof goToSlide === 'function') goToSlide(target);
+    this.setStatus('modified', 'Slide supprimee');
   },
 
   loadSlideContent() {

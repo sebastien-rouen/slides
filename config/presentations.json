@@ -19,29 +19,17 @@
       "thumbnail": "pages/bastaverse/images/sebastien.jpg"
     },
     {
-      "id": "testtt",
-      "title": "Testtt",
-      "description": "Description de test 🤓",
-      "author": "Sébastien ROUEN",
-      "date": "2026-03-03",
-      "tags": [
-        "test",
-        "présentation"
-      ],
-      "file": "pages/testtt/main.md",
-      "thumbnail": "pages/testtt/images/1772615189474-yuhan-du-qp4jqgzkp7a-unsplash.jpg"
-    },
-    {
       "id": "octo",
       "title": "Octo",
-      "description": "Template officiel Octo — fond bleu marine, formes organiques",
+      "description": "Template Octo Technology — fond bleu marine, formes organiques",
       "author": "Sébastien ROUEN",
       "date": "2026-03-04",
       "tags": [
-        "agile"
+        "agile",
+        "octo"
       ],
       "file": "pages/octo/main.md",
-      "thumbnail": ""
+      "thumbnail": "pages/octo/images/1772926849122-logo-index-1-.svg"
     }
   ]
 }

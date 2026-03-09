@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     bindNavigationButtons();
     bindTouch();
     bindResize();
+    bindZoomSelect();
 
     // 9. BroadcastChannel
     initBroadcastChannel();
@@ -171,14 +172,27 @@ function updatePageTitle(title) {
    SCALING 16:9
    ============================================= */
 
+/** Zoom force : null = auto, sinon valeur numerique (1 = 100%) */
+let _forcedZoom = null;
+
+function setForcedZoom(value) {
+  _forcedZoom = value;
+  computeAndApplyScale();
+}
+
 function computeAndApplyScale() {
   const stage = document.getElementById('slideStage');
   const viewport = document.getElementById('slideViewport');
   if (!stage || !viewport) return;
 
-  const stageW = stage.clientWidth;
-  const stageH = stage.clientHeight;
-  const scale = computeSlideScale(stageW, stageH, SLIDE_WIDTH, SLIDE_HEIGHT);
+  let scale;
+  if (_forcedZoom !== null) {
+    scale = _forcedZoom;
+  } else {
+    const stageW = stage.clientWidth;
+    const stageH = stage.clientHeight;
+    scale = computeSlideScale(stageW, stageH, SLIDE_WIDTH, SLIDE_HEIGHT);
+  }
 
   viewport.style.transform = `scale(${scale})`;
   viewport.style.width = `${SLIDE_WIDTH}px`;
@@ -193,6 +207,15 @@ function bindResize() {
       new ResizeObserver(computeAndApplyScale).observe(stage);
     }
   }
+}
+
+function bindZoomSelect() {
+  const sel = document.getElementById('zoomSelect');
+  if (!sel) return;
+  sel.addEventListener('change', () => {
+    const val = sel.value;
+    setForcedZoom(val === 'auto' ? null : parseFloat(val));
+  });
 }
 
 /* =============================================
