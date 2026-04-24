@@ -92,7 +92,8 @@ function renderPresentations() {
     // Grille de cartes
     const grid = document.createElement('div');
     grid.className = 'year-section-grid';
-    items.forEach(pres => grid.appendChild(createPresentationCard(pres)));
+    const sorted = [...items].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    sorted.forEach(pres => grid.appendChild(createPresentationCard(pres)));
     section.appendChild(grid);
 
     container.appendChild(section);
@@ -190,16 +191,14 @@ function createPresentationCard(pres) {
     card.appendChild(footer);
   }
 
-  // Navigation vers le viewer
-  const openViewer = () => {
-    window.location.href = `viewer.html?file=${encodeURIComponent(pres.file)}`;
-  };
+  // Navigation vers le viewer — format viewer.html#{date}-{id}
+  const id = pres.id || pres.file.replace('pages/', '').replace('/main.md', '');
+  const presPart = pres.date ? `${pres.date}-${id}` : id;
+  const viewerUrl = `viewer.html#${presPart}`;
+  const openViewer = () => { window.location.href = viewerUrl; };
   card.addEventListener('click', openViewer);
   card.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      openViewer();
-    }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openViewer(); }
   });
 
   return card;

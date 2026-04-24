@@ -26,6 +26,8 @@
 @import url('slide-engine.css');
 @import url('modules/theme-picker.css');
 @import url('modules/slide-editor.css');
+@import url('modules/slide-library.css');
+@import url('modules/slide-roadmap.css');
 
 /* 6. Vue présentateur */
 @import url('presenter.css');

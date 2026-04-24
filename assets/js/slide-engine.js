@@ -19,7 +19,8 @@ const SlideState = {
   isFullscreen: false,
   touchStartX: 0,
   touchStartY: 0,
-  broadcastChannel: null
+  broadcastChannel: null,
+  presSlug: ''   // ex: "2026-04-26-formats-de-retrospectives"
 };
 
 const SLIDE_WIDTH = 1280;
@@ -29,10 +30,39 @@ const SLIDE_HEIGHT = 720;
    INITIALISATION
    ============================================= */
 
+/**
+ * Format d'URL : viewer.html#{date}-{id}:{slide-slug}
+ *   ex: viewer.html#2026-04-26-formats-de-retrospectives:introduction
+ * Fallback : viewer.html?file=pages/slug/main.md  (rétrocompat)
+ */
+
+function _hashPresPart() {
+  return decodeURIComponent(window.location.hash.replace(/^#/, '')).split(':')[0] || '';
+}
+
+function _hashSlidePart() {
+  return decodeURIComponent(window.location.hash.replace(/^#/, '')).split(':')[1] || '';
+}
+
+function resolveFileFromUrl() {
+  const presPart = _hashPresPart();
+  if (presPart) {
+    const id = presPart.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+    if (id) { SlideState.presSlug = presPart; return `pages/${id}/main.md`; }
+  }
+  const param = getUrlParam('file');
+  if (param) {
+    const m = param.match(/pages\/([^/]+)\/main\.md/);
+    SlideState.presSlug = m ? m[1] : '';
+    return param;
+  }
+  return null;
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
-  const file = getUrlParam('file');
+  const file = resolveFileFromUrl();
   if (!file) {
-    showLoadError('Aucune présentation spécifiée. Ajoutez ?file=pages/xxx/main.md');
+    showLoadError('Aucune présentation spécifiée.');
     return;
   }
 
@@ -46,34 +76,38 @@ document.addEventListener('DOMContentLoaded', async () => {
     SlideState.slides = slides;
     SlideState.totalSlides = slides.length;
 
-    // 3. Titre
+    // 3. Slugs pour les URLs lisibles
+    computeSlideSlugs(slides);
+
+    // 4. Titre
     updatePageTitle(meta.title || file);
 
-    // 4. Index depuis le hash
+    // 5. Index depuis le hash
     const hashIndex = parseHashIndex();
     SlideState.currentIndex = Math.max(0, Math.min(hashIndex, slides.length - 1));
 
-    // 5. Rendre les slides
+    // 6. Rendre les slides
     const viewport = document.getElementById('slideViewport');
     await renderAllSlides(slides, viewport);
 
-    // 6. Afficher la slide courante
+    // 7. Afficher la slide courante
     showSlide(SlideState.currentIndex);
 
-    // 7. Scaling
+    // 8. Scaling
     computeAndApplyScale();
 
-    // 8. Event listeners
+    // 9. Event listeners
     bindKeyboard();
     bindNavigationButtons();
     bindTouch();
+    bindWheel();
     bindResize();
     bindZoomSelect();
 
-    // 9. BroadcastChannel
+    // 10. BroadcastChannel
     initBroadcastChannel();
 
-    // 10. Signaler que les slides sont pretes (pour ThemeManager, etc.)
+    // 11. Signaler que les slides sont pretes (pour ThemeManager, etc.)
     window.dispatchEvent(new CustomEvent('slidesReady'));
 
   } catch (error) {
@@ -303,6 +337,37 @@ function bindTouch() {
 }
 
 /* =============================================
+   SCROLL MOLETTE → slide suivante / précédente
+   ============================================= */
+
+function bindWheel() {
+  const stage = document.getElementById('slideStage');
+  if (!stage) return;
+
+  let cooldown = false;
+
+  stage.addEventListener('wheel', (e) => {
+    // Laisser le scroll normal dans le panneau éditeur et les textareas
+    if (e.target.closest('#slideEditorPanel, textarea, select, input')) return;
+    // Laisser le scroll vertical dans les slides qui débordent (overflow scroll)
+    const slideEl = e.target.closest('.slide');
+    if (slideEl && slideEl.scrollHeight > slideEl.clientHeight && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      if ((e.deltaY > 0 && slideEl.scrollTop < slideEl.scrollHeight - slideEl.clientHeight) ||
+          (e.deltaY < 0 && slideEl.scrollTop > 0)) return;
+    }
+
+    e.preventDefault();
+
+    if (cooldown) return;
+    cooldown = true;
+    setTimeout(() => { cooldown = false; }, 600);
+
+    if (e.deltaY > 0 || e.deltaX > 0) nextSlide();
+    else prevSlide();
+  }, { passive: false });
+}
+
+/* =============================================
    BOUTONS DE NAVIGATION
    ============================================= */
 
@@ -313,6 +378,7 @@ function bindNavigationButtons() {
   document.getElementById('lastSlideBtn')?.addEventListener('click', lastSlide);
   document.getElementById('fullscreenBtn')?.addEventListener('click', toggleFullscreen);
   document.getElementById('presenterBtn')?.addEventListener('click', openPresenterView);
+  document.getElementById('shareBtn')?.addEventListener('click', copySlideLink);
   document.getElementById('printBtn')?.addEventListener('click', () => {
     if (typeof preparePrint === 'function') preparePrint();
   });
@@ -322,18 +388,66 @@ function bindNavigationButtons() {
    HASH / DEEP LINKING
    ============================================= */
 
+/** Extrait le titre principal d'un bloc markdown de slide */
+function _titleFromSlideContent(raw) {
+  const lines = raw.replace(/<!--[\s\S]*?-->/g, '').split('\n');
+  for (const line of lines) {
+    const m = line.match(/^#{1,6}\s+(.+)/);
+    if (m) {
+      return m[1]
+        .replace(/\*\*?([^*]+)\*\*?/g, '$1') // gras/italique
+        .replace(/`([^`]+)`/g, '$1')           // code inline
+        .trim();
+    }
+  }
+  return '';
+}
+
+/** Slugifie un texte en kebab-case ASCII */
+function _slugify(text) {
+  return text
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .substring(0, 60) || 'slide';
+}
+
+/** Génère des slugs uniques pour toutes les slides et les stocke dans slide.slug */
+function computeSlideSlugs(slides) {
+  const seen = new Map();
+  slides.forEach(slide => {
+    const base = _slugify(_titleFromSlideContent(slide.rawContent || ''));
+    const count = seen.get(base) || 0;
+    seen.set(base, count + 1);
+    slide.slug = count === 0 ? base : `${base}-${count + 1}`;
+  });
+}
+
 function parseHashIndex() {
-  const hash = window.location.hash;
-  const match = hash.match(/^#\/?(\d+)$/);
-  return match ? parseInt(match[1], 10) - 1 : 0;
+  const part = _hashSlidePart();
+  if (!part) return 0;
+  if (/^\d+$/.test(part)) return parseInt(part, 10) - 1;
+  const idx = SlideState.slides.findIndex(s => s.slug === part);
+  return idx >= 0 ? idx : 0;
 }
 
 function updateHash() {
-  const newHash = `#${SlideState.currentIndex + 1}`;
+  const slide = SlideState.slides[SlideState.currentIndex];
+  const slidePart = slide?.slug || String(SlideState.currentIndex + 1);
+  const newHash = SlideState.presSlug
+    ? `#${SlideState.presSlug}:${slidePart}`
+    : `#${slidePart}`;
   history.replaceState(null, '', newHash);
 }
 
 window.addEventListener('hashchange', () => {
+  // Si la partie présentation change → recharger (autre présentation)
+  const newPres = _hashPresPart();
+  if (SlideState.presSlug && newPres && newPres !== SlideState.presSlug) {
+    window.location.reload();
+    return;
+  }
   const index = parseHashIndex();
   if (index !== SlideState.currentIndex) goToSlide(index);
 });
@@ -404,6 +518,28 @@ function broadcastSlideChange() {
     currentNotes: current?.notes || '',
     nextContent: next?.rawContent || '',
     meta: SlideState.meta
+  });
+}
+
+/* =============================================
+   PARTAGE — COPIE DU LIEN AVEC HASH
+   ============================================= */
+
+function copySlideLink() {
+  const url = window.location.href;
+  const btn = document.getElementById('shareBtn');
+
+  navigator.clipboard.writeText(url).then(() => {
+    if (!btn) return;
+    btn.classList.add('share-copied');
+    btn.title = 'Lien copié !';
+    setTimeout(() => {
+      btn.classList.remove('share-copied');
+      btn.title = 'Copier le lien de cette slide';
+    }, 2000);
+  }).catch(() => {
+    /* Fallback pour les contextes sans clipboard API */
+    prompt('Copiez ce lien :', url);
   });
 }
 

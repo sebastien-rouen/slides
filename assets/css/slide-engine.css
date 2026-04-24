@@ -21,7 +21,8 @@
 .slide h3 {
   font-size: calc(var(--slide-title-size) * 0.6);
   line-height: 1.25;
-  margin-bottom: 0.4em;
+  margin-top: 0.6em;
+  margin-bottom: 0.15em;
   color: var(--text-secondary);
 }
 
@@ -33,7 +34,10 @@
   color: var(--text-primary);
 }
 
-.slide p + p { margin-top: 0.5em; }
+.slide p + p { margin-top: 1.2em; }
+
+/* Paragraphe vide (ligne blanche dans le textarea) */
+.slide p:empty { min-height: 1em; }
 
 .slide ul,
 .slide ol {
@@ -74,7 +78,7 @@
   border-left: 4px solid var(--primary-color);
   font-size: var(--slide-code-size);
   overflow-x: auto;
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1rem;
   margin: 0.5em 0;
   max-height: 55%;
 }
@@ -114,12 +118,12 @@
   width: 100%;
   border-collapse: collapse;
   margin: 0.5em 0;
-  font-size: var(--slide-body-size);
+  font-size: calc(var(--slide-body-size) * 0.88);
 }
 
 .slide th,
 .slide td {
-  padding: 0.5em 1em;
+  padding: 0.2em 0.5em;
   border: 1px solid var(--border-default);
   text-align: left;
 }

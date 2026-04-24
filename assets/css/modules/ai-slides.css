@@ -1,0 +1,746 @@
+/**
+ * ai-slides.css — Zone de génération IA (index.html + viewer.html)
+ */
+
+/* ---- Bouton hero (index.html) ---- */
+.btn-ai-slides {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.6rem 1.2rem;
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  border: none;
+  border-radius: var(--radius-md);
+  color: white;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.btn-ai-slides:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-ai-slides:active {
+  transform: translateY(0);
+}
+
+/* ---- Modal IA (index.html) ---- */
+.ai-slides-modal {
+  max-width: 700px;
+}
+
+/* Header avec accent visuel */
+.ai-modal-header {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--secondary-color) 18%, var(--bg-secondary)),
+    color-mix(in srgb, var(--primary-color) 10%, var(--bg-secondary))
+  );
+  border-bottom-color: color-mix(in srgb, var(--primary-color) 25%, var(--border-default));
+}
+
+.ai-modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* Badge "IA" gradient */
+.ai-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2em 0.55em;
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  border-radius: var(--radius-sm);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.ai-slides-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  overflow-y: auto;
+}
+
+/* Ligne 2 colonnes dans le modal */
+.ai-modal-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+/* Champ principal (sujet) — plus imposant */
+.ai-field-main label {
+  font-size: var(--font-size-sm) !important;
+  color: var(--text-primary) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-weight: var(--font-weight-semibold) !important;
+}
+
+.ai-input-main {
+  padding: 0.75rem 1rem !important;
+  font-size: var(--font-size-base) !important;
+  border-radius: var(--radius-md) !important;
+  border-color: color-mix(in srgb, var(--primary-color) 30%, var(--border-default)) !important;
+  background: color-mix(in srgb, var(--primary-color) 4%, var(--bg-tertiary)) !important;
+}
+
+.ai-input-main:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* Bouton générer dans le footer — plus visible */
+.btn-ai-generate-modal {
+  padding: 0.65rem 1.75rem;
+  font-size: var(--font-size-base);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--primary-color) 30%, transparent);
+  animation: ai-glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes ai-glow-pulse {
+  0%, 100% { box-shadow: 0 0 14px color-mix(in srgb, var(--primary-color) 25%, transparent); }
+  50%       { box-shadow: 0 0 28px color-mix(in srgb, var(--primary-color) 55%, transparent); }
+}
+
+.btn-ai-generate-modal:disabled {
+  animation: none;
+}
+
+/* ---- Champs de formulaire ---- */
+.ai-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.ai-field label {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ai-input,
+.ai-select {
+  padding: 0.45rem 0.75rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  transition: border-color 0.15s;
+}
+
+.ai-input:focus,
+.ai-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.ai-input-tall {
+  resize: none;
+  min-height: 72px;
+  line-height: var(--line-height-relaxed);
+}
+
+/* ---- Chips (style / langue) ---- */
+.ai-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.ai-chip {
+  padding: 0.3rem 0.8rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.ai-chip:hover {
+  border-color: var(--primary-color);
+  color: var(--text-primary);
+}
+
+.ai-chip.is-selected {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+  font-weight: var(--font-weight-medium);
+}
+
+/* ---- Aperçu du prompt (zone terminal) ---- */
+.ai-prompt-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.ai-prompt-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.ai-prompt-icon {
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.ai-prompt-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.ai-prompt-hint {
+  font-size: 0.68rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+  background: var(--bg-active);
+  padding: 0.1em 0.5em;
+  border-radius: var(--radius-full);
+}
+
+.ai-prompt-textarea {
+  width: 100%;
+  min-height: 110px;
+  padding: 0.75rem 0.875rem;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-relaxed);
+  resize: vertical;
+  box-sizing: border-box;
+  transition: color 0.15s;
+}
+
+.ai-prompt-textarea:focus {
+  outline: none;
+  color: var(--text-primary);
+}
+
+.ai-prompt-preview:focus-within {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+/* ---- Boutons d'action ---- */
+.ai-actions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+}
+
+.btn-ai-cancel {
+  padding: 0.45rem 1rem;
+  background: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-ai-cancel:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+.btn-ai-generate {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.45rem 1rem;
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  border: none;
+  border-radius: var(--radius-sm);
+  color: white;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-ai-generate:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.btn-ai-generate:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Spinner dans le bouton ---- */
+.ai-spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: ai-spin 0.7s linear infinite;
+}
+
+.btn-ai-generate.is-loading .ai-spinner { display: inline-block; }
+.btn-ai-generate.is-loading .ai-btn-label { display: none; }
+
+@keyframes ai-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Message d'erreur ---- */
+.ai-error {
+  display: none;
+  padding: 0.5rem 0.75rem;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-sm);
+  color: #f87171;
+  font-size: var(--font-size-xs);
+}
+
+.ai-error.is-visible { display: block; }
+
+/* ---- Format bar : bouton IA (viewer.html) ---- */
+.fmt-btn[data-action="ai-generate"] {
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  color: white;
+  border-color: transparent;
+}
+
+.fmt-btn[data-action="ai-generate"]:hover {
+  opacity: 0.85;
+}
+
+.fmt-btn[data-action="ai-generate"].is-active {
+  box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* ---- Zone IA dans le panneau éditeur (viewer.html) ---- */
+.ai-editor-zone {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.ai-editor-zone.is-open {
+  display: flex;
+}
+
+.ai-editor-zone .ai-prompt-textarea {
+  min-height: 60px;
+}
+
+.ai-editor-actions {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.ai-editor-actions .btn-ai-generate {
+  font-size: var(--font-size-xs);
+  padding: 0.3rem 0.75rem;
+}
+
+.ai-editor-actions .btn-ai-cancel {
+  font-size: var(--font-size-xs);
+  padding: 0.3rem 0.75rem;
+}
+
+.ai-editor-insert-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  margin-left: auto;
+}
+
+/* ---- Bouton ✨ dans editor-slide-actions ---- */
+.btn-slide-ai-edit {
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  color: white !important;
+}
+
+.btn-slide-ai-edit:hover {
+  opacity: 0.85;
+}
+
+.btn-slide-ai-edit.is-active {
+  box-shadow: 0 0 0 2px var(--secondary-color);
+}
+
+/* ---- Panneau édition IA slide courante ---- */
+/* =============================================
+   PANNEAU ÉDITION IA (slide courante)
+   ============================================= */
+
+.ai-edit-slide-panel {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px 10px;
+  background: color-mix(in srgb, var(--secondary-color) 6%, var(--bg-tertiary));
+  border-bottom: 1px solid color-mix(in srgb, var(--secondary-color) 25%, var(--border-default));
+  flex-shrink: 0;
+}
+
+.ai-edit-slide-panel.is-open { display: flex; }
+
+/* Header */
+.ai-edit-slide-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.ai-edit-slide-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #c4b5fd;
+}
+
+.ai-edit-slide-title svg {
+  color: #a78bfa;
+  flex-shrink: 0;
+}
+
+.ai-edit-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.ai-edit-close:hover {
+  background: color-mix(in srgb, var(--text-primary) 10%, transparent);
+  color: var(--text-primary);
+}
+
+/* Textarea instruction */
+.ai-edit-prompt {
+  min-height: 52px;
+  font-size: 12px;
+  border-left: 2px solid color-mix(in srgb, var(--secondary-color) 50%, transparent);
+  padding-left: 8px;
+  resize: none;
+}
+
+.ai-edit-prompt:focus {
+  border-left-color: var(--secondary-color);
+}
+
+/* Section label + contenu */
+.ai-edit-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ai-edit-section-flex {
+  flex: 1;
+  min-width: 0;
+}
+
+.ai-edit-section-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ai-edit-hint {
+  font-size: 9px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-tertiary);
+  background: color-mix(in srgb, var(--text-tertiary) 10%, transparent);
+  padding: 1px 5px;
+  border-radius: 10px;
+}
+
+/* Grid modèle + image */
+.ai-edit-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  align-items: start;
+}
+
+/* Chips compacts pour l'édition */
+.ai-chips-sm {
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.ai-chip-sm {
+  padding: 0.18rem 0.55rem;
+  font-size: 0.7rem;
+}
+
+/* Image picker */
+.ai-edit-img-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ai-edit-img-empty {
+  display: flex;
+  gap: 5px;
+}
+
+.ai-edit-img-filled {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: color-mix(in srgb, var(--bg-secondary) 60%, transparent);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 4px 6px;
+}
+
+.ai-edit-img-filled.hidden,
+.ai-edit-img-empty.hidden { display: none; }
+
+.ai-edit-img-thumb {
+  width: 40px;
+  height: 26px;
+  object-fit: cover;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.ai-edit-img-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: color-mix(in srgb, #ef4444 15%, transparent);
+  border: none;
+  border-radius: 50%;
+  color: #ef4444;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: background 0.12s;
+}
+
+.ai-edit-img-clear:hover { background: color-mix(in srgb, #ef4444 30%, transparent); }
+
+/* Boutons image (Pexels, Galerie, Changer) */
+.ai-edit-img-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+
+.ai-edit-pexels-btn {
+  background: color-mix(in srgb, #38bdf8 12%, transparent);
+  border: 1px solid color-mix(in srgb, #38bdf8 35%, transparent);
+  color: #38bdf8;
+}
+
+.ai-edit-pexels-btn:hover {
+  background: color-mix(in srgb, #38bdf8 22%, transparent);
+  border-color: #38bdf8;
+  color: #7dd3fc;
+}
+
+.ai-edit-pexels-btn.is-loading svg {
+  animation: spin 0.7s linear infinite;
+}
+
+.ai-edit-gallery-btn {
+  background: color-mix(in srgb, #a78bfa 14%, transparent);
+  border: 1px solid color-mix(in srgb, #a78bfa 40%, transparent);
+  color: #c4b5fd;
+}
+
+.ai-edit-gallery-btn:hover {
+  background: color-mix(in srgb, #a78bfa 26%, transparent);
+  border-color: #a78bfa;
+  color: #ede9fe;
+}
+
+/* =============================================
+   LOADER PLEIN-MODAL (génération en cours)
+   ============================================= */
+
+.create-modal-form {
+  position: relative;
+}
+
+.ai-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius-lg);
+  z-index: 10;
+}
+
+.ai-loading-overlay.is-active {
+  display: flex;
+}
+
+.ai-loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+/* Orbe central avec 3 anneaux concentriques */
+.ai-loading-orb {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-loading-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+}
+
+.ai-loading-ring--1 {
+  border-top-color: var(--primary-color);
+  border-right-color: color-mix(in srgb, var(--primary-color) 30%, transparent);
+  animation: ai-orbit 1.1s linear infinite;
+}
+
+.ai-loading-ring--2 {
+  inset: 10px;
+  border-top-color: transparent;
+  border-right-color: var(--secondary-color);
+  border-bottom-color: color-mix(in srgb, var(--secondary-color) 25%, transparent);
+  animation: ai-orbit 1.7s linear infinite reverse;
+}
+
+.ai-loading-ring--3 {
+  inset: 22px;
+  border-top-color: color-mix(in srgb, var(--accent-color) 70%, transparent);
+  border-left-color: color-mix(in srgb, var(--accent-color) 25%, transparent);
+  animation: ai-orbit 2.4s linear infinite;
+}
+
+.ai-loading-glyph {
+  font-size: 1.5rem;
+  animation: ai-glyph-pulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes ai-orbit {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes ai-glyph-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(0.9); }
+  50%       { opacity: 1;   transform: scale(1.1); }
+}
+
+/* Texte de statut */
+.ai-loading-status {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+  animation: ai-status-fade 0.4s ease-in-out;
+}
+
+@keyframes ai-status-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Barre de progression indéterminée */
+.ai-loading-bar {
+  width: 160px;
+  height: 3px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.ai-loading-bar-fill {
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, var(--secondary-color), var(--primary-color), var(--accent-color));
+  border-radius: var(--radius-full);
+  animation: ai-bar-slide 1.8s ease-in-out infinite;
+}
+
+@keyframes ai-bar-slide {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(340%); }
+}

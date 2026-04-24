@@ -48,6 +48,42 @@ const SlideEditor = {
   highlightCodeEl: null,
   debouncedPreview: null,
 
+  _undoStack: [],
+  _redoStack: [],
+
+  _pushUndo() {
+    const snap = SlideState.slides.map(s => ({ ...s }));
+    this._undoStack.push({ slides: snap, index: SlideState.currentIndex });
+    if (this._undoStack.length > 40) this._undoStack.shift();
+    this._redoStack = [];
+  },
+
+  async _restoreSnapshot(snap) {
+    SlideState.slides = snap.slides;
+    SlideState.totalSlides = snap.slides.length;
+    SlideState.currentIndex = Math.min(snap.index, snap.slides.length - 1);
+    const vp = document.getElementById('slideViewport');
+    if (vp && typeof renderAllSlides === 'function') await renderAllSlides(SlideState.slides, vp);
+    if (typeof goToSlide === 'function') goToSlide(SlideState.currentIndex);
+    this.loadSlideContent();
+    this.updateReorderStrip();
+    this.setStatus('modified', 'Annulé');
+  },
+
+  async undo() {
+    if (!this._undoStack.length) return;
+    const cur = SlideState.slides.map(s => ({ ...s }));
+    this._redoStack.push({ slides: cur, index: SlideState.currentIndex });
+    await this._restoreSnapshot(this._undoStack.pop());
+  },
+
+  async redo() {
+    if (!this._redoStack.length) return;
+    const cur = SlideState.slides.map(s => ({ ...s }));
+    this._undoStack.push({ slides: cur, index: SlideState.currentIndex });
+    await this._restoreSnapshot(this._redoStack.pop());
+  },
+
   init() {
     this.panelEl = document.getElementById('slideEditorPanel');
     this.textareaEl = document.getElementById('slideEditorTextarea');
@@ -81,6 +117,7 @@ const SlideEditor = {
         this.setStatus('modified', 'Modifie');
         this.highlightSyntax();
         this.debouncedPreview();
+        this.updateImgRefreshBadge();
       });
 
       // Notes textarea : maj status + sync rawContent
@@ -155,6 +192,12 @@ const SlideEditor = {
       });
     }
 
+    // Bouton refresh image Pexels dans la toolbar
+    const imgRefreshBtn = document.getElementById('editorImgRefreshBtn');
+    if (imgRefreshBtn) {
+      imgRefreshBtn.addEventListener('click', () => this.refreshImageAtCursor());
+    }
+
     if (this.saveBtn) {
       this.saveBtn.addEventListener('click', () => this.save());
     }
@@ -169,6 +212,12 @@ const SlideEditor = {
       if (!this.isActive) return;
       if (e.key === 's' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); this.save(); }
       if (e.key === 'd' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); this.duplicateSlide(); }
+      if (e.key === 'z' && (e.ctrlKey || e.metaKey) && !e.shiftKey && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); this.undo(); }
+      if ((e.key === 'y' && (e.ctrlKey || e.metaKey)) || (e.key === 'z' && (e.ctrlKey || e.metaKey) && e.shiftKey && e.target.tagName !== 'TEXTAREA')) { e.preventDefault(); this.redo(); }
+      if (e.key === 'l' && !e.ctrlKey && !e.metaKey && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'INPUT') {
+        e.preventDefault();
+        if (typeof SlideLibrary !== 'undefined') SlideLibrary.open();
+      }
     });
 
     // Boutons toolbar : ajouter, dupliquer, supprimer
@@ -191,6 +240,43 @@ const SlideEditor = {
         if (el) el.style.opacity = opSlider.value / 100;
       });
       opSlider.addEventListener('change', () => this.commitBgOpacity(opSlider.value / 100));
+    }
+
+    // Boutons alignement image fond
+    const bgAlignWrap = document.getElementById('bgAlignWrap');
+    if (bgAlignWrap) {
+      bgAlignWrap.addEventListener('click', (e) => {
+        const btn = e.target.closest('.fmt-bg-h-btn, .fmt-bg-v-btn');
+        if (!btn) return;
+        const layer = document.querySelector(`.slide[data-index="${SlideState.currentIndex}"] .slide-bg-layer`);
+        if (!layer) return;
+        const pos = (layer.style.backgroundPosition || 'center center').split(' ');
+        let h = pos[0] || 'center';
+        let v = pos[1] || 'center';
+        if (btn.dataset.bgH) h = btn.dataset.bgH;
+        if (btn.dataset.bgV) v = btn.dataset.bgV;
+        layer.style.backgroundPosition = `${h} ${v}`;
+        this.commitBgPosition(h, v);
+        this.updateBgAlignButtons(h, v);
+      });
+    }
+
+    // Inputs de position par bloc (wires une seule fois)
+    const posLeft = document.getElementById('posInputLeft');
+    const posTop = document.getElementById('posInputTop');
+    const posWidth = document.getElementById('posInputWidth');
+    const posHeight = document.getElementById('posInputHeight');
+    if (posLeft && posTop && posWidth && posHeight) {
+      const applyPosInput = () => {
+        const b = this._selectedSubBlock || this._selectedBlock;
+        if (!b) return;
+        if (posLeft.value !== '') b.style.left = `${Math.max(0, parseFloat(posLeft.value))}%`;
+        if (posTop.value !== '') b.style.top = `${Math.max(0, parseFloat(posTop.value))}%`;
+        if (posWidth.value !== '') b.style.width = `${Math.max(1, parseFloat(posWidth.value))}%`;
+        if (posHeight.value !== '') b.style.height = `${Math.max(1, parseFloat(posHeight.value))}%`;
+        this.commitPositions();
+      };
+      [posLeft, posTop, posWidth, posHeight].forEach(inp => inp.addEventListener('change', applyPosInput));
     }
 
     // Barre de formatage : delegation d'evenement
@@ -219,7 +305,12 @@ const SlideEditor = {
           if (s && el && !s.positions && typeof this.computeInitialPositions === 'function') this.computeInitialPositions(el);
           return;
         }
-        if (action) this.applyFormat(action);
+        if (action) {
+          this.applyFormat(action);
+          if (['image-bg', 'image-left', 'image-right', 'iframe'].includes(action)) {
+            this.updateLayoutButtons();
+          }
+        }
       });
 
       // Clic sur un type de diagramme Mermaid dans le dropdown
@@ -541,6 +632,7 @@ const SlideEditor = {
 
     // Afficher le contenu de la slide courante
     this.loadSlideContent();
+    this.updateReorderStrip();
     this.setStatus('', 'Pret');
 
     // Focus sur le textarea
@@ -595,6 +687,7 @@ const SlideEditor = {
 
   async duplicateSlide() {
     if (!SlideState.slides.length) return;
+    this._pushUndo();
     const idx = SlideState.currentIndex;
     const s = SlideState.slides[idx];
     const clone = { rawContent: s.rawContent, notes: s.notes || '', layout: s.layout,
@@ -615,6 +708,7 @@ const SlideEditor = {
   },
 
   async addSlide() {
+    this._pushUndo();
     const idx = SlideState.currentIndex;
     const blank = { rawContent: '\n', notes: '', layout: 'content',
       cssClass: null, cssStyle: null, iframeUrl: null, positions: null };
@@ -636,6 +730,7 @@ const SlideEditor = {
     const idx = SlideState.currentIndex;
     const num = idx + 1;
     if (!confirm(`Supprimer la slide ${num} / ${SlideState.totalSlides} ?`)) return;
+    this._pushUndo();
 
     // Animation de sortie sur la slide courante
     const slideEl = document.querySelectorAll('.slide')[idx];
@@ -664,6 +759,7 @@ const SlideEditor = {
         this.notesTextareaEl.value = notes;
       }
       this.highlightSyntax();
+      this.updateImgRefreshBadge();
 
       // Activer le hover positioning (toutes les slides quand l'editeur est actif)
       if (typeof this.initHoverPositioning === 'function') {
@@ -739,7 +835,12 @@ const SlideEditor = {
       if (typeof this.initHoverPositioning === 'function') {
         this.initHoverPositioning();
       }
+      this.updateBgSlider();
     }
+
+    // Recalculer les slugs si le titre a pu changer, puis mettre à jour le hash
+    if (typeof computeSlideSlugs === 'function') computeSlideSlugs(SlideState.slides);
+    if (typeof updateHash === 'function') updateHash();
   },
 
   async save() {
@@ -805,6 +906,43 @@ const SlideEditor = {
     this.setStatus('modified', 'Modifie');
   },
 
+  commitBgPosition(hAlign, vAlign) {
+    const idx = SlideState.currentIndex;
+    let css = SlideState.slides[idx].cssStyle || '';
+    css = css.replace(/;?\s*background-position:[^;]*/g, '').replace(/^\s*;\s*/, '').trim();
+    const pos = `${hAlign} ${vAlign}`;
+    if (pos !== 'center center') css += (css ? '; ' : '') + `background-position: ${pos}`;
+    SlideState.slides[idx].cssStyle = css || null;
+    let content = this.textareaEl.value;
+    const reg = /^<!--\s*style\s*:.*?-->\s*\n?/m;
+    if (css) {
+      content = reg.test(content) ? content.replace(reg, `<!-- style: ${css} -->\n`) : `<!-- style: ${css} -->\n` + content;
+    } else if (reg.test(content)) {
+      content = content.replace(reg, '');
+    }
+    this.textareaEl.value = content;
+    this.syncNotesToRawContent();
+    this.highlightSyntax();
+    this.setStatus('modified', 'Modifie');
+  },
+
+  updateBgAlignButtons(hAlign, vAlign) {
+    document.querySelectorAll('.fmt-bg-h-btn').forEach(b => b.classList.toggle('active', b.dataset.bgH === hAlign));
+    document.querySelectorAll('.fmt-bg-v-btn').forEach(b => b.classList.toggle('active', b.dataset.bgV === vAlign));
+  },
+
+  updateLayoutButtons() {
+    const content = this.textareaEl?.value || '';
+    const m = content.match(/^<!--\s*layout\s*:\s*(\S+)\s*-->/m);
+    const layout = m ? m[1] : '';
+    const map = { 'cover': 'image-bg', 'image-left': 'image-left', 'image-right': 'image-right', 'iframe-right': 'iframe', 'iframe-left': 'iframe' };
+    const active = map[layout] || null;
+    ['image-bg', 'image-left', 'image-right', 'iframe'].forEach(action => {
+      const btn = document.querySelector(`.fmt-btn[data-action="${action}"]`);
+      if (btn) btn.classList.toggle('active', action === active);
+    });
+  },
+
   updateBgSlider() {
     const slider = document.getElementById('bgOpacitySlider');
     if (!slider) return;
@@ -813,6 +951,13 @@ const SlideEditor = {
     slider.value = Math.round(op * 100);
     const wrap = document.getElementById('bgOpacityWrap');
     if (wrap) wrap.classList.toggle('hidden', !layer);
+    const alignWrap = document.getElementById('bgAlignWrap');
+    if (alignWrap) alignWrap.classList.toggle('hidden', !layer);
+    if (layer) {
+      const pos = (layer.style.backgroundPosition || 'center center').split(' ');
+      this.updateBgAlignButtons(pos[0] || 'center', pos[1] || 'center');
+    }
+    this.updateLayoutButtons();
   },
 
   /* --- Coloration syntaxique Markdown --- */
@@ -951,7 +1096,265 @@ const SlideEditor = {
       this.cleanupHoverPositioning();
     }
     this.loadSlideContent();
+    this.updateReorderStrip();
+    this.updateImgRefreshBadge();
     this.setStatus('', 'Pret');
+  },
+
+  /* =============================================
+     STRIP DE RÉORGANISATION DES SLIDES
+     ============================================= */
+
+  updateReorderStrip() {
+    const strip = document.getElementById('slideReorderStrip');
+    if (!strip) return;
+
+    strip.innerHTML = '';
+    SlideState.slides.forEach((_, i) => {
+      const chip = document.createElement('div');
+      chip.className = 'slide-reorder-chip' + (i === SlideState.currentIndex ? ' is-current' : '');
+      chip.draggable = true;
+      chip.dataset.idx = i;
+      chip.setAttribute('role', 'listitem');
+      chip.setAttribute('aria-label', `Slide ${i + 1}`);
+      chip.innerHTML = `<span class="slide-reorder-handle">⠿</span><span class="slide-reorder-num">${i + 1}</span>`;
+
+      chip.addEventListener('click', () => {
+        if (typeof goToSlide === 'function') goToSlide(i);
+      });
+
+      chip.addEventListener('dragstart', e => {
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', String(i));
+        chip.classList.add('is-dragging');
+      });
+
+      chip.addEventListener('dragend', () => {
+        chip.classList.remove('is-dragging');
+        strip.querySelectorAll('.drag-over').forEach(c => c.classList.remove('drag-over'));
+      });
+
+      chip.addEventListener('dragover', e => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        strip.querySelectorAll('.drag-over').forEach(c => c.classList.remove('drag-over'));
+        chip.classList.add('drag-over');
+      });
+
+      chip.addEventListener('dragleave', () => chip.classList.remove('drag-over'));
+
+      chip.addEventListener('drop', async e => {
+        e.preventDefault();
+        chip.classList.remove('drag-over');
+        const fromIdx = parseInt(e.dataTransfer.getData('text/plain'), 10);
+        const toIdx = parseInt(chip.dataset.idx, 10);
+        if (fromIdx === toIdx || isNaN(fromIdx) || isNaN(toIdx)) return;
+        this._pushUndo();
+        const moved = SlideState.slides.splice(fromIdx, 1)[0];
+        SlideState.slides.splice(toIdx, 0, moved);
+        SlideState.totalSlides = SlideState.slides.length;
+        const vp = document.getElementById('slideViewport');
+        if (vp && typeof renderAllSlides === 'function') await renderAllSlides(SlideState.slides, vp);
+        if (typeof goToSlide === 'function') goToSlide(toIdx);
+        this.setStatus('modified', 'Slides réorganisées');
+      });
+
+      strip.appendChild(chip);
+    });
+  }
+};
+
+/* =============================================
+   REFRESH IMAGE PEXELS
+   ============================================= */
+
+SlideEditor._parseImagesFromText = function(text) {
+  const imgRegex = /!\[([^\]]*)\]\(([^)]*)\)/g;
+  const results = [];
+  let m;
+  while ((m = imgRegex.exec(text)) !== null) {
+    results.push({ index: m.index, full: m[0], alt: m[1], url: m[2] });
+  }
+  return results;
+};
+
+SlideEditor.updateImgRefreshBadge = function() {
+  const btn = document.getElementById('editorImgRefreshBtn');
+  if (!btn) return;
+  const ta = this.textareaEl;
+  const count = ta ? this._parseImagesFromText(ta.value).length : 0;
+
+  // Supprimer le badge existant
+  btn.querySelector('.img-count-badge')?.remove();
+
+  btn.classList.remove('img-count-zero', 'img-count-one', 'img-count-many');
+
+  if (count === 0) {
+    btn.classList.add('img-count-zero');
+    btn.title = 'Insérer une image Pexels';
+  } else if (count === 1) {
+    btn.classList.add('img-count-one');
+    btn.title = 'Rafraîchir l\'image (Pexels)';
+  } else {
+    btn.classList.add('img-count-many');
+    btn.title = `Rafraîchir une image parmi ${count} (Pexels)`;
+    const badge = document.createElement('span');
+    badge.className = 'img-count-badge';
+    badge.textContent = count;
+    btn.appendChild(badge);
+  }
+};
+
+SlideEditor.refreshImageAtCursor = function() {
+  const ta = this.textareaEl;
+  if (!ta) return;
+
+  const images = this._parseImagesFromText(ta.value);
+
+  if (!images.length) {
+    // Pas d'image → insérer un placeholder et sélectionner l'alt pour saisie
+    this._insertImagePlaceholder(ta);
+    return;
+  }
+
+  if (images.length === 1) {
+    this._replaceImageInText(ta, images[0]);
+    return;
+  }
+
+  // Plusieurs images → afficher un picker
+  this._showImagePicker(images, ta);
+};
+
+SlideEditor._insertImagePlaceholder = function(ta) {
+  const placeholder = '![Description de l\'image]()';
+  const altStart = 2; // après ![
+  const altEnd = altStart + 'Description de l\'image'.length;
+
+  const pos = ta.selectionStart;
+  const before = ta.value.substring(0, pos);
+  const after = ta.value.substring(pos);
+  // Ajouter un saut de ligne si nécessaire
+  const prefix = before.length > 0 && !before.endsWith('\n') ? '\n' : '';
+  ta.value = before + prefix + placeholder + after;
+
+  const base = pos + prefix.length;
+  ta.focus();
+  ta.setSelectionRange(base + altStart, base + altEnd);
+
+  this.setStatus('modified', 'Remplis la description puis clique à nouveau sur ↺');
+  this.highlightSyntax();
+  this.debouncedPreview();
+  this.updateImgRefreshBadge();
+};
+
+SlideEditor.refreshImageByAlt = function(alt, blockEl) {
+  const ta = this.textareaEl;
+  if (!ta || !alt) return;
+
+  const images = this._parseImagesFromText(ta.value);
+  const found = images.find(m => m.alt === alt) || images.find(m => m.url === alt);
+  if (!found) return;
+
+  this._replaceImageInText(ta, found, blockEl);
+};
+
+SlideEditor._showImagePicker = function(images, ta) {
+  const existing = document.getElementById('imgRefreshPicker');
+  if (existing) { existing.remove(); return; }
+
+  const btn = document.getElementById('editorImgRefreshBtn');
+  if (!btn) return;
+
+  const picker = document.createElement('div');
+  picker.id = 'imgRefreshPicker';
+  picker.className = 'img-refresh-picker';
+
+  const title = document.createElement('div');
+  title.className = 'img-refresh-picker-title';
+  title.textContent = 'Choisir l\'image à rafraîchir :';
+  picker.appendChild(title);
+
+  images.forEach(img => {
+    const item = document.createElement('button');
+    item.type = 'button';
+    item.className = 'img-refresh-picker-item';
+    const label = img.alt || '(sans description)';
+    item.title = label;
+    item.textContent = label.length > 50 ? label.substring(0, 48) + '…' : label;
+    item.addEventListener('click', () => {
+      picker.remove();
+      this._replaceImageInText(ta, img);
+    });
+    picker.appendChild(item);
+  });
+
+  const btnRect = btn.getBoundingClientRect();
+  picker.style.position = 'fixed';
+  picker.style.top = `${btnRect.bottom + 4}px`;
+  picker.style.left = `${Math.max(4, btnRect.left - 160)}px`;
+  document.body.appendChild(picker);
+
+  setTimeout(() => {
+    const onOutside = (e) => {
+      if (!picker.contains(e.target) && e.target !== btn) {
+        picker.remove();
+        document.removeEventListener('mousedown', onOutside);
+      }
+    };
+    document.addEventListener('mousedown', onOutside);
+  }, 0);
+};
+
+SlideEditor._fetchPexelsImage = async function(query) {
+  const q = (query || '').replace(/https?:\/\/\S+/g, '').trim().substring(0, 100);
+  if (!q) throw new Error('Query vide');
+  const res = await fetch(`/api/routes-ai-slides/image-search?${new URLSearchParams({ q })}`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  if (!data.success) throw new Error(data.error || 'Erreur Pexels');
+  return data.data; // { url, urlBg, alt }
+};
+
+SlideEditor._replaceImageInText = async function(ta, imgData, blockEl) {
+  const toolbarBtn = document.getElementById('editorImgRefreshBtn');
+  const blockBtn = blockEl?.querySelector?.('.slide-block-img-refresh');
+  if (toolbarBtn) toolbarBtn.classList.add('loading');
+  if (blockBtn) blockBtn.classList.add('loading');
+
+  try {
+    const pexels = await this._fetchPexelsImage(imgData.alt || imgData.url);
+
+    // Conserver l'alt original — seule l'URL change
+    const isBg = imgData.alt === 'bg';
+    const newUrl = isBg ? pexels.urlBg : pexels.url;
+    const newMd = `![${imgData.alt}](${newUrl})`;
+
+    // Vérifier que la position est toujours valide (le texte n'a pas bougé)
+    const currentText = ta.value;
+    let start = imgData.index;
+    if (currentText.substring(start, start + imgData.full.length) !== imgData.full) {
+      start = currentText.indexOf(imgData.full);
+      if (start === -1) throw new Error('Image introuvable dans le texte');
+    }
+
+    ta.value = currentText.substring(0, start) + newMd + currentText.substring(start + imgData.full.length);
+    ta.setSelectionRange(start, start + newMd.length);
+
+    // Mise à jour visuelle immédiate du DOM
+    if (blockEl) {
+      const imgEl = blockEl.querySelector?.('img');
+      if (imgEl) imgEl.src = newUrl;
+    }
+
+    this.setStatus('modified', 'Image rafraîchie');
+    this.highlightSyntax();
+    this.debouncedPreview();
+  } catch {
+    this.setStatus('error', 'Impossible de récupérer une image Pexels');
+  } finally {
+    if (toolbarBtn) toolbarBtn.classList.remove('loading');
+    if (blockBtn) blockBtn.classList.remove('loading');
   }
 };
 

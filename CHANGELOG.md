@@ -1,5 +1,42 @@
 # Changelog — Slides
 
+## [Non publie] — 2026-04-24
+
+### Ajouté
+- Éditeur : bouton refresh image dans la toolbar (`#editorImgRefreshBtn`) avec badge dynamique — 0 image (grisé), 1 image (bleu), 2+ images (violet + compteur)
+- Éditeur : `refreshImageAtCursor()` — insert un placeholder `![Description]()` si aucune image, remplace directement si une seule, affiche un sélecteur flottant si plusieurs
+- Éditeur : `refreshImageByAlt(alt, blockEl)` — bouton secondaire sur chaque bloc image au survol (icône rafraîchissement, positionné à gauche du bloc)
+- Éditeur : support des images sans URL `![alt]()` comme requêtes de recherche Pexels (regex élargie)
+- Backend : route `GET /api/routes-ai-slides/image-search?q=keywords` — recherche Pexels, retourne un résultat aléatoire parmi 15 avec `{url, urlBg, alt}`
+- Backend : `extractAiDescription(markdown)` — extrait la ligne `DESCRIPTION: ...` en tête de réponse IA pour le frontmatter
+- Backend : téléchargement de la miniature Pexels en JPEG (`thumbnail.jpg`) lors de `generate-and-create` (fallback SVG)
+- Viewer : bouton partage dans la toolbar — copie `window.location.href` dans le presse-papiers, tooltip "Copié !" 2s
+- Viewer : URLs avec slugs de slides — format `viewer.html#{date}-{id}:{slide-slug}` (ex: `viewer.html#2026-04-24-mon-talk:une-slide-titre`)
+- Viewer : `computeSlideSlugs(slides)` — génère des slugs depuis les titres `#` (NFD + kebab + déduplication)
+- Viewer : `resolveFileFromUrl()` gère le nouveau format de hash ; `?file=` toujours supporté en fallback
+
+### Modifié
+- Panneau IA redessiné : meilleur layout (sections étiquetées, textarea avec accent de bordure, chips de layout raccourcis), titre en couleur unie `#c4b5fd` (plus fiable que gradient clip-text)
+- Panneau IA : champ URL image remplacé par un picker visuel deux états (vide : boutons Pexels + Galerie ; rempli : miniature + Changer + Effacer)
+- Pexels : `urlBg = p.src.original` pour les fonds (sans limite de taille), `url = p.src.large2x` (1880px) pour les images de contenu
+- Bouton galerie dans le panneau IA : couleur visible (`#c4b5fd` sur fond `#a78bfa` transparent)
+- Modèle IA : Claude remplace Mammouth/Gemini dans `routes-ai-slides.js`
+
+---
+
+## [Non publie] — 2026-04-22
+
+### Ajouté
+- Génération IA de présentations via Mammouth (Gemini 2.5 Flash)
+- `index.html` : bouton "✨ Générer avec l'IA" dans le hero — ouvre une zone avec champs (sujet, public, nombre de slides, style, langue, contexte) et aperçu du prompt éditable
+- `viewer.html` : bouton "✨ IA" dans la barre de format — ouvre une zone inline pour générer des slides et les insérer dans l'éditeur
+- Backend : route `POST /api/routes-ai-slides/generate` (viewer) et `POST /api/routes-ai-slides/generate-and-create` (index — crée directement la présentation + thumbnail SVG + redirection viewer)
+- CSS : `assets/css/modules/ai-slides.css` — chips, spinner, zone prompt, bouton gradient violet→bleu
+- Prompt enrichi : frontmatter, 7 types de slides (cover, image-right, image-left, tableau, code, comparaison, CTA), notes présentateur obligatoires, alternance de layouts
+- Intégration Pexels API optionnelle : si `PEXELS_API_KEY` configurée, fetch 8 images landscape injectées dans le contexte Gemini (3 fonds cover `large2x` + 5 images contenu `large`)
+
+---
+
 ## [Non publie] — 2026-03-09
 
 ### Ajouté

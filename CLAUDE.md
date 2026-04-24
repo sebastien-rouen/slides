@@ -138,17 +138,82 @@ Scale calculé via `transform: scale()` dans `slide-engine.js` → `computeAndAp
 - Canal : `slides-{pathname-du-viewer}`
 - Messages : `SLIDE_CHANGE` (viewer → présentateur), `GOTO` (présentateur → viewer)
 
+## URL des présentations (format hash)
+
+Format : `viewer.html#{date}-{id}:{slide-slug}`
+- `{date}-{id}` : identifie la présentation (ex: `2026-04-24-mon-talk`)
+- `:{slide-slug}` : slug généré depuis le titre `#` de la slide (optionnel)
+- Slug : NFD normalize → lowercase → kebab → max 60 chars, dédupliqués avec `-2`, `-3`
+- Fallback : `?file=pages/{id}/main.md` (toujours supporté)
+- `resolveFileFromUrl()` dans `slide-engine.js` gère la lecture du hash
+- `computeSlideSlugs(slides)` recalcule les slugs après chaque modification
+- `updateHash()` maintient l'URL en sync lors de la navigation
+
+## Bouton partage
+
+Bouton dans la toolbar du viewer (avant le bouton présentateur) :
+- Copie `window.location.href` dans le presse-papiers
+- Affiche tooltip "Copié !" 2s via classe `.share-copied` sur le bouton
+- Implémenté dans `slide-engine.js` → `copySlideLink()`
+- Style dans `assets/css/components/buttons.css` (`.btn-share`, `.btn-share.share-copied`)
+
+## Éditeur — Refresh image
+
+Bouton dans la format bar de l'éditeur (`#editorImgRefreshBtn`) :
+- Badge dynamique : 0 image (grisé), 1 image (bleu), 2+ images (violet + badge avec compte)
+- `updateImgRefreshBadge()` : mis à jour à chaque `input` du textarea
+- `refreshImageAtCursor()` : 0 → insert placeholder `![Description]()` ; 1 → replace directe ; 2+ → picker flottant
+- `refreshImageByAlt(alt, blockEl)` : appelé aussi depuis le bouton sur le bloc image au survol
+- `_replaceImageInText()` : remplace l'URL en conservant le texte alt original
+- Pexels : `GET /api/routes-ai-slides/image-search?q=keywords` (retourne `{url, urlBg, alt}`)
+- Tailles Pexels : `urlBg = p.src.original` (fond, sans limite), `url = p.src.large2x` (1880px, contenu)
+- Détection bg : `imgData.alt === 'bg'` → utilise `urlBg`
+- Regex images : `/!\[([^\]]*)\]\(([^)]*)\)/g` (capture URL vide `()` aussi)
+
+## Éditeur — Bloc image (drag position)
+
+`slide-drag-position.js` → `selectBlock()` :
+- Ajoute bouton `.slide-block-img-refresh` si le bloc contient une `<img>`
+- Bouton positionné `top:30px; left:-32px` (en dessous du bouton couleur)
+- Appelle `SlideEditor.refreshImageByAlt(img.alt, blockEl)`
+
+## Panneau IA (ai-slides.js)
+
+Bouton étoile dans la toolbar du viewer :
+- Textarea `.ai-edit-prompt` : description de la modification
+- Layout : chips de sélection (Img →, ← Img, A/B…)
+- Modèle : `<select>` (Claude model)
+- Image picker deux états :
+  - **Vide** (`#aiEditImgEmpty`) : bouton Pexels + bouton Galerie
+  - **Rempli** (`#aiEditImgFilled`) : miniature + bouton Changer + bouton Effacer
+  - Valeur stockée dans `<input type="hidden" id="aiEditImageUrl">`
+- `_setImage(url)` : bascule entre les deux états, met à jour la miniature
+- `_searchPexels()` : extrait mots-clés depuis le prompt (filtre stop-words FR), appelle image-search
+- Réinitialise le picker après génération réussie
+
 ## API Backend
-- Route éditeur : `api-multi-sites/data/slides/api/routes/routes-editor.js`
-- `POST /api/routes-editor/save` — Sauvegarde le markdown complet d'une présentation
-- `GET /api/routes-editor/load` — Charge le contenu brut d'un fichier markdown
-- Sécurité : validation path traversal, restriction aux fichiers `pages/*.md`
+
+Routes source dans `slides/api/routes/` (sync auto → `api-multi-sites/data/slides/api/routes/`)
+
+| Route | Description |
+|-------|-------------|
+| `GET /api/routes-editor/load?file=...` | Charge le Markdown brut |
+| `POST /api/routes-editor/save` | Sauvegarde le Markdown (validation path traversal) |
+| `GET /api/routes-ai-slides/image-search?q=keywords` | Recherche Pexels (15 résultats, retourne 1 aléatoire) |
+| `POST /api/routes-ai-slides/generate-and-create` | Génère via Claude + crée la présentation |
+
+`routes-ai-slides.js` :
+- `extractAiDescription(markdown)` : lit la ligne `DESCRIPTION: ...` en tête de réponse IA
+- `fetchPexelsImages(keywords, apiKey, perPage)` : `urlBg: p.src.original`, `urlContent: p.src.large2x`
+- Télécharge la miniature Pexels en JPEG (`thumbnail.jpg`) lors de `generate-and-create`, SVG en fallback
+- SYSTEM_PROMPT : impose `DESCRIPTION: phrase courte` en première ligne de la réponse
 
 ## Règles spécifiques
 - `innerHTML` autorisé UNIQUEMENT après `DOMPurify.sanitize()`
 - `textContent` pour toutes les données utilisateur (titres, notes, descriptions)
 - Mermaid exposé en `window.mermaid` par le bloc `<script type="module">`
 - Scripts classiques (pas de type="module") sauf le bloc Mermaid
+- Routes à éditer dans `slides/api/routes/` — jamais directement dans `api-multi-sites/data/`
 
 ## Ajouter une présentation
 1. Créer `pages/{id}/main.md` avec le format ci-dessus

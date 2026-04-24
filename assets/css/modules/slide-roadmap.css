@@ -1,0 +1,734 @@
+/**
+ * slide-roadmap.css — Layouts Roadmap Timeline et Gantt
+ * Usage : <!-- class: roadmap-slide --> ou <!-- class: roadmap-gantt -->
+ * Note : pas de classe .slide-content dans le moteur — cibler directement .slide.xxx
+ */
+
+/* ====================================================
+   ROADMAP TIMELINE — ol transformé en timeline horizontale
+   ==================================================== */
+
+.slide.roadmap-slide {
+  display: flex;
+  flex-direction: column;
+  padding: 48px 56px;
+  box-sizing: border-box;
+}
+
+.slide.roadmap-slide h2 {
+  flex-shrink: 0;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.slide.roadmap-slide > p {
+  flex-shrink: 0;
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0 0 40px;
+}
+
+/* Timeline horizontale */
+.slide.roadmap-slide ol {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: auto 0;
+  flex: 1;
+  align-items: flex-start;
+  position: relative;
+  counter-reset: roadmap-step;
+}
+
+/* Ligne de connexion dégradée */
+.slide.roadmap-slide ol::before {
+  content: '';
+  position: absolute;
+  top: 23px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, #3b82f6, #6366f1, #8b5cf6, #a855f7);
+  opacity: 0.5;
+  border-radius: 2px;
+}
+
+/* Chaque étape */
+.slide.roadmap-slide li {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+  position: relative;
+  counter-increment: roadmap-step;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.slide.roadmap-slide li + li { margin-top: 0; }
+.slide.roadmap-slide li::marker { content: none; }
+
+/* Cercle numéroté */
+.slide.roadmap-slide li::before {
+  content: counter(roadmap-step);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #3b82f6;
+  color: #fff;
+  display: block;
+  text-align: center;
+  line-height: 48px;
+  font-weight: 700;
+  font-size: 20px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+  box-shadow: 0 0 0 7px rgba(59,130,246,.15), 0 4px 16px rgba(59,130,246,.4);
+}
+
+.slide.roadmap-slide li:nth-child(2)::before { background: #6366f1; box-shadow: 0 0 0 7px rgba(99,102,241,.15), 0 4px 16px rgba(99,102,241,.4); }
+.slide.roadmap-slide li:nth-child(3)::before { background: #8b5cf6; box-shadow: 0 0 0 7px rgba(139,92,246,.15), 0 4px 16px rgba(139,92,246,.4); }
+.slide.roadmap-slide li:nth-child(4)::before { background: #a855f7; box-shadow: 0 0 0 7px rgba(168,85,247,.15), 0 4px 16px rgba(168,85,247,.4); }
+.slide.roadmap-slide li:nth-child(5)::before { background: #ec4899; box-shadow: 0 0 0 7px rgba(236,72,153,.15), 0 4px 16px rgba(236,72,153,.4); }
+.slide.roadmap-slide li:nth-child(6)::before { background: #f59e0b; box-shadow: 0 0 0 7px rgba(245,158,11,.15), 0 4px 16px rgba(245,158,11,.4); }
+
+/* Carte de fond pour chaque étape */
+.slide.roadmap-slide li > p {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 14px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Label (premier paragraphe) */
+.slide.roadmap-slide li p:first-of-type {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-primary);
+}
+
+/* Période en strong */
+.slide.roadmap-slide li p:first-of-type strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  color: #3b82f6;
+}
+
+.slide.roadmap-slide li:nth-child(2) p:first-of-type strong { color: #6366f1; }
+.slide.roadmap-slide li:nth-child(3) p:first-of-type strong { color: #8b5cf6; }
+.slide.roadmap-slide li:nth-child(4) p:first-of-type strong { color: #a855f7; }
+.slide.roadmap-slide li:nth-child(5) p:first-of-type strong { color: #ec4899; }
+.slide.roadmap-slide li:nth-child(6) p:first-of-type strong { color: #f59e0b; }
+
+/* Description */
+.slide.roadmap-slide li p + p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  font-style: italic;
+  margin-top: 4px;
+  line-height: 1.5;
+  padding: 0 12px 14px;
+  border-radius: 0 0 10px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: none;
+  background: rgba(255, 255, 255, 0.03);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ====================================================
+   ROADMAP GANTT — div/span avec classes explicites
+   ==================================================== */
+
+.slide.roadmap-gantt h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 20px;
+}
+
+/* Wrapper flex vertical */
+.slide.roadmap-gantt .gantt-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 6px;
+}
+
+/* Grille 5 colonnes partagée par head et rows */
+.slide.roadmap-gantt .gantt-head,
+.slide.roadmap-gantt .gantt-row {
+  display: grid;
+  grid-template-columns: 15% repeat(4, 1fr);
+  gap: 6px;
+  align-items: stretch;
+}
+
+.slide.roadmap-gantt .gantt-row { flex: 1; }
+
+/* Labels de colonnes (header) */
+.slide.roadmap-gantt .gantt-head span {
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.38);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.slide.roadmap-gantt .gantt-head span:first-child { border-bottom: none; }
+
+/* Label équipe */
+.slide.roadmap-gantt .gantt-label {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.slide.roadmap-gantt .gantt-row:nth-child(2) .gantt-label { color: #3b82f6; }
+.slide.roadmap-gantt .gantt-row:nth-child(3) .gantt-label { color: #8b5cf6; }
+.slide.roadmap-gantt .gantt-row:nth-child(4) .gantt-label { color: #0ea5e9; }
+.slide.roadmap-gantt .gantt-row:nth-child(5) .gantt-label { color: #10b981; }
+
+/* Barres colorées */
+.slide.roadmap-gantt .gantt-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  padding: 0 10px;
+  line-height: 1.3;
+}
+
+.slide.roadmap-gantt .gantt-row:nth-child(2) .gantt-bar { background: rgba(59,130,246,.2); border: 1px solid rgba(59,130,246,.4); color: #93c5fd; }
+.slide.roadmap-gantt .gantt-row:nth-child(3) .gantt-bar { background: rgba(139,92,246,.2); border: 1px solid rgba(139,92,246,.4); color: #c4b5fd; }
+.slide.roadmap-gantt .gantt-row:nth-child(4) .gantt-bar { background: rgba(14,165,233,.2); border: 1px solid rgba(14,165,233,.4); color: #7dd3fc; }
+.slide.roadmap-gantt .gantt-row:nth-child(5) .gantt-bar { background: rgba(16,185,129,.2); border: 1px solid rgba(16,185,129,.4); color: #6ee7b7; }
+
+/* ====================================================
+   COMPARAISON — 2 colonnes Avant / Après
+   ==================================================== */
+
+.slide.comparison-slide h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 24px;
+}
+
+.slide.comparison-slide .comp-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  height: 100%;
+}
+
+.slide.comparison-slide .comp-col {
+  border-radius: 12px;
+  padding: 24px 28px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+}
+
+.slide.comparison-slide .comp-before { border-top: 3px solid #ef4444; }
+.slide.comparison-slide .comp-after  { border-top: 3px solid #10b981; }
+
+.slide.comparison-slide .comp-head {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slide.comparison-slide .comp-before .comp-head { color: #ef4444; }
+.slide.comparison-slide .comp-after  .comp-head { color: #10b981; }
+
+.slide.comparison-slide .comp-head::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.slide.comparison-slide ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.slide.comparison-slide li {
+  font-size: 15px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.slide.comparison-slide li:last-child { border-bottom: none; }
+
+.slide.comparison-slide .comp-before li::before { content: '✗'; color: #ef4444; font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.slide.comparison-slide .comp-after  li::before { content: '✓'; color: #10b981; font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+/* ====================================================
+   PMO ROADMAP — Timeline mois colorés, cartes alternées, route
+   ==================================================== */
+
+.slide.roadmap-pmo {
+  padding: 32px 48px 24px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.slide.roadmap-pmo h2 {
+  font-size: 28px;
+  font-weight: 800;
+  text-align: center;
+  margin: 0 0 16px;
+  letter-spacing: -0.01em;
+  flex-shrink: 0;
+}
+
+.slide.roadmap-pmo .pmo-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.slide.roadmap-pmo .pmo-top,
+.slide.roadmap-pmo .pmo-bottom {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  flex: 1;
+}
+
+.slide.roadmap-pmo .pmo-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slide.roadmap-pmo .pmo-slot.pmo-empty {
+  visibility: hidden;
+}
+
+.slide.roadmap-pmo .pmo-top .pmo-slot:not(.pmo-empty) {
+  justify-content: flex-end;
+}
+
+.slide.roadmap-pmo .pmo-top .pmo-slot:not(.pmo-empty)::after {
+  content: '';
+  width: 2px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.28);
+  display: block;
+  flex-shrink: 0;
+}
+
+.slide.roadmap-pmo .pmo-bottom .pmo-slot:not(.pmo-empty) {
+  justify-content: flex-start;
+}
+
+.slide.roadmap-pmo .pmo-bottom .pmo-slot:not(.pmo-empty)::before {
+  content: '';
+  width: 2px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.28);
+  display: block;
+  flex-shrink: 0;
+}
+
+.slide.roadmap-pmo .pmo-card {
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.slide.roadmap-pmo .pmo-icon {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.slide.roadmap-pmo .pmo-card strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 3px;
+  color: var(--text-primary);
+}
+
+.slide.roadmap-pmo .pmo-card p {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.slide.roadmap-pmo .pmo-timeline {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  position: relative;
+  padding: 4px 0;
+  flex-shrink: 0;
+}
+
+.slide.roadmap-pmo .pmo-timeline::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.slide.roadmap-pmo .pmo-month {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.slide.roadmap-pmo .pmo-m1 { background: #22c55e; }
+.slide.roadmap-pmo .pmo-m2 { background: #2563eb; }
+.slide.roadmap-pmo .pmo-m3 { background: #ef4444; }
+.slide.roadmap-pmo .pmo-m4 { background: #f59e0b; }
+.slide.roadmap-pmo .pmo-m5 { background: #f97316; }
+.slide.roadmap-pmo .pmo-m6 { background: #7c3aed; }
+
+.slide.roadmap-pmo .pmo-road {
+  width: 100%;
+  height: 56px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.slide.roadmap-pmo .pmo-road svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ====================================================
+   SCRUM SPRINT PLANNING — 2 sprints, 10 jours, cérémonies
+   ==================================================== */
+
+.slide.scrum-sprint {
+  padding: 28px 40px 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.slide.scrum-sprint h2 {
+  font-size: 26px;
+  font-weight: 800;
+  text-align: center;
+  margin: 0 0 14px;
+  letter-spacing: -0.01em;
+  flex-shrink: 0;
+}
+
+.slide.scrum-sprint .sprint-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.slide.scrum-sprint .sprint-header {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+
+.slide.scrum-sprint .sp-label {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.slide.scrum-sprint .sp-label.sl1 {
+  grid-column: 1 / 6;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  color: #93c5fd;
+}
+
+.slide.scrum-sprint .sp-label.sl2 {
+  grid-column: 6 / 11;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #6ee7b7;
+}
+
+.slide.scrum-sprint .sprint-top,
+.slide.scrum-sprint .sprint-bottom {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  flex: 1;
+}
+
+.slide.scrum-sprint .sp-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slide.scrum-sprint .sp-slot.sp-empty {
+  visibility: hidden;
+}
+
+.slide.scrum-sprint .sprint-top .sp-slot:not(.sp-empty) {
+  justify-content: flex-end;
+}
+
+.slide.scrum-sprint .sprint-top .sp-slot:not(.sp-empty)::after {
+  content: '';
+  width: 2px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.22);
+  display: block;
+  flex-shrink: 0;
+}
+
+.slide.scrum-sprint .sprint-bottom .sp-slot:not(.sp-empty) {
+  justify-content: flex-start;
+}
+
+.slide.scrum-sprint .sprint-bottom .sp-slot:not(.sp-empty)::before {
+  content: '';
+  width: 2px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.22);
+  display: block;
+  flex-shrink: 0;
+}
+
+.slide.scrum-sprint .sp-card {
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px 6px;
+  background: rgba(255, 255, 255, 0.05);
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.slide.scrum-sprint .sp-icon {
+  display: block;
+  font-size: 15px;
+  margin-bottom: 3px;
+}
+
+.slide.scrum-sprint .sp-card strong {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+.slide.scrum-sprint .sp-card p {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.42);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.slide.scrum-sprint .sp-planning {
+  border-color: rgba(59, 130, 246, 0.4);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.slide.scrum-sprint .sp-review {
+  border-color: rgba(139, 92, 246, 0.4);
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.slide.scrum-sprint .sp-retro {
+  border-color: rgba(249, 115, 22, 0.4);
+  background: rgba(249, 115, 22, 0.1);
+}
+
+.slide.scrum-sprint .sp-daily {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.slide.scrum-sprint .sprint-days {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  margin: 2px 0;
+  flex-shrink: 0;
+}
+
+.slide.scrum-sprint .sp-day {
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.slide.scrum-sprint .sprint-days .sp-day:nth-child(-n+5) {
+  background: rgba(59, 130, 246, 0.08);
+  color: rgba(147, 197, 253, 0.75);
+}
+
+.slide.scrum-sprint .sprint-days .sp-day:nth-child(n+6) {
+  background: rgba(16, 185, 129, 0.08);
+  color: rgba(110, 231, 183, 0.75);
+}
+
+.slide.scrum-sprint .sprint-road {
+  width: 100%;
+  height: 50px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.slide.scrum-sprint .sprint-road svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ====================================================
+   2 COLONNES — texte + zone image
+   ==================================================== */
+
+.slide.two-col-slide h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 28px;
+}
+
+.slide.two-col-slide .two-col-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  height: 100%;
+  align-items: start;
+}
+
+.slide.two-col-slide ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.slide.two-col-slide li {
+  font-size: 16px;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.slide.two-col-slide li:last-child { border-bottom: none; }
+
+.slide.two-col-slide li::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3b82f6;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+/* Zone image — placeholder stylisé */
+.slide.two-col-slide .two-col-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  background: rgba(59, 130, 246, 0.06);
+  border: 1px dashed rgba(59, 130, 246, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.slide.two-col-slide .two-col-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.slide.two-col-slide .two-col-placeholder {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}

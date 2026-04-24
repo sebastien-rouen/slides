@@ -1,167 +1,207 @@
-# Slides - Système de présentation
+# Slides — Moteur de présentation BastaVerse
 
-## 🎯 Objectif
+Moteur de présentation vanilla JS qui rend des fichiers Markdown en slideshows interactifs. Pas de build step, pas de framework, pas de npm.
 
-Ce projet répond au besoin de garder un contrôle total sur mes présentations en local, avec une customisation complète et une organisation structurée par sujets.
-
-## 🚀 Démarrage Rapide
-
-### Installation & Développement
+## Démarrage rapide
 
 ```bash
-# Installation
-npm install
-
-# Build de production
-npm run build:all                 # Build toutes les présentations
-npm run build:bastaverse          # Build spécifique
-npm run build:autre-presentation  # Build spécifique
+# Depuis la racine BastaVerse
+pm2 start drafts.api
+# Ouvrir https://slides-drafts.bastou.dev
 ```
 
-## 📂 Split de Projets
-
-Ce projet utilise une architecture multi-présentations avec des builds séparés :
-
-### Structure des Présentations
+## Structure
 
 ```
-pages/
-├── bastaverse/           # Présentation BastaVerse
-│   └── slides.md         # Contenu de la présentation
-└── autre-presentation/   # Présentation autre-presentation
-    └── slides.md         # Contenu de la présentation avec possibilité d'avoir d'autres slides
+slides/
+├── index.html                  # Listing des présentations (grille, filtres tags)
+├── viewer.html                 # Lecteur plein écran 16:9 avec éditeur intégré
+├── presenter.html              # Vue présentateur (notes + minuterie)
+├── config/
+│   └── presentations.json      # Registre des présentations (source de vérité)
+├── pages/{id}/
+│   ├── main.md                 # Contenu Markdown de la présentation
+│   └── images/                 # Images propres à la présentation
+├── assets/
+│   ├── css/                    # Feuilles de style (composants + modules)
+│   ├── js/
+│   │   ├── slide-engine.js     # Parsing, rendu, navigation, hash URL
+│   │   ├── slide-editor.js     # Éditeur Markdown inline + refresh image
+│   │   ├── slide-drag-position.js  # Repositionnement des blocs
+│   │   ├── ai-slides.js        # Panneau de modification IA
+│   │   ├── theme-manager.js    # Thèmes visuels
+│   │   └── main.js             # Page d'accueil
+│   └── images/
+├── api/routes/
+│   ├── routes-editor.js        # Sauvegarde/chargement Markdown
+│   └── routes-ai-slides.js     # Génération IA, recherche Pexels
+└── themes/                     # CSS des thèmes visuels
 ```
 
-### Builds Séparés
+## Ajouter une présentation
 
-Chaque présentation génère son propre build dans `dist/` :
+1. Créer `pages/{id}/main.md`
+2. Ajouter l'entrée dans `config/presentations.json` :
 
-```
-dist/
-├── bastaverse/          # Build de la présentation BastaVerse
-│   ├── index.html
-│   ├── assets/
-│   └── ...
-└── autre-presentation/              # Build de la présentation autre-presentation
-    ├── index.html
-    ├── assets/
-    └── ...
-```
-
-### Scripts de Build
-
-```bash
-# Build toutes les présentations
-npm run build:all
-
-# Build spécifique (si configuré)
-npm run build:bastaverse
-npm run build:autre-presentation
-```
-
-### Export
-
-#### PDF (par défaut)
-
-#### PNG (images)
-
-#### PowerPoint (PPTX)
-
-### Accès aux Présentations
-
-#### Affichages
-- **BastaVerse** : `https://slides-drafts.bastou.dev/viewer.html?file=pages/bastaverse/main.md`
-- **Octo** : `https://slides-drafts.bastou.dev/viewer.html?file=pages/octo/main.md`
-
----
-
-## 📚 Organisation des contenus
-
-### Structure par Catégories
-
-Organisez vos slides par domaines thématiques pour une navigation intuitive :
-
-```
-pages/
-├── bastaverse/            # Présentation BastaVerse
-│   └── main.md            # Présentation de l'écosystème BastaVerse
-├── autre-presentation/    # Présentation autre-presentation
-│   └── images/            # Images
-│   └── main.md            # Présentation pour l'équipe autre-presentation
-```
-
-
-### Conventions de Nommage
-
-- **Fichiers** : `kebab-case.md` (ex: `javascript-basics.md`)
-- **Dossiers** : `kebab-case` (ex: `web-development/`)
-- **Titres** : Descriptifs et explicites
-- **Ordre** : Préfixer par numéro si séquence logique (`01-intro.md`, `02-setup.md`)
-
-## 🛠️ Fonctionnalités
-
-### Création de Contenu
-
-- **Slides en Markdown** avec syntaxe étendue
-- **Diagrammes** Mermaid, PlantUML intégrés
-- **Formules mathématiques** avec KaTeX
-- **Icônes** avec Iconify (100k+ icônes)
-
-### Présentation
-
-- **Mode présentateur** avec notes privées
-- **Animations** et transitions fluides (paramétrables)
-- **Navigation** clavier et souris
-- **Timer** et chronomètre intégrés
-- **Mode sombre/clair** automatique
-- **Responsive** pour tous écrans
-
-### Export et Partage
-
-- **Export PDF** haute qualité
-- **Export PNG** (slides individuelles)
-- **Export PowerPoint** (PPTX)
-- **Mode SPA** pour hébergement web
-- **Enregistrement** de présentation
-
-### Développement
-
-- **Hot reload** en temps réel
-- **TypeScript** support complet
-- **Thèmes** personnalisables
-- **Plugins** extensibles
-- **Intégration** Git native
-
-### Configuration de thème
-
-```css
-/* styles/themes/corporate.css */
-:root {
-  --slidev-theme-primary: #2563eb;
-  --slidev-theme-secondary: #64748b;
-  --slidev-code-background: #1e293b;
-  --slidev-code-foreground: #e2e8f0;
-}
-
-.layout {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+```json
+{
+  "id": "mon-talk",
+  "title": "Mon Talk",
+  "author": "Prénom Nom",
+  "date": "2026-04-24",
+  "tags": ["agile", "retro"],
+  "file": "pages/mon-talk/main.md",
+  "thumbnail": "pages/mon-talk/images/thumb.jpg"
 }
 ```
 
-## 🙏 Remerciements
+3. La présentation apparaît sur la page d'accueil groupée par année.
 
-Basé sur [Slidev](https://github.com/slidevjs/slidev), il permet de créer des slides modernes avec du code, des diagrammes et des animations.
+## Format Markdown
 
-## 📖 Ressources
+```markdown
+---
+title: Titre de la présentation
+author: Nom de l'auteur
+date: 2026-04-24
+---
+
+# Première slide (titre)
+
+Contenu ici
+
+<!-- notes
+Notes du présentateur (uniquement visibles dans la vue présentateur)
+-->
 
 ---
 
-## Apercu
+## Deuxième slide
 
-Homepage avec les presentations groupees par annee :
+- Point 1
+- Point 2
+
+---
+
+<!-- layout: image-right -->
+
+## Slide avec image
+
+Texte à gauche
+
+![Description](pages/mon-talk/images/photo.jpg)
+```
+
+- Séparateur de slides : `\n---\n`
+- Frontmatter YAML : `title`, `author`, `date`
+- Notes : `<!-- notes\n...\n-->`
+- Diagrammes : ` ```mermaid `
+- Formules : `$inline$` ou `$$display$$`
+
+## Layouts
+
+| Directive | Effet |
+|-----------|-------|
+| *(auto)* | `title` si 1ère slide, `section` si slide courte |
+| `<!-- layout: content -->` | Colonne par défaut |
+| `<!-- layout: image-right -->` | Texte gauche, image droite |
+| `<!-- layout: image-left -->` | Image gauche, texte droite |
+| `<!-- layout: cover -->` | Image `![bg](...)` en fond plein écran |
+| `<!-- layout: image -->` | Image `![bg](...)` en fond (contain) |
+| `<!-- class: ma-classe -->` | Classes CSS sur la slide |
+| `<!-- style: background: red -->` | CSS inline sur la slide |
+
+Image de fond : `![bg](url)` — l'alt `bg` déclenche le mode fond.
+
+## URLs
+
+Format de lien direct vers une slide :
+
+```
+viewer.html#{date}-{id}:{slide-slug}
+# exemple :
+viewer.html#2026-04-24-mon-talk:une-slide-titre
+```
+
+- `{date}-{id}` : identifie la présentation
+- `:{slide-slug}` : slug généré depuis le titre `#` de la slide (optionnel, navigue au numéro si absent)
+- Bouton de partage dans la toolbar : copie l'URL courante dans le presse-papiers
+
+## Raccourcis clavier (viewer)
+
+| Touche | Action |
+|--------|--------|
+| → / ↓ / Espace | Slide suivante |
+| ← / ↑ | Slide précédente |
+| Home | Première slide |
+| End | Dernière slide |
+| F | Plein écran |
+| P | Vue présentateur |
+| S | Style picker (thème visuel) |
+| E | Éditeur Markdown |
+| Escape | Fermer panneau/plein écran |
+
+## Éditeur Markdown
+
+Accessible via `E` ou le bouton crayon dans la toolbar :
+- Split view : textarea (gauche) + preview temps réel (droite)
+- `Ctrl+S` sauvegarde via `POST /api/routes-editor/save`
+- Navigation entre slides préserve le contexte d'édition
+
+### Refresh image
+
+Bouton dans la toolbar (icône rafraîchissement) :
+- **0 image** dans la slide : insère `![Description]()` et place le curseur sur le texte alt
+- **1 image** : remplace directement l'URL via Pexels (recherche par texte alt)
+- **2+ images** : affiche un sélecteur flottant pour choisir l'image à remplacer
+- Bouton secondaire sur le bloc image (au survol) : `refreshImageByAlt(alt)`
+- Recherche Pexels : `GET /api/routes-ai-slides/image-search?q=keywords`
+- Tailles : `urlBg` = `p.src.original` (fond plein, sans limite), `url` = `p.src.large2x` (1880px, contenu)
+
+## Modification IA des slides
+
+Bouton étoile dans la toolbar du viewer :
+- Textarea : description de la modification souhaitée
+- Layout : choix du layout cible
+- Image : picker visuel (bouton Pexels / Galerie quand vide, miniature + Changer / Effacer quand rempli)
+- Modèle : sélection du modèle Claude
+- `POST /api/routes-ai-slides/generate-and-create` : génère le Markdown et crée la présentation
+
+La réponse IA doit commencer par `DESCRIPTION: phrase courte` (extraite pour le frontmatter).
+
+## Thèmes visuels
+
+Bouton palette (`S`) dans la toolbar :
+- 5 presets : Sombre (défaut), Clair, Océan, Sunset, Forêt
+- Fine-tuning : couleur d'accent, police (system / serif / mono)
+- Persistance `localStorage` (clé `slides-slide-theme`)
+
+## API Backend
+
+| Route | Description |
+|-------|-------------|
+| `GET /api/routes-editor/load?file=pages/{id}/main.md` | Charge le Markdown |
+| `POST /api/routes-editor/save` | Sauvegarde le Markdown |
+| `GET /api/routes-ai-slides/image-search?q=keywords` | Recherche Pexels (retourne `{url, urlBg, alt}`) |
+| `POST /api/routes-ai-slides/generate-and-create` | Génère une présentation via Claude |
+
+Sources des routes : `slides/api/routes/` (sync auto vers `api-multi-sites/data/slides/`)
+
+## Bibliothèques CDN
+
+- **marked.js** v15 — Parser Markdown
+- **marked-highlight** v2 — Coloration syntaxique via highlight.js
+- **highlight.js** v11 + github-dark
+- **DOMPurify** v3.2 — Sanitisation XSS (`innerHTML` uniquement après `sanitize()`)
+- **KaTeX** v0.16 — Formules mathématiques
+- **Mermaid** v11 (ESM) — Diagrammes
+
+## Aperçu
+
+### Homepage — Liste des présentations
 
 ![Homepage](assets/images/screenshots/homepage.png)
 
-Viewer en mode presentation :
+### Viewer — Slide de présentation
 
-![Slide BastaVerse](assets/images/screenshots/bastaverse-slide3.png)
+![Viewer](assets/images/screenshots/viewer-slide.png)

@@ -6,6 +6,7 @@
   <title>Présentation — Slides</title>
   <link rel="icon" href="assets/images/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/modules/ai-slides.css">
   <!-- highlight.js theme -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
   <!-- KaTeX CSS -->
@@ -63,11 +64,12 @@
 
     <div class="viewer-controls-right">
       <div class="editor-slide-actions" id="editorSlideActions">
-        <button class="btn-viewer btn-slide-action" id="addSlideBtn" aria-label="Ajouter une slide" title="Ajouter une slide (+)">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button class="btn-viewer btn-slide-action btn-slide-add" id="addSlideBtn" aria-label="Ajouter une slide" title="Ajouter une slide (+)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"></line>
             <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
+          <span class="btn-slide-add-label">Ajouter</span>
         </button>
         <button class="btn-viewer btn-slide-action" id="dupSlideBtn" aria-label="Dupliquer la slide" title="Dupliquer la slide (Ctrl+D)">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -79,6 +81,19 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="3 6 5 6 21 6"></polyline>
             <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+          </svg>
+        </button>
+        <button class="btn-viewer btn-slide-action btn-slide-ai-edit" id="aiEditSlideBtn" aria-label="Modifier avec l'IA" title="Modifier cette slide avec l'IA">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          </svg>
+        </button>
+        <button class="btn-viewer btn-slide-action" id="libraryBtn" aria-label="Bibliotheque" title="Bibliotheque d'images et modeles (L)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
           </svg>
         </button>
       </div>
@@ -95,6 +110,15 @@
           <circle cx="8.5" cy="7.5" r="2.5"></circle>
           <circle cx="5" cy="13.5" r="2.5"></circle>
           <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L12 22z"></path>
+        </svg>
+      </button>
+      <button class="btn-viewer btn-share" id="shareBtn" aria-label="Copier le lien de la slide" title="Copier le lien de cette slide">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
         </svg>
       </button>
       <button class="btn-viewer" id="presenterBtn" aria-label="Vue présentateur" title="Vue présentateur (P)">
@@ -150,6 +174,9 @@
 
   <!-- Panneau éditeur Markdown (pleine hauteur) -->
   <aside class="slide-editor-panel" id="slideEditorPanel">
+    <!-- Strip de réorganisation des slides par drag & drop -->
+    <div class="slide-reorder-strip" id="slideReorderStrip" role="list" aria-label="Ordre des slides"></div>
+
     <div class="slide-editor-header">
       <span class="slide-editor-toolbar-title">Markdown</span>
       <div class="slide-editor-toolbar-actions">
@@ -246,10 +273,149 @@
       <button class="fmt-btn fmt-btn-upload" id="editorUploadBtn" title="Uploader une image">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       </button>
+      <button class="fmt-btn fmt-btn-img-refresh" id="editorImgRefreshBtn" title="Nouvelle image Pexels (correspondant à l'alt text)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+      </button>
+      <span class="fmt-sep"></span>
+      <button class="fmt-btn" data-action="ai-generate" title="Générer des slides avec l'IA (✨)">✨</button>
       <span class="fmt-bg-opacity hidden" id="bgOpacityWrap">
         <label class="fmt-opacity-label" for="bgOpacitySlider">Fond</label>
         <input type="range" class="fmt-opacity-slider" id="bgOpacitySlider" min="0" max="100" value="100" title="Opacite du fond">
       </span>
+      <span class="fmt-bg-align hidden" id="bgAlignWrap">
+        <span class="fmt-opacity-label">H</span>
+        <button class="fmt-btn fmt-bg-h-btn" data-bg-h="left" title="Cadrer a gauche">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><line x1="9" y1="12" x2="21" y2="12"/></svg>
+        </button>
+        <button class="fmt-btn fmt-bg-h-btn" data-bg-h="center" title="Centrer horizontalement">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 3 12 9 6"/><polyline points="15 6 21 12 15 18"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+        </button>
+        <button class="fmt-btn fmt-bg-h-btn" data-bg-h="right" title="Cadrer a droite">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 6 15 12 9 18"/><line x1="3" y1="12" x2="15" y2="12"/></svg>
+        </button>
+        <span class="fmt-opacity-label">V</span>
+        <button class="fmt-btn fmt-bg-v-btn" data-bg-v="top" title="Cadrer en haut">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 3 18 9"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+        </button>
+        <button class="fmt-btn fmt-bg-v-btn" data-bg-v="center" title="Centrer verticalement">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 3 18 9"/><polyline points="6 15 12 21 18 15"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+        </button>
+        <button class="fmt-btn fmt-bg-v-btn" data-bg-v="bottom" title="Cadrer en bas">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 21 6 15"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+        </button>
+      </span>
+    </div>
+    <!-- Zone édition IA de la slide courante -->
+    <div class="ai-edit-slide-panel" id="aiEditSlidePanel">
+
+      <div class="ai-edit-slide-header">
+        <div class="ai-edit-slide-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:.7"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Modifier avec l'IA
+        </div>
+        <button class="ai-edit-close" id="aiEditCloseBtn" type="button" aria-label="Fermer">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <textarea class="ai-prompt-textarea ai-edit-prompt" id="aiEditPrompt" rows="2"
+                placeholder="Rends ça plus percutant · ajoute un tableau · change le layout en image-droite…" spellcheck="false"></textarea>
+
+      <!-- Layout -->
+      <div class="ai-edit-section">
+        <div class="ai-edit-section-label">Layout de la slide</div>
+        <div class="ai-chips ai-chips-sm">
+          <span class="ai-chip ai-chip-sm is-selected" data-group="edit-layout" data-value="">Garder</span>
+          <span class="ai-chip ai-chip-sm" data-group="edit-layout" data-value="cover">Cover</span>
+          <span class="ai-chip ai-chip-sm" data-group="edit-layout" data-value="image-right">Img →</span>
+          <span class="ai-chip ai-chip-sm" data-group="edit-layout" data-value="image-left">← Img</span>
+          <span class="ai-chip ai-chip-sm" data-group="edit-layout" data-value="content">Contenu</span>
+          <span class="ai-chip ai-chip-sm" data-group="edit-layout" data-value="comparison">A/B</span>
+        </div>
+      </div>
+
+      <!-- Modèle + Image -->
+      <div class="ai-edit-row">
+
+        <div class="ai-edit-section ai-edit-section-flex">
+          <div class="ai-edit-section-label">Modèle de slide</div>
+          <select class="ai-select" id="aiEditPreset">
+            <option value="">— aucun —</option>
+            <optgroup label="Basiques">
+              <option value="title">Titre</option>
+              <option value="section">Section</option>
+              <option value="content">Contenu</option>
+              <option value="quote">Citation</option>
+              <option value="code">Code</option>
+              <option value="end">Merci / Fin</option>
+            </optgroup>
+            <optgroup label="Layouts">
+              <option value="two-columns">2 colonnes</option>
+              <option value="cover">Image plein écran</option>
+              <option value="comparison">Comparaison</option>
+            </optgroup>
+            <optgroup label="Données">
+              <option value="diagram">Diagramme</option>
+              <option value="table">Tableau</option>
+            </optgroup>
+            <optgroup label="Planning">
+              <option value="timeline">Timeline</option>
+              <option value="roadmap">Roadmap</option>
+              <option value="scrum-sprint">Sprint Planning</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="ai-edit-section ai-edit-section-flex">
+          <div class="ai-edit-section-label">
+            Image transmise à l'IA
+            <span class="ai-edit-hint">optionnelle</span>
+          </div>
+          <!-- Image picker : soit vide (boutons), soit remplie (miniature) -->
+          <div class="ai-edit-img-picker">
+            <div class="ai-edit-img-empty" id="aiEditImgEmpty">
+              <button class="ai-edit-img-btn ai-edit-pexels-btn" id="aiEditPexelsBtn" type="button" title="Chercher une image Pexels depuis le prompt">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+                Pexels
+              </button>
+              <button class="ai-edit-img-btn ai-edit-gallery-btn" id="aiEditGalleryBtn" type="button" title="Choisir depuis la galerie">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                Galerie
+              </button>
+            </div>
+            <div class="ai-edit-img-filled hidden" id="aiEditImgFilled">
+              <img class="ai-edit-img-thumb" id="aiEditImgThumb" src="" alt="Aperçu">
+              <button class="ai-edit-img-btn ai-edit-gallery-btn" id="aiEditImgChangeBtn" type="button" title="Changer l'image">Changer</button>
+              <button class="ai-edit-img-clear" id="aiEditImgClearBtn" type="button" title="Retirer l'image">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <input type="hidden" id="aiEditImageUrl">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="ai-error" id="aiEditError"></div>
+
+      <div class="ai-editor-actions">
+        <button class="btn-ai-cancel" id="btnAiEditCancel" type="button">Annuler</button>
+        <button class="btn-ai-generate" id="btnAiEditGenerate" type="button">
+          <span class="ai-spinner"></span>
+          <span class="ai-btn-label">✨ Modifier</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="fmt-pos-inputs hidden" id="posInputsWrap">
+      <span class="fmt-opacity-label">L</span>
+      <input type="number" class="fmt-pos-input" id="posInputLeft" min="0" max="100" step="0.5" title="Position gauche (%)">
+      <span class="fmt-opacity-label">T</span>
+      <input type="number" class="fmt-pos-input" id="posInputTop" min="0" max="100" step="0.5" title="Position haut (%)">
+      <span class="fmt-opacity-label">W</span>
+      <input type="number" class="fmt-pos-input" id="posInputWidth" min="1" max="100" step="0.5" title="Largeur (%)">
+      <span class="fmt-opacity-label">H</span>
+      <input type="number" class="fmt-pos-input" id="posInputHeight" min="1" max="100" step="0.5" title="Hauteur (%)">
     </div>
     <div class="slide-editor-highlight-wrap">
       <pre class="slide-editor-highlight" id="editorHighlightPre" aria-hidden="true"><code id="editorHighlightCode"></code></pre>
@@ -285,6 +451,94 @@
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
 
+  <!-- Modal génération IA — insérer des slides dans la présentation courante -->
+  <dialog class="create-modal ai-slides-modal" id="aiInsertSlidesModal" aria-label="Générer des slides avec l'IA">
+    <div class="create-modal-form">
+      <div class="create-modal-header">
+        <h2 class="create-modal-title">✨ Générer des slides</h2>
+        <button class="create-modal-close" id="btnAiInsertClose" type="button" aria-label="Fermer">&times;</button>
+      </div>
+
+      <div class="create-modal-body ai-slides-modal-body">
+        <div class="ai-field">
+          <label for="aiInsertSujet">Sujet <span class="required">*</span></label>
+          <input class="ai-input" type="text" id="aiInsertSujet" placeholder="Ex : Introduction à Docker, Rétrospective agile, ..." autocomplete="off">
+        </div>
+
+        <div class="ai-modal-row">
+          <div class="ai-field">
+            <label for="aiInsertPublic">Public cible</label>
+            <input class="ai-input" type="text" id="aiInsertPublic" placeholder="Ex : développeurs juniors, ...">
+          </div>
+          <div class="ai-field">
+            <label for="aiInsertNbSlides">Nombre de slides</label>
+            <select class="ai-select" id="aiInsertNbSlides">
+              <option value="3">3 slides</option>
+              <option value="5" selected>5 slides</option>
+              <option value="8">8 slides</option>
+              <option value="12">12 slides</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="ai-field">
+          <label>Style</label>
+          <div class="ai-chips">
+            <span class="ai-chip is-selected" data-group="insert-style" data-value="">Neutre</span>
+            <span class="ai-chip" data-group="insert-style" data-value="professionnel">Professionnel</span>
+            <span class="ai-chip" data-group="insert-style" data-value="pédagogique">Pédagogique</span>
+            <span class="ai-chip" data-group="insert-style" data-value="dynamique et percutant">Dynamique</span>
+            <span class="ai-chip" data-group="insert-style" data-value="storytelling narratif">Storytelling</span>
+          </div>
+        </div>
+
+        <div class="ai-field">
+          <label>Langue</label>
+          <div class="ai-chips">
+            <span class="ai-chip is-selected" data-group="insert-langue" data-value="Français">Français</span>
+            <span class="ai-chip" data-group="insert-langue" data-value="English">English</span>
+            <span class="ai-chip" data-group="insert-langue" data-value="Español">Español</span>
+          </div>
+        </div>
+
+        <div class="ai-field">
+          <label for="aiInsertContexte">Contexte supplémentaire</label>
+          <input class="ai-input" type="text" id="aiInsertContexte" placeholder="Ex : section 3 de ma présentation, après le slide sur les enjeux, ...">
+        </div>
+
+        <div class="ai-prompt-preview">
+          <label>📝 Prompt qui sera envoyé</label>
+          <textarea class="ai-prompt-textarea" id="aiInsertPrompt" rows="4" spellcheck="false"></textarea>
+        </div>
+
+        <div class="ai-error" id="aiInsertError"></div>
+      </div>
+
+      <div class="create-modal-footer">
+        <button class="btn btn-secondary" id="btnAiInsertCancel" type="button">Annuler</button>
+        <button class="btn-ai-generate btn-ai-generate-modal" id="btnAiInsertGenerate" type="button">
+          <span class="ai-spinner"></span>
+          <span class="ai-btn-label">🚀 Générer et insérer</span>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Bibliotheque images / modeles -->
+  <div class="slide-library-overlay" id="slideLibraryOverlay">
+    <div class="slide-library-panel" id="slideLibraryPanel">
+      <div class="slide-library-header">
+        <span class="slide-library-title">Bibliotheque</span>
+        <button class="slide-library-close" aria-label="Fermer">&times;</button>
+      </div>
+      <div class="slide-library-tabs">
+        <button class="slide-library-tab" data-tab="images">Images</button>
+        <button class="slide-library-tab active" data-tab="presets">Modeles de slides</button>
+      </div>
+      <div class="slide-library-content"></div>
+    </div>
+  </div>
+
   <!-- Scripts du moteur -->
   <script src="assets/js/utils.js"></script>
   <script src="assets/js/slide-parser.js"></script>
@@ -294,6 +548,14 @@
   <script src="assets/js/theme-manager.js"></script>
   <script src="assets/js/slide-editor.js"></script>
   <script src="assets/js/slide-drag-position.js"></script>
+  <script src="assets/js/slide-library.js?v=7"></script>
+  <script src="assets/js/ai-slides.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      AiSlidesEditor.init();
+      AiSlideEditPanel.init();
+    });
+  </script>
 
   <!-- Mermaid (ESM uniquement) -->
   <script type="module">

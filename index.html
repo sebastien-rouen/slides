@@ -7,6 +7,7 @@
   <title>Slides — BastaVerse</title>
   <link rel="icon" href="assets/images/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/modules/ai-slides.css">
   <script>
     /* Thème : appliquer avant le rendu pour éviter le flash */
     (function() {
@@ -27,6 +28,7 @@
           Cliquez sur une présentation pour la démarrer
         </p>
         <button class="btn-create-presentation" id="createPresentationBtn" type="button">+ Nouvelle présentation</button>
+        <button class="btn-ai-slides" id="btnAiSlides" type="button">✨ Générer avec l'IA</button>
       </section>
 
       <!-- Filtres par tags -->
@@ -104,6 +106,101 @@
         <button class="btn btn-primary" type="submit" id="createSubmitBtn">Créer</button>
       </div>
     </form>
+  </dialog>
+
+  <!-- Modal génération IA -->
+  <dialog class="create-modal ai-slides-modal" id="aiSlidesModal" aria-label="Générer une présentation avec l'IA">
+    <div class="create-modal-form">
+      <div class="create-modal-header ai-modal-header">
+        <div class="ai-modal-title-group">
+          <span class="ai-modal-badge">IA</span>
+          <h2 class="create-modal-title">Générer avec l'IA</h2>
+        </div>
+        <button class="create-modal-close" id="btnAiModalClose" type="button" aria-label="Fermer">&times;</button>
+      </div>
+
+      <div class="create-modal-body ai-slides-modal-body">
+        <div class="ai-field ai-field-main">
+          <label for="aiSujet">Sujet de la présentation <span class="required">*</span></label>
+          <input class="ai-input ai-input-main" type="text" id="aiSujet" placeholder="Ex : Introduction à Docker, Rétrospective agile, Kubernetes pour débutants..." autocomplete="off">
+        </div>
+
+        <div class="ai-modal-row">
+          <div class="ai-field">
+            <label for="aiPublic">Public cible</label>
+            <input class="ai-input" type="text" id="aiPublic" placeholder="Ex : développeurs juniors, ...">
+          </div>
+          <div class="ai-field">
+            <label for="aiNbSlides">Nombre de slides</label>
+            <select class="ai-select" id="aiNbSlides">
+              <option value="5">5 slides</option>
+              <option value="8" selected>8 slides</option>
+              <option value="12">12 slides</option>
+              <option value="15">15 slides</option>
+              <option value="20">20 slides</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="ai-field">
+          <label>Style</label>
+          <div class="ai-chips">
+            <span class="ai-chip is-selected" data-group="style" data-value="">Neutre</span>
+            <span class="ai-chip" data-group="style" data-value="professionnel">Professionnel</span>
+            <span class="ai-chip" data-group="style" data-value="pédagogique">Pédagogique</span>
+            <span class="ai-chip" data-group="style" data-value="dynamique et percutant">Dynamique</span>
+            <span class="ai-chip" data-group="style" data-value="storytelling narratif">Storytelling</span>
+          </div>
+        </div>
+
+        <div class="ai-field">
+          <label>Langue</label>
+          <div class="ai-chips">
+            <span class="ai-chip is-selected" data-group="langue" data-value="Français">Français</span>
+            <span class="ai-chip" data-group="langue" data-value="English">English</span>
+            <span class="ai-chip" data-group="langue" data-value="Español">Español</span>
+          </div>
+        </div>
+
+        <div class="ai-field">
+          <label for="aiContexte">Contexte supplémentaire</label>
+          <textarea class="ai-input ai-input-tall" id="aiContexte" placeholder="Ex : conférence tech, 20 min, insister sur la sécurité, ..." rows="3"></textarea>
+        </div>
+
+        <div class="ai-prompt-preview">
+          <div class="ai-prompt-header">
+            <svg class="ai-prompt-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            <span class="ai-prompt-label">Prompt envoyé à l'IA</span>
+            <span class="ai-prompt-hint">modifiable</span>
+          </div>
+          <textarea class="ai-prompt-textarea" id="aiSlidesPrompt" rows="5" spellcheck="false"></textarea>
+        </div>
+
+        <div class="ai-error" id="aiSlidesError"></div>
+      </div>
+
+      <div class="create-modal-footer">
+        <button class="btn btn-secondary" id="btnAiCancel" type="button">Annuler</button>
+        <button class="btn-ai-generate btn-ai-generate-modal" id="btnAiGenerate" type="button">
+          <span class="ai-spinner"></span>
+          <span class="ai-btn-label">✨ Générer la présentation</span>
+        </button>
+      </div>
+
+      <!-- Overlay de chargement plein-modal -->
+      <div class="ai-loading-overlay" id="aiLoadingOverlay" aria-hidden="true" aria-live="polite">
+        <div class="ai-loading-content">
+          <div class="ai-loading-orb">
+            <div class="ai-loading-ring ai-loading-ring--1"></div>
+            <div class="ai-loading-ring ai-loading-ring--2"></div>
+            <div class="ai-loading-ring ai-loading-ring--3"></div>
+            <span class="ai-loading-glyph">✦</span>
+          </div>
+          <p class="ai-loading-status" id="aiLoadingStatus">Initialisation...</p>
+          <div class="ai-loading-bar"><div class="ai-loading-bar-fill"></div></div>
+        </div>
+      </div>
+    </div>
   </dialog>
 
   <!-- Modal d'edition de presentation -->
@@ -185,5 +282,9 @@
   <script src="assets/js/main.js"></script>
   <script src="assets/js/create-presentation.js"></script>
   <script src="assets/js/edit-presentation.js"></script>
+  <script src="assets/js/ai-slides.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => { AiSlides.init(); });
+  </script>
 </body>
 </html>

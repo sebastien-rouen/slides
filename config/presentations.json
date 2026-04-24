@@ -1,6 +1,40 @@
 {
   "presentations": [
     {
+      "id": "estimation-scrum",
+      "title": "L'Estimation en Scrum — Reprendre le contrôle sans se prendre la tête",
+      "description": "Formation Scrum Masters sur l'estimation agile : pourquoi estimer, Planning Poker, T-Shirt Sizing, vélocité et burndown. 12 slides, ~12 minutes.",
+      "author": "Sébastien ROUEN",
+      "date": "2026-04-19",
+      "tags": [
+        "agile",
+        "scrum",
+        "estimation",
+        "coaching",
+        "formation",
+        "vélocité"
+      ],
+      "file": "pages/estimation-scrum/main.md",
+      "thumbnail": "pages/estimation-scrum/images/1776782743053-image-2026-04-21-164542330.png"
+    },
+    {
+      "id": "ops-dashboard",
+      "title": "OPS Command Center — Le dashboard qui change tout",
+      "description": "Présentation 3 minutes — journée d'innovation. Ce que fait l'outil, sa plus-value, et comment l'installer en salle OPS.",
+      "author": "Sébastien ROUEN",
+      "date": "2026-03-25",
+      "tags": [
+        "ops",
+        "dashboard",
+        "innovation",
+        "infra",
+        "monitoring",
+        "kanban"
+      ],
+      "file": "pages/ops-dashboard/main.md",
+      "thumbnail": "pages/ops-dashboard/images/1774476220953-photo-1551288049-bebda4e38f71.jpg"
+    },
+    {
       "id": "bastaverse",
       "title": "De la catastrophe numérique au BastaVerse",
       "description": "Comment une perte de données a mené à la création d'un écosystème de 17 applications auto-hébergées — OctoFest 2025",
@@ -29,7 +63,65 @@
         "octo"
       ],
       "file": "pages/octo/main.md",
-      "thumbnail": "pages/octo/images/1772926849122-logo-index-1-.svg"
+      "thumbnail": "pages/octo/images/1774476276196-slide-01-cover.png"
+    },
+    {
+      "id": "difference-entre-scrum-et-kanban",
+      "title": "Différence entre Scrum et Kanban",
+      "description": "",
+      "author": "Sébastien ROUEN",
+      "date": "2026-04-23",
+      "tags": [
+        "ia",
+        "difference",
+        "entre",
+        "scrum",
+        "kanban"
+      ],
+      "file": "pages/difference-entre-scrum-et-kanban/main.md",
+      "thumbnail": "pages/difference-entre-scrum-et-kanban/images/1776965871504-image-2026-04-23-193750731.png"
+    },
+    {
+      "id": "l-estimation-en-agile",
+      "title": "L'estimation en Agile",
+      "description": "Tu peux te baser sur cet article https://agile-drafts.bastou.dev/content.html?cat=delivery-amelioration&file=velocity-estimation",
+      "author": "Sébastien ROUEN",
+      "date": "2026-04-23",
+      "tags": [
+        "ia",
+        "estimation",
+        "agile"
+      ],
+      "file": "pages/l-estimation-en-agile/main.md",
+      "thumbnail": "pages/l-estimation-en-agile/images/1776965739078-image-2026-04-23-193538375.png"
+    },
+    {
+      "id": "formats-de-retrospectives",
+      "title": "Formats de rétrospectives",
+      "description": "",
+      "author": "Sébastien ROUEN",
+      "date": "2026-04-24",
+      "tags": [
+        "ia",
+        "formats",
+        "retrospectives"
+      ],
+      "file": "pages/formats-de-retrospectives/main.md",
+      "thumbnail": "pages/formats-de-retrospectives/images/1777035567306-image-2026-04-24-145925947.png"
+    },
+    {
+      "id": "logigramme-et-diagramme",
+      "title": "Logigramme et diagramme",
+      "description": "Découvrez quand utiliser logigrammes, diagrammes et schémas en SIRH, avec exemples et modèles Mermaid.",
+      "author": "",
+      "date": "2026-04-24",
+      "tags": [
+        "ia",
+        "logigramme",
+        "diagramme"
+      ],
+      "file": "pages/logigramme-et-diagramme/main.md",
+      "thumbnail": "pages/logigramme-et-diagramme/images/1777046954518-pexels-photo-29218401-1-.jpeg"
     }
   ]
 }

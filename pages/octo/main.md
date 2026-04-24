@@ -1,10 +1,10 @@
-<!-- positions: 0:51%,63%,12%,8% | 1:63%,61%,18%,8% -->
+<!-- positions: 0:51%,63%,12%,8% | 1:61%,61%,15%,9% | 2:17%,46%,45%,10% -->
 <!-- style: background-image: url('assets/images/templates/octo/slide-01-cover.png'); background-size: cover -->
-<!-- position: 25% 30% 50% 40% -->
+JJ.MM.26
 
-<span style="color:#4E76B7">**Propale**</span>
+<span style="color:#ffffff">Propale</span>
 
-2026-03-04
+<span style="color:#ffffff">Titre</span>
 
 ---
 

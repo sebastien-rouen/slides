@@ -93,6 +93,20 @@ const CreatePresentation = {
     if (this.dialogEl) this.dialogEl.close();
   },
 
+  async openWithCloneContent(markdown) {
+    if (this.templates.length === 0) {
+      await Promise.all([this.loadTemplates(), this.loadPresentations()]);
+    }
+    this.clearError();
+    this.selectedTemplate = '__clone__';
+    this.cloneSource = { content: markdown };
+    this.renderTemplates();
+    this.updatePreview();
+    this.dialogEl.showModal();
+    const titleInput = document.getElementById('createTitle');
+    if (titleInput) setTimeout(() => titleInput.focus(), 50);
+  },
+
   async loadTemplates() {
     try {
       const response = await fetch('config/templates.json');

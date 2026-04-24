@@ -27,6 +27,107 @@
   grid-row: 2;
 }
 
+/* =============================================
+   STRIP DE RÉORGANISATION (drag & drop slides)
+   ============================================= */
+
+.slide-reorder-strip {
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-default);
+  overflow-x: auto;
+  flex-shrink: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-default) transparent;
+}
+
+.editor-active .slide-reorder-strip {
+  display: flex;
+}
+
+.slide-reorder-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+  flex-shrink: 0;
+}
+
+.slide-reorder-chip:hover {
+  border-color: var(--primary-color);
+  color: var(--text-primary);
+}
+
+.slide-reorder-chip.is-current {
+  background: color-mix(in srgb, var(--primary-color) 15%, var(--bg-tertiary));
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  font-weight: var(--font-weight-semibold);
+}
+
+.slide-reorder-chip.is-dragging {
+  opacity: 0.4;
+}
+
+.slide-reorder-chip.drag-over {
+  border-color: var(--accent-color);
+  background: color-mix(in srgb, var(--accent-color) 15%, var(--bg-tertiary));
+  box-shadow: -3px 0 0 var(--accent-color);
+}
+
+.slide-reorder-handle {
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+  cursor: grab;
+}
+
+.slide-reorder-chip:active .slide-reorder-handle {
+  cursor: grabbing;
+}
+
+.slide-reorder-num {
+  min-width: 14px;
+  text-align: center;
+}
+
+/* =============================================
+   BOUTON AJOUTER — plus visible
+   ============================================= */
+
+.btn-slide-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: auto !important;
+  padding: 0 10px;
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)) !important;
+  color: white !important;
+}
+
+.btn-slide-add-label {
+  font-size: 0.72rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.02em;
+}
+
+.btn-slide-add:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
 /* Groupe boutons slide (ajouter, dupliquer, supprimer) — visible uniquement en mode edition */
 .editor-slide-actions {
   display: none;
@@ -263,9 +364,103 @@
   color: #34d399;
 }
 
+.fmt-btn-img-refresh {
+  color: #38bdf8;
+  position: relative;
+}
+
+/* 0 image : orange/gris — invitation à insérer */
+.fmt-btn-img-refresh.img-count-zero {
+  color: #6b7280;
+  opacity: 0.7;
+}
+
+/* 1 image : bleu normal */
+.fmt-btn-img-refresh.img-count-one {
+  color: #38bdf8;
+}
+
+/* 2+ images : violet — badge visible */
+.fmt-btn-img-refresh.img-count-many {
+  color: #a78bfa;
+}
+
+.fmt-btn-img-refresh.loading svg {
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Badge compteur d'images */
+.img-count-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #a78bfa;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  pointer-events: none;
+}
+
 .fmt-btn[data-action="list"],
 .fmt-btn[data-action="quote"] {
   color: #fb923c;
+}
+
+/* Picker multi-images */
+.img-refresh-picker {
+  position: fixed;
+  z-index: 99999;
+  background: var(--bg-secondary, #2a2a3e);
+  border: 1px solid var(--border-color, #444);
+  border-radius: 8px;
+  padding: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 240px;
+  max-width: 340px;
+}
+
+.img-refresh-picker-title {
+  font-size: 11px;
+  color: var(--text-secondary, #999);
+  padding: 4px 6px 6px;
+  border-bottom: 1px solid var(--border-color, #444);
+  margin-bottom: 2px;
+}
+
+.img-refresh-picker-item {
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 8px;
+  font-size: 12px;
+  color: var(--text-primary, #e0e0e0);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  transition: background 0.1s;
+}
+
+.img-refresh-picker-item:hover {
+  background: var(--primary-color, #3b82f6);
+  color: #fff;
 }
 
 /* Hover : éclaircir la couleur */
@@ -629,6 +824,64 @@
   color: #2dd4bf;
 }
 
+/* Bouton actif dans la toolbar (alignement image) */
+.fmt-btn.active {
+  background: var(--bg-active);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+/* Alignement image fond (H/V) */
+.fmt-bg-align {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 4px;
+}
+
+.fmt-bg-align.hidden {
+  display: none;
+}
+
+/* Inputs position bloc selectionne */
+.fmt-pos-inputs {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px var(--space-sm);
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.fmt-pos-inputs.hidden {
+  display: none;
+}
+
+.fmt-pos-input {
+  width: 46px;
+  height: 24px;
+  padding: 0 4px;
+  font-size: 11px;
+  font-family: var(--font-mono, monospace);
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  text-align: right;
+  -moz-appearance: textfield;
+}
+
+.fmt-pos-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.fmt-pos-input::-webkit-outer-spin-button,
+.fmt-pos-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
 /* Slider opacite du fond */
 .fmt-bg-opacity {
   display: inline-flex;
@@ -714,6 +967,34 @@
   color: #fff;
 }
 
+.slide-block-img-refresh {
+  position: absolute;
+  top: 30px;
+  left: -32px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary, #2a2a3e);
+  border: 1px solid var(--border-color, #444);
+  border-radius: 6px;
+  color: #38bdf8;
+  cursor: pointer;
+  z-index: 12;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: background 0.15s;
+}
+
+.slide-block-img-refresh:hover {
+  background: #0ea5e9;
+  color: #fff;
+}
+
+.slide-block-img-refresh.loading svg {
+  animation: spin 0.7s linear infinite;
+}
+
 /* Menu couleur local colle au bloc */
 .slide-block-color-menu {
   position: fixed;
@@ -728,6 +1009,11 @@
   gap: 6px;
   min-width: 180px;
 }
+
+/* Sous-blocs positionnables (enfants d'un slide-pos-block en mode sub) */
+.editor-active .slide-sub-block { cursor: move; }
+.editor-active .slide-sub-block:hover { box-shadow: inset 0 0 0 1px rgba(251, 146, 60, 0.5); }
+.editor-active .slide-sub-block.selected-sub { box-shadow: inset 0 0 0 2px #fb923c; background: rgba(251, 146, 60, 0.08); }
 
 /* Responsive : masquer l'editeur sur petit ecran */
 @media (max-width: 767px) {

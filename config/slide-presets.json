@@ -1,0 +1,132 @@
+{
+  "presets": [
+    {
+      "id": "title",
+      "name": "Titre",
+      "thumbnailId": "title",
+      "category": "basique",
+      "description": "Slide de titre centree",
+      "content": "# Titre principal\n\n**Sous-titre ou auteur**"
+    },
+    {
+      "id": "section",
+      "name": "Section",
+      "thumbnailId": "section",
+      "category": "basique",
+      "description": "Separateur de section",
+      "content": "## Nouvelle section"
+    },
+    {
+      "id": "content",
+      "name": "Contenu",
+      "thumbnailId": "content",
+      "category": "basique",
+      "description": "Titre + liste a puces",
+      "content": "## Titre\n\n- Point 1\n- Point 2\n- Point 3"
+    },
+    {
+      "id": "quote",
+      "name": "Citation",
+      "thumbnailId": "quote",
+      "category": "basique",
+      "description": "Citation mise en valeur",
+      "content": "## Citation\n\n> Une citation inspirante ou un verbatim client\n> qui merite d'etre mis en avant.\n\n— **Auteur de la citation**"
+    },
+    {
+      "id": "code",
+      "name": "Code",
+      "thumbnailId": "code",
+      "category": "basique",
+      "description": "Bloc de code avec titre",
+      "content": "## Exemple de code\n\n```javascript\n// Votre code ici\nfunction hello() {\n  return 'Hello world';\n}\n```"
+    },
+    {
+      "id": "end",
+      "name": "Merci / Fin",
+      "thumbnailId": "end",
+      "category": "basique",
+      "description": "Slide de conclusion",
+      "content": "## Merci !\n\n**Des questions ?**\n\nContact : votre@email.com"
+    },
+    {
+      "id": "two-columns",
+      "name": "2 colonnes",
+      "thumbnailId": "two-columns",
+      "category": "layout",
+      "description": "Texte a gauche, image a droite",
+      "content": "<!-- class: two-col-slide -->\n## Titre\n\n<div class='two-col-wrap'>\n<div class='two-col-text'>\n<ul>\n<li>Premier point clé</li>\n<li>Deuxième point clé</li>\n<li>Troisième point clé</li>\n</ul>\n</div>\n<div class='two-col-image'>\n<span class='two-col-placeholder'>Image</span>\n</div>\n</div>"
+    },
+    {
+      "id": "cover",
+      "name": "Image plein ecran",
+      "thumbnailId": "cover",
+      "category": "layout",
+      "description": "Image de fond avec texte superpose",
+      "content": "<!-- layout: cover -->\n# Titre sur image\n\nTexte superpose sur l'image de fond\n\n![Fond]()"
+    },
+    {
+      "id": "comparison",
+      "name": "Comparaison",
+      "thumbnailId": "comparison",
+      "category": "layout",
+      "description": "Avant / Apres en 2 parties",
+      "content": "<!-- class: comparison-slide -->\n## Comparaison\n\n<div class='comp-wrap'>\n<div class='comp-col comp-before'>\n<div class='comp-head'>Avant</div>\n<ul>\n<li>Situation initiale</li>\n<li>Problème identifié</li>\n<li>Contrainte existante</li>\n</ul>\n</div>\n<div class='comp-col comp-after'>\n<div class='comp-head'>Après</div>\n<ul>\n<li>Résultat obtenu</li>\n<li>Amélioration mesurée</li>\n<li>Valeur délivrée</li>\n</ul>\n</div>\n</div>"
+    },
+    {
+      "id": "diagram",
+      "name": "Diagramme",
+      "thumbnailId": "diagram",
+      "category": "data",
+      "description": "Diagramme Mermaid",
+      "content": "## Architecture\n\n```mermaid\ngraph TD\n  A[Client] --> B[API]\n  B --> C[Base de donnees]\n  B --> D[Cache]\n```"
+    },
+    {
+      "id": "table",
+      "name": "Tableau",
+      "thumbnailId": "table",
+      "category": "data",
+      "description": "Tableau de donnees",
+      "content": "## Donnees\n\n| Element | Valeur | Statut |\n|---------|--------|--------|\n| Item 1  | 100    | OK     |\n| Item 2  | 200    | OK     |\n| Item 3  | 300    | A faire|"
+    },
+    {
+      "id": "timeline",
+      "name": "Timeline",
+      "thumbnailId": "timeline",
+      "category": "planning",
+      "description": "Etapes chronologiques",
+      "content": "## Timeline\n\n1. **Phase 1** — Description de la premiere etape\n2. **Phase 2** — Description de la deuxieme etape\n3. **Phase 3** — Description de la troisieme etape\n4. **Phase 4** — Description de la derniere etape"
+    },
+    {
+      "id": "roadmap",
+      "name": "Roadmap Timeline",
+      "thumbnailId": "roadmap",
+      "category": "planning",
+      "description": "Timeline horizontale avec étapes numérotées et descriptions",
+      "content": "<!-- class: roadmap-slide -->\n<!-- style: background: linear-gradient(135deg, #0f172a 0%, #1a1040 100%) -->\n## Roadmap Projet\n\n1. **T1 2025** — Cadrage\n\n   Définition des objectifs et du périmètre\n\n2. **T2 2025** — Développement\n\n   Implémentation des fonctionnalités clés\n\n3. **T3 2025** — Validation\n\n   Tests utilisateurs et ajustements\n\n4. **T4 2025** — Lancement\n\n   Déploiement et communication"
+    },
+    {
+      "id": "roadmap-gantt",
+      "name": "Roadmap Gantt",
+      "thumbnailId": "roadmap-gantt",
+      "category": "planning",
+      "description": "Planning par trimestres et lignes de swim lanes",
+      "content": "<!-- class: roadmap-gantt -->\n<!-- style: background: linear-gradient(135deg, #0f172a 0%, #0a1628 100%) -->\n## Planning Projet\n\n<div class='gantt-wrap'>\n<div class='gantt-head'><span></span><span>Q1 2025</span><span>Q2 2025</span><span>Q3 2025</span><span>Q4 2025</span></div>\n<div class='gantt-row'><span class='gantt-label'>Produit</span><span class='gantt-bar'>Cadrage · Specs</span><span class='gantt-bar'>Validation UX</span><span class='gantt-bar'>Bêta privée</span><span class='gantt-empty'></span></div>\n<div class='gantt-row'><span class='gantt-label'>Design</span><span class='gantt-bar'>Wireframes</span><span class='gantt-bar'>Maquettes</span><span class='gantt-bar'>Design System</span><span class='gantt-empty'></span></div>\n<div class='gantt-row'><span class='gantt-label'>Dev</span><span class='gantt-empty'></span><span class='gantt-bar'>Sprint 1-3</span><span class='gantt-bar'>Sprint 4-6</span><span class='gantt-bar'>Sprint 7-9</span></div>\n<div class='gantt-row'><span class='gantt-label'>QA</span><span class='gantt-empty'></span><span class='gantt-empty'></span><span class='gantt-bar'>Tests intégration</span><span class='gantt-bar'>Recette finale</span></div>\n</div>"
+    },
+    {
+      "id": "roadmap-pmo",
+      "name": "Roadmap PMO",
+      "thumbnailId": "roadmap-pmo",
+      "category": "planning",
+      "description": "Timeline visuelle avec mois colorés, cartes alternées et route",
+      "content": "<!-- class: roadmap-pmo -->\n## PMO Roadmap Présentation\n\n<div class='pmo-wrap'><div class='pmo-top'><div class='pmo-slot'><div class='pmo-card'><span class='pmo-icon'>📋</span><strong>Préparation</strong><p>Définition des objectifs et du cadre projet</p></div></div><div class='pmo-slot pmo-empty'></div><div class='pmo-slot'><div class='pmo-card'><span class='pmo-icon'>👥</span><strong>Planning</strong><p>Planification des ressources et du calendrier</p></div></div><div class='pmo-slot pmo-empty'></div><div class='pmo-slot'><div class='pmo-card'><span class='pmo-icon'>⏱</span><strong>Mesure</strong><p>Suivi des KPIs et ajustements continus</p></div></div><div class='pmo-slot pmo-empty'></div></div><div class='pmo-timeline'><div class='pmo-month pmo-m1'>Mars</div><div class='pmo-month pmo-m2'>Avril</div><div class='pmo-month pmo-m3'>Mai</div><div class='pmo-month pmo-m4'>Juin</div><div class='pmo-month pmo-m5'>Juillet</div><div class='pmo-month pmo-m6'>Août</div></div><div class='pmo-road'><svg viewBox='0 0 1200 60'><path d='M0,30 C200,30 230,8 440,8 C650,8 700,52 920,52 C1050,52 1120,30 1200,30' stroke='#374151' stroke-width='42' fill='none'/><path d='M0,30 C200,30 230,8 440,8 C650,8 700,52 920,52 C1050,52 1120,30 1200,30' stroke='#4b5563' stroke-width='34' fill='none'/><path d='M0,30 C200,30 230,8 440,8 C650,8 700,52 920,52 C1050,52 1120,30 1200,30' stroke='white' stroke-width='2' fill='none' stroke-dasharray='40 20' stroke-opacity='0.5'/></svg></div><div class='pmo-bottom'><div class='pmo-slot pmo-empty'></div><div class='pmo-slot'><div class='pmo-card'><span class='pmo-icon'>🔍</span><strong>Analyse</strong><p>Analyse des besoins et des risques identifiés</p></div></div><div class='pmo-slot pmo-empty'></div><div class='pmo-slot pmo-empty'></div><div class='pmo-slot pmo-empty'></div><div class='pmo-slot pmo-empty'></div></div></div>"
+    },
+    {
+      "id": "scrum-sprint",
+      "name": "Sprint Planning",
+      "thumbnailId": "scrum-sprint",
+      "category": "planning",
+      "description": "Planning SCRUM sur 2 sprints avec cérémonies agile",
+      "content": "<!-- class: scrum-sprint -->\n## Sprint Planning — S23 & S24\n\n<div class='sprint-wrap'><div class='sprint-header'><div class='sp-label sl1'>Sprint 23</div><div class='sp-label sl2'>Sprint 24</div></div><div class='sprint-top'><div class='sp-slot'><div class='sp-card sp-planning'><span class='sp-icon'>📋</span><strong>Sprint Planning</strong><p>Backlog Sprint 23</p></div></div><div class='sp-slot sp-empty'></div><div class='sp-slot sp-empty'></div><div class='sp-slot sp-empty'></div><div class='sp-slot'><div class='sp-card sp-review'><span class='sp-icon'>🔍</span><strong>Review et Démo</strong><p>Sprint 23</p></div></div><div class='sp-slot'><div class='sp-card sp-planning'><span class='sp-icon'>📋</span><strong>Sprint Planning</strong><p>Backlog Sprint 24</p></div></div><div class='sp-slot sp-empty'></div><div class='sp-slot sp-empty'></div><div class='sp-slot sp-empty'></div><div class='sp-slot'><div class='sp-card sp-retro'><span class='sp-icon'>🎯</span><strong>Démo et Rétro</strong><p>Sprint 24</p></div></div></div><div class='sprint-days'><div class='sp-day'>Lun</div><div class='sp-day'>Mar</div><div class='sp-day'>Mer</div><div class='sp-day'>Jeu</div><div class='sp-day'>Ven</div><div class='sp-day'>Lun</div><div class='sp-day'>Mar</div><div class='sp-day'>Mer</div><div class='sp-day'>Jeu</div><div class='sp-day'>Ven</div></div><div class='sprint-road'><svg viewBox='0 0 1200 60'><path d='M0,30 C200,30 230,8 440,8 C650,8 700,52 920,52 C1050,52 1120,30 1200,30' stroke='#374151' stroke-width='42' fill='none'/><path d='M0,30 C200,30 230,8 440,8 C650,8 700,52 920,52 C1050,52 1120,30 1200,30' stroke='#4b5563' stroke-width='34' fill='none'/><path d='M0,30 C200,30 230,8 440,8 C650,8 700,52 920,52 C1050,52 1120,30 1200,30' stroke='white' stroke-width='2' fill='none' stroke-dasharray='40 20' stroke-opacity='0.5'/></svg></div><div class='sprint-bottom'><div class='sp-slot sp-empty'></div><div class='sp-slot sp-empty'></div><div class='sp-slot'><div class='sp-card sp-daily'><span class='sp-icon'>🔄</span><strong>Daily Standups</strong><p>15 min, chaque jour</p></div></div><div class='sp-slot sp-empty'></div><div class='sp-slot sp-empty'></div><div class='sp-slot sp-empty'></div><div class='sp-slot sp-empty'></div><div class='sp-slot'><div class='sp-card sp-daily'><span class='sp-icon'>🔄</span><strong>Daily Standups</strong><p>15 min, chaque jour</p></div></div><div class='sp-slot sp-empty'></div><div class='sp-slot sp-empty'></div></div></div>"
+    }
+  ]
+}

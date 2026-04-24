@@ -62,6 +62,58 @@ function escapeHtml(str) {
 }
 
 /**
+ * Prétraite le Markdown : ajoute deux espaces en fin de ligne sur les lignes
+ * de paragraphe consécutives pour forcer les <br> (méthode Markdown standard,
+ * indépendante de l'option breaks de marked).
+ * Ignore les blocs de code, titres, listes, blockquotes, HTML, séparateurs.
+ * @param {string} content
+ * @returns {string}
+ */
+/**
+ * Prétraite le Markdown pour rendre les sauts de ligne visibles dans le rendu :
+ * - Ligne de paragraphe suivie d'une autre sans ligne vide → <br> injecté directement
+ * - Ligne vide entre deux blocs de contenu → remplacée par <br class="md-spacer">
+ * Ignore les blocs de code, titres, listes, blockquotes, HTML, séparateurs.
+ * @param {string} content
+ * @returns {string}
+ */
+function addMarkdownLineBreaks(content) {
+  const lines = content.split('\n');
+  let inCodeBlock = false;
+  const blockRe = /^(#{1,6}\s|[*+\-]\s|\d+\.\s|>\s?|<|<!--|\s{2,}|\|)/;
+  const sepRe   = /^[=\-]{3,}\s*$/;
+
+  for (let i = 0; i < lines.length - 1; i++) {
+    const line = lines[i];
+
+    if (/^```/.test(line)) { inCodeBlock = !inCodeBlock; continue; }
+    if (inCodeBlock) continue;
+
+    const next = lines[i + 1];
+
+    // Ligne vide : la remplacer par un spacer si entourée de contenu non-bloc
+    if (line === '') {
+      const prev = i > 0 ? lines[i - 1] : '';
+      if (prev && next && !blockRe.test(prev) && !sepRe.test(prev)
+                       && !blockRe.test(next) && !sepRe.test(next)) {
+        lines[i] = '<br class="md-spacer">';
+      }
+      continue;
+    }
+
+    if (!next || next === '') continue;
+
+    if (blockRe.test(line) || sepRe.test(line)) continue;
+    if (blockRe.test(next) || sepRe.test(next)) continue;
+
+    // Lignes de paragraphe consécutives : saut de ligne forcé
+    lines[i] = line + '<br>';
+  }
+
+  return lines.join('\n');
+}
+
+/**
  * Rend du Markdown en HTML sanitisé
  * @param {string} markdownContent - Contenu Markdown
  * @returns {string} HTML sanitisé
@@ -72,7 +124,7 @@ function renderMarkdown(markdownContent) {
   initMarked();
   if (!markedInstance) return markdownContent;
 
-  const rawHtml = markedInstance.parse(markdownContent);
+  const rawHtml = markedInstance.parse(addMarkdownLineBreaks(markdownContent));
 
   // Sanitisation XSS obligatoire
   if (typeof DOMPurify !== 'undefined') {
@@ -357,16 +409,16 @@ function parsePositions(positionsStr) {
   for (const entry of entries) {
     const colonIdx = entry.indexOf(':');
     if (colonIdx < 0) continue;
-    const index = parseInt(entry.substring(0, colonIdx), 10);
-    if (isNaN(index)) continue;
+    const rawKey = entry.substring(0, colonIdx).trim();
     const parts = entry.substring(colonIdx + 1).split(',').map(s => s.trim());
     if (parts.length < 3) continue;
-    map.set(index, {
-      left: parts[0],
-      top: parts[1],
-      width: parts[2],
-      height: parts[3] || 'auto'
-    });
+    const pos = { left: parts[0], top: parts[1], width: parts[2], height: parts[3] || 'auto', fontSize: parts[4] || null };
+    if (rawKey.includes('/')) {
+      map.set(rawKey, pos); // cle sous-bloc : 'parentIdx/childIdx'
+    } else {
+      const idx = parseInt(rawKey, 10);
+      if (!isNaN(idx)) map.set(idx, pos);
+    }
   }
   return map;
 }
@@ -382,20 +434,38 @@ function applyElementPositions(slideEl, positionsStr) {
 
   slideEl.classList.add('free-layout');
 
+  const applyPos = (el, pos) => {
+    el.style.position = 'absolute';
+    el.style.left = pos.left;
+    el.style.top = pos.top;
+    el.style.width = pos.width;
+    if (pos.height !== 'auto') el.style.height = pos.height;
+    if (pos.fontSize) el.style.fontSize = pos.fontSize;
+  };
+
   const children = Array.from(slideEl.children).filter(c => !c.classList.contains('slide-bg-layer'));
   children.forEach((child, i) => {
     child.classList.add('slide-pos-block');
     child.dataset.posIndex = i;
-
     const pos = posMap.get(i);
-    if (pos) {
-      child.style.position = 'absolute';
-      child.style.left = pos.left;
-      child.style.top = pos.top;
-      child.style.width = pos.width;
-      if (pos.height !== 'auto') child.style.height = pos.height;
-    }
+    if (pos) applyPos(child, pos);
   });
+
+  // Sous-positions : format 'parentIdx/childIdx:l,t,w[,h]'
+  for (const [key, pos] of posMap) {
+    if (typeof key !== 'string' || !key.includes('/')) continue;
+    const [pStr, cStr] = key.split('/');
+    const parent = children[parseInt(pStr, 10)];
+    if (!parent) continue;
+    const subChildren = Array.from(parent.children).filter(
+      c => !c.classList.contains('slide-pos-handle') && !c.classList.contains('slide-block-color-btn')
+    );
+    const child = subChildren[parseInt(cStr, 10)];
+    if (!child) continue;
+    child.classList.add('slide-sub-block');
+    child.dataset.subPosIndex = cStr;
+    applyPos(child, pos);
+  }
 }
 
 /**

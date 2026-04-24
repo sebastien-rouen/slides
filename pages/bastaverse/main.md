@@ -4,11 +4,12 @@
 
 ### Coach Agile *(& bidouilleur)*
 
-![Sébastien ROUEN](pages/bastaverse/images/sebastien.jpg)
+![Sebastien ROUEN](pages/bastaverse/images/sebastien.jpg)
 
 ### Sébastien ROUEN
+
 <!-- notes
-Notes du presentateur azaz 
+Notes du presentateur azaz
 -->
 
 ---
@@ -26,7 +27,7 @@ Notes du presentateur azaz
 
 # **"Plus jamais ça !"**
 
-![Sébastien enfant](pages/bastaverse/images/1989-08-10-sebastien-deguisement.jpg)
+![Sebastien enfant](pages/bastaverse/images/1989-08-10-sebastien-deguisement.jpg)
 
 ---
 
@@ -490,7 +491,7 @@ graph TB
 - **Ne pas** tout faire d'un coup
 - **Commencer simple** et **itérer**
 - **Backup 3-2-1** dès le début
-- **Documentation** au fur et a mesure — *Écris-moi un README*
+- **Documentation** au fur et a mesure - *Écris-moi un README*
 - **TROP de détails**, tue le detail
 
 ### **La perfection est l'ennemi du bien !**
@@ -560,7 +561,7 @@ graph TB
 
 *"La frustration est le carburant de l'innovation !"*
 
-**Sébastien ROUEN** — Coach Agile & Bidouilleur
+**Sébastien ROUEN** - Coach Agile & Bidouilleur
 
 ### Annexes
 
